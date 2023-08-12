@@ -12,9 +12,9 @@ axios.defaults.baseURL = "http://localhost:3000/";
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider>
+      {/* <Provider>
         store={store}
-      </Provider>
+      </Provider> */}
       <App />
     </BrowserRouter>    
   </React.StrictMode>

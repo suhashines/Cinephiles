@@ -7,10 +7,10 @@ import Auth from "./components/Auth/Auth";
 import { useSelector } from "react-redux";
 
 function App() {
-  const isAdminLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const isUserLoggedIn = useSelector((state) => state.admin.isLoggedIn);
-  console.log("isAdminLoggedIn", isAdminLoggedIn);
-  console.log("isUserLoggedIn", isUserLoggedIn);
+  // const isAdminLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  // const isUserLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  // console.log("isAdminLoggedIn", isAdminLoggedIn);
+  // console.log("isUserLoggedIn", isUserLoggedIn);
 
   return (
     <div>
