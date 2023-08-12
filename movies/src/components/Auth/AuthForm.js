@@ -3,7 +3,7 @@ import {Box, Button, Dialog, FormLabel, IconButton, TextField, Typography} from 
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 const labelStyle = {mt:1, mb:1}
 
-const AuthForm = () => {
+const AuthForm = ({onSubmit, isAdmin}) => {
     const [isSignup, setIsSignup] = useState(false)
     const [inputs, setInputs] = useState({
         name:"",
@@ -23,6 +23,7 @@ const AuthForm = () => {
         }else{
             console.log("login")
         }
+        onSubmit({inputs, signup : isAdmin ? false : isSignup});
     }
   return (
     <Dialog PaperProps={{style:{borderRadius:20}}} open={true}>
@@ -43,7 +44,7 @@ const AuthForm = () => {
                 width={400}
                 margin={"auto"}
                 padding={6}>
-                {isSignup && (
+                {isAdmin && isSignup && (
                     <>
                     {" "}
                     <FormLabel sx={labelStyle}>Name</FormLabel>
@@ -80,11 +81,14 @@ const AuthForm = () => {
                     fullWidth>
                         Login
                 </Button>
-                <Button
-                    onClick={()=>setIsSignup(!isSignup)} 
-                    sx={{mt:2, borderRadius:10}} fullWidth>
-                        Switch To {isSignup ? "Login" : "Signup"}
-                </Button>
+                {!isAdmin && (
+                    <Button
+                        onClick={()=>setIsSignup(!isSignup)} 
+                        sx={{mt:2, borderRadius:10}} fullWidth>
+                            Switch To {isSignup ? "Login" : "Signup"}
+                    </Button>
+                )}
+                
             </Box>
         </form>
     </Dialog>
