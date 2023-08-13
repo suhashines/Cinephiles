@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MovieIcon from '@mui/icons-material/Movie';
-import { AppBar, Autocomplete, IconButton, Tab, Tabs, TextField, Toolbar, Typography } from '@mui/material'
+import { AppBar, Autocomplete, Button, IconButton, Tab, Tabs, TextField, Toolbar, Typography } from '@mui/material'
 import { Box } from '@mui/system';
 import { getAllMovies } from '../api-helpers/api-helpers';
 import { Link, useNavigate } from 'react-router-dom';
@@ -25,16 +25,18 @@ const Header = (props) => {
     const navigate = useNavigate();
 
     const handleMovieIconClick = () => {
-        props.setValue(-1);
+        props.setValue(0);
         navigate('/'); // Redirect to the base directory when the movie icon is clicked
     };
 
   return (
     <AppBar position='sticky' sx={{bgcolor:"#2b2d42"}}>
-        <Toolbar>
-            <IconButton onClick={handleMovieIconClick}>
+        <Toolbar>                
+            <Button onClick={handleMovieIconClick} style={{color:'white'}}>
                 <MovieIcon style={{color:'white'}}/>
-            </IconButton>
+                <span style={{ paddingLeft: '8px' }}>Cinephiles</span>
+            </Button>
+                            
             <Box width={"30%"} margin={"auto"}>
             <Autocomplete
                 freeSolo
@@ -60,6 +62,7 @@ const Header = (props) => {
                 indicatorColor='secondary' 
                 value={props.value} 
                 onChange={(e,val)=>handleTabChange(val)}>
+                    <Tab LinkComponent={Link} to={"/"} label="Home"/>
                     <Tab LinkComponent={Link} to={"/movies"} label="Movies"/>
                     <Tab LinkComponent={Link} to={"/admin"} label="Manager"/>
                     <Tab LinkComponent={Link} to ={"/auth"} label="User"/>

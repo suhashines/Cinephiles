@@ -19,8 +19,8 @@ const MovieItems = ({title,releaseDate,posterurl,id}) => {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          '-webkit-line-clamp': 2, // Adjust the number of lines
-          '-webkit-box-orient': 'vertical',
+          'WebkitLineClamp': 2, // Adjust the number of lines
+          'WebkitBoxOrient': 'vertical',
           }}
         >
           {title}

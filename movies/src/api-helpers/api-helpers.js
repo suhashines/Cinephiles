@@ -6,7 +6,7 @@ export const getAllMovies = async() => {
     let res;
 
     try{
-         res = await axios.get("http://localhost:3000/movie")
+         res = await axios.get(`/movie`)
     }catch(err){
         console.log(err);
     }
@@ -24,7 +24,6 @@ export const getAllMovies = async() => {
 
 export const sendUserAuthRequest = async (data, signup) => {
 
-    // const res = await axios.post(`http://localhost:3000/user/${signup ? "signup" : "login"}`,{
     const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`,{
         email: data.email,
