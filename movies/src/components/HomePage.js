@@ -31,7 +31,7 @@ const HomePage = () => {
           <MovieItem id={movie.id} 
           title={movie.title} 
           posterurl={movie.posterurl} 
-          releaseDate={movie.posterurl} 
+          releaseDate={movie.releaseDate} 
           key={index}
           />
         ))}
