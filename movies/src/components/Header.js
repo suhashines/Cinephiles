@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MovieIcon from '@mui/icons-material/Movie';
-import { AppBar, Autocomplete, IconButton, Tab, Tabs, TextField, Toolbar, Typography } from '@mui/material'
+import { AppBar, Autocomplete, Button, IconButton, Tab, Tabs, TextField, Toolbar, Typography } from '@mui/material'
 import { Box } from '@mui/system';
 import { getAllMovies } from '../api-helpers/api-helpers';
 import { Link, useNavigate } from 'react-router-dom';
@@ -31,10 +31,12 @@ const Header = (props) => {
 
   return (
     <AppBar position='sticky' sx={{bgcolor:"#2b2d42"}}>
-        <Toolbar>
-            <IconButton onClick={handleMovieIconClick}>
+        <Toolbar>                
+            <Button onClick={handleMovieIconClick} style={{color:'white'}}>
                 <MovieIcon style={{color:'white'}}/>
-            </IconButton>
+                <span style={{ paddingLeft: '8px' }}>Cinephiles</span>
+            </Button>
+                            
             <Box width={"30%"} margin={"auto"}>
             <Autocomplete
                 freeSolo
