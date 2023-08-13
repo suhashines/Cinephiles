@@ -34,7 +34,7 @@ async function getConnection() {
 
       user: process.env.username,
       password: process.env.password,
-      connectString: "localhost/orclpdb"
+      connectString: "localhost/prithudb"
       
     });
 
