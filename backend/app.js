@@ -21,7 +21,7 @@ const movieRouter = require('./router/movieRouter');
 const bookingRouter = require('./router/bookingRouter');
 
 
-const port = 5000 ;       
+const port = 3000 ;       
 
 
 app.listen(port,()=>{

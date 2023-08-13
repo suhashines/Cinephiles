@@ -50,7 +50,7 @@ export const sendAdminAuthRequest = async(data) => {
     })
     .catch((err) => console.log(err));
 
-    if(res.status != 200){
+    if(res.status !== 200){
         return console.log("Error while fetching data");
     }
 
