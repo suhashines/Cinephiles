@@ -25,7 +25,7 @@ const Header = (props) => {
     const navigate = useNavigate();
 
     const handleMovieIconClick = () => {
-        props.setValue(-1);
+        props.setValue(0);
         navigate('/'); // Redirect to the base directory when the movie icon is clicked
     };
 
@@ -60,6 +60,7 @@ const Header = (props) => {
                 indicatorColor='secondary' 
                 value={props.value} 
                 onChange={(e,val)=>handleTabChange(val)}>
+                    <Tab LinkComponent={Link} to={"/"} label="Home"/>
                     <Tab LinkComponent={Link} to={"/movies"} label="Movies"/>
                     <Tab LinkComponent={Link} to={"/admin"} label="Manager"/>
                     <Tab LinkComponent={Link} to ={"/auth"} label="User"/>

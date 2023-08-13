@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 function App() {
-  const [value,setValue] = useState(-1);
-  const [prevValue, setPrevValue] = useState(-1);
+  const [value,setValue] = useState(0);
+  const [prevValue, setPrevValue] = useState(0);
   // const isAdminLoggedIn = useSelector((state) => state.user.isLoggedIn);
   // const isUserLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   // console.log("isAdminLoggedIn", isAdminLoggedIn);

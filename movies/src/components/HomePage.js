@@ -40,7 +40,7 @@ const HomePage = ({setValue}) => {
       <Box display={"flex"} padding={5} margin={"auto"}>
         <Button LinkComponent={Link} to="/movies" 
         variant={"outlined"}
-        onClick={()=>setValue(0)} 
+        onClick={()=>setValue(1)} 
         sx={{margin:"auto", color:"#2b2d42"}}>
           View All Movies
         </Button>
