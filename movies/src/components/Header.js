@@ -9,9 +9,10 @@ import { MovieItem } from './Movies/MovieItem';
 
 const Header = () => {
     const [value,setValue] = useState(0)
+    
     useEffect(()=>{
         getAllMovies()
-        .then((data)=>setMovies(data.movies))
+        .then((data)=>setMovies(data.result))  //  previously it was data.movies
         .catch((err)=>console.log(err))
     },[]);
     const [movies, setMovies] = useState([]);
@@ -32,7 +33,7 @@ const Header = () => {
                     sx={{input: {color:"white"}, label: {color:"white"}}}
                     variant='standard'
                     label="Search"
-                    placeholder="Search Across Movies Movies"
+                    placeholder="Search Across Movies & Theatres"
                     InputProps={{
                     ...params.InputProps,
                     type: 'search',

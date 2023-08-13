@@ -1,19 +1,30 @@
 import axios from "axios";
 
-export const getAllMovies = async() => {
-    const res = await axios
-    .get("http://localhost:3000/movie")
-    .catch((err) => console.log(err));
 
-    if(res.status !== 200){
+export const getAllMovies = async() => {
+
+    let res;
+
+    try{
+         res = await axios.get("http://localhost:3000/movie")
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    if(!res.data.success){
         return console.log("Error while fetching data");
     }
 
-    const data = await res.data;
+    const data = res.data ;
+
     return data;
 };
 
 export const sendUserAuthRequest = async (data, signup) => {
+
+    const res = await axios.post(`http://localhost:5000/user/${signup ? "signup" : "login"}`,{
     const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`,{
         email: data.email,
@@ -22,11 +33,12 @@ export const sendUserAuthRequest = async (data, signup) => {
     })
     .catch((err) => console.log(err));
     
-    if(res.status !== 200 && res.status !== 201){
-        return console.log("Error while fetching data");
+    if(!res.data.success){
+        return console.log(res.data.message);
     }
 
-    const resData = await res.data;
+    const resData =  res.data;
+
     return resData;
 };
 

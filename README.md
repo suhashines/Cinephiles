@@ -3,7 +3,7 @@
 
 ----------------api made so far------------------
 
----------'localhost:3000/user/login' : post 
+---------'localhost:3000/auth/login' : post 
 
 input : 
 
