@@ -79,7 +79,7 @@ async function addMovie(req,res){
 
 async function getAllMovies(req,res){
 
-    const sql = 'select * from movies';
+    const sql = 'select * from movies order by release_date desc';
 
     console.log('req recieved for fetching all movies');
 
