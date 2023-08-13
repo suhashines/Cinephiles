@@ -13,8 +13,8 @@ const HomePage = () => {
     <Box width={"100%"} height={"100%"} marginTop={2} margin={"auto"}>
       <Box width={"80%"} height={"40vh"} padding={2} margin={"auto"}>
         <img
-          src='https://www.thestatesman.com/wp-content/uploads/2022/06/maxresdefault-1-1.jpg'
-          alt='Bramhastra'
+          src='https://today.thefinancialexpress.com.bd/uploads/1606038247.jpg'
+          alt='Good Films Make Your Life Better'
           width={"100%"}
           height={"100%"}
         />
@@ -30,6 +30,7 @@ const HomePage = () => {
         {movies && movies.slice(0,4).map((movie,index)=>(
           <MovieItem id={movie.M_ID} 
           title={movie.TITLE} 
+          posterurl={movie.POSTER_URL}
           releaseDate={movie.RELEASE_DATE} 
           key={index}
           />

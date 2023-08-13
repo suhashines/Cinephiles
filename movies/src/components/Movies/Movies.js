@@ -7,7 +7,7 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   useEffect(()=>{
     getAllMovies()
-    .then((data)=>setMovies(data.movies))
+    .then((data)=>setMovies(data.result))
     .catch((err)=>console.log(err))
   },[])
   return (
@@ -26,10 +26,10 @@ const Movies = () => {
         justifyContent={"center"}
         margin={"auto"}>
         {movies && movies.map((movie,index)=>(
-          <MovieItem id={movie.id} 
-          title={movie.title} 
-          posterurl={movie.posterurl} 
-          releaseDate={movie.posterurl} 
+          <MovieItem id={movie.M_ID} 
+          title={movie.TITLE} 
+          posterurl={movie.POSTER_URL} 
+          releaseDate={movie.RELEASE_DATE} 
           key={index}
           />
         ))}

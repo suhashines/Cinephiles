@@ -26,7 +26,7 @@ const Header = () => {
             <Autocomplete
                 freeSolo
                 disableClearable
-                options={movies && movies.map((option) => option.title)}
+                options={movies && movies.map((option) => option.TITLE)}
                 renderInput={(params) => (
                 <TextField
                     {...params}
