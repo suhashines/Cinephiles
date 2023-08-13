@@ -1,7 +1,8 @@
 import axios from "axios";
+
 export const getAllMovies = async() => {
     const res = await axios
-    .get("http://localhost:5000/movie")
+    .get("http://localhost:3000/movie")
     .catch((err) => console.log(err));
 
     if(res.status !== 200){
@@ -13,8 +14,8 @@ export const getAllMovies = async() => {
 };
 
 export const sendUserAuthRequest = async (data, signup) => {
-    const res = await axios;
-    axios.post(`/user/${signup ? "signup" : "login"}`,{
+    const res = await axios
+    .post(`/user/${signup ? "signup" : "login"}`,{
         email: data.email,
         password: data.password,
         name: signup ? data.name : "",
