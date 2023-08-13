@@ -6,7 +6,7 @@ const userController = require('../controller/userController');
 
 const authController = require('../controller/authController');
 
-userRouter.route("/allUsers")
+userRouter.route("/")
 .get(userController.getAllUsers);
 
 

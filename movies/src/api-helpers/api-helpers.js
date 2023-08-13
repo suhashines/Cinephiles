@@ -14,7 +14,7 @@ export const getAllMovies = async() => {
     console.log(res.data) ;
 
     if(!res.data.success){
-        return console.log("Error while fetching data");
+        return console.log(res.data.message);
     }
 
     const data = res.data ;

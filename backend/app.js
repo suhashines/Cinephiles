@@ -2,6 +2,10 @@ const express = require('express');
 
 const app = express() ;
 
+const cors = require('cors');
+
+app.use(cors());
+
 app.use(express.json());         
  
 const directorRouter = require('./router/directorRouter');
@@ -17,7 +21,7 @@ const movieRouter = require('./router/movieRouter');
 const bookingRouter = require('./router/bookingRouter');
 
 
-const port = 3000 ;       
+const port = 5000 ;       
 
 
 app.listen(port,()=>{
@@ -29,12 +33,12 @@ app.listen(port,()=>{
 app.use("/director",directorRouter);
 app.use("/user",userRouter);
 app.use('/auth',authRouter);  
-app.use('/admin',adminRouter);
+app.use('/manager',adminRouter);
 app.use('/movie',movieRouter);
 app.use('/booking',bookingRouter);
 
 
-app.use("/",(req,res,next)=>{
+app.use("/",(req,res,next)=>{ 
 
     res.send("hi");     
 });

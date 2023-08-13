@@ -14,19 +14,20 @@ async function signupAdmin(req,res){
     console.log(data);
 
     if (!data.email || !data.password || !data.confirmPassword) {
-        return res.status(400).json({ error: 'All fields are required.' });
+        return res.status(400).json({ success: false ,
+          error: 'All fields are required.' });
       }  //here return means now we're going to exit from the function as well
 
     let sql,result ;
   
     if (data.password != data.confirmPassword) {
-      res.json({
+       return res.json({
         success: false,
         message: "password doesn't match",
       });
-    } else {
+    } 
 
-      sql = 'SELECT * FROM ADMIN WHERE EMAIL = :email' ;
+      sql = 'SELECT * FROM ADMINS WHERE EMAIL = :email' ;
 
       result = (await database.execute(sql,{email:data.email})).rows ;
 
@@ -35,9 +36,9 @@ async function signupAdmin(req,res){
       if (result.length!=0) {
         return res.json({
           success: false,
-          message: "Admin already exists",
+          message: "Manager already exists",
         });
-      } else {
+      } 
 
 
         let salt = await bcrypt.genSalt() ;
@@ -50,68 +51,59 @@ async function signupAdmin(req,res){
 
         // set id for the new admin
 
-        const admin = (await database.execute('select * from admin',{})).rows;
+        const admin = (await database.execute('select * from admins order by ad_id desc',{})).rows;
 
-        console.log(admin);
+        console.log(admin) ;
 
-        const len = admin.length ;
+        let pk ;
 
-        const prevId = admin[len-1].ADMIN_ID ;  //this is hell of a error, always be aware of this
+        if(admin.length==0){
+           
+          pk = 1 ;
 
-        // console.log(typeof(prevId));
+        }else{
 
-        const newId = prevId + 1 ;
+           pk = admin[0].AD_ID + 1 ; 
+        }
 
-        // console.log(newId);
-
-        sql = 'INSERT INTO ADMIN(ADMIN_ID,EMAIL,PASSWORD) VALUES(:admin_id,:email,:password)' ;
+         sql = 'INSERT INTO ADMINS(AD_ID,EMAIL,PASSWORD) VALUES(:admin_id,:email,:password)' ;
         
         try{
             
-            const output = (await database.execute(sql,{admin_id:newId,email:data.email,password:data.password})).rowsAffected;
+            (await database.execute(sql,{admin_id:pk,email:data.email,password:data.password}))
 
-            console.log(output);
 
         }catch(e){
             console.log(e);
-            return res.json({message:"Error occured while registering admin"})
-        }
-
-        if(rowsAffected){
-
-            res.json({
-                success: true ,
-                message: "admin registered successfully" 
-            })
-        }else{
-
-          res.json({
-               success: false,
-              message: "find out why no row is affected"
-            })
-            
+            return res.json({
+              success: false ,
+              message:"Error occured while registering manageer"})
         }
 
 
-      }
-    }
+          return  res.json({
+            success: true ,
+            message: "manager registered successfully" 
+        })
 
-}
+       
+ }
+    
 
 
 async function loginAdmin(req,res){
 
-    console.log("req received for admin Login");
+    console.log("req received for admin Login"); 
 
     let sql,result ;
   
     const data = req.body;
   
-    console.log("data received from frontend", data);
+    console.log("data received from frontend", data); 
   
     // let user = await userModel.findOne({ email: data.email });
 
-    sql = 'SELECT * FROM ADMIN WHERE EMAIL = :email' ;
+    sql = 'SELECT * FROM ADMINS WHERE EMAIL = :email' ;
 
     result = (await database.execute(sql,{email:data.email})).rows ;
 
@@ -121,7 +113,7 @@ async function loginAdmin(req,res){
     if (result.length==0) {
       return res.json({
         success: false,
-        message: "invalid username",
+        message: "invalid username", 
       });
     } else {
       
