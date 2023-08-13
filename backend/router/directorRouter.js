@@ -6,7 +6,13 @@ const directorController = require('../controller/directorController');
 
 directorRouter.route("/")
 .get(directorController.getAllDirectors) 
-.post()
 
 
-module.exports = directorRouter;
+directorRouter.route("/:name")
+.get(directorController.getMoviesByDirector) ;
+
+
+
+
+
+module.exports = directorRouter; 

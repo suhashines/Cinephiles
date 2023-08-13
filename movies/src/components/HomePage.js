@@ -7,7 +7,7 @@ import { getAllMovies } from '../api-helpers/api-helpers'
 const HomePage = () => {
   const [movies, setMovies] = useState([])
   useEffect(()=>{
-    getAllMovies().then((data)=>setMovies(data.movies)).catch((err)=>console.log(err))
+    getAllMovies().then((data)=>setMovies(data.result)).catch((err)=>console.log(err))
   },[])
   return (
     <Box width={"100%"} height={"100%"} marginTop={2} margin={"auto"}>
@@ -28,10 +28,9 @@ const HomePage = () => {
         margin={"auto"}
         width={"80%"}>
         {movies && movies.slice(0,4).map((movie,index)=>(
-          <MovieItem id={movie.id} 
-          title={movie.title} 
-          posterurl={movie.posterurl} 
-          releaseDate={movie.posterurl} 
+          <MovieItem id={movie.M_ID} 
+          title={movie.TITLE} 
+          releaseDate={movie.RELEASE_DATE} 
           key={index}
           />
         ))}

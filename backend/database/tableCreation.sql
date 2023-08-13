@@ -20,7 +20,7 @@ CREATE TABLE genres (
 
 CREATE TABLE admins (
     ad_id NUMBER PRIMARY KEY,
-    name VARCHAR2(100),
+    email VARCHAR2(100),
     password VARCHAR2(256) -- Change the length as required for hashed passwords
 );
 
@@ -242,11 +242,13 @@ ALTER TABLE movies
 
 ALTER TABLE movies
     MODIFY release_date DATE;
-   
-
-   
-SELECT * FROM movies;
 
 
 ALTER TABLE movies
     ADD back_poster_url VARCHAR2(200);
+
+-----------------new update-------------------------------------
+       
+ALTER TABLE ADMINS 
+
+RENAME COLUMN name TO email ;

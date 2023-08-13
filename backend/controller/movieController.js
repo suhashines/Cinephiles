@@ -2,11 +2,13 @@ const database = require('../database/database');
 
 const jwt = require('jsonwebtoken');
 
+
 async function addMovie(req,res){
+
 
     //first we need to verify the admin
 
-    const extractedToken = req.headers.authorization.split(" ")[1] ;  //we'll put the token inside bearer token
+    const extractedToken = req.cookies.access_token ;  //we'll put the token inside bearer token
 
     if(!extractedToken){
         return res.json({success:false,message:"token not found"})
@@ -27,13 +29,18 @@ async function addMovie(req,res){
         // decrypt the token , store admin_id from the decrypted token
         admin_id = decrypted.id;
         console.log("admin with id ", admin_id);
+
         return;
     })
     
     
     //admin has been verified. Now he can add movie here 
 
+
+
     let movie = req.body ;
+
+
     console.log("movie received: ",movie);
 
         let sql ;
@@ -42,7 +49,7 @@ async function addMovie(req,res){
 
         console.log(movies);
 
-        const newId = movies[0].MOVIE_ID + 1 ;
+        const newId = movies[0].M_ID + 1 ;
 
         console.log(newId);
 
@@ -56,7 +63,10 @@ async function addMovie(req,res){
         console.log(output," row affected");
 
     }catch(err){
-        return console.log(err) ;
+
+         console.log(err) ;
+
+         return res.json({success:false,message:"database error"}) ;
     }
 
 
@@ -81,7 +91,9 @@ async function getAllMovies(req,res){
         result = (await database.execute(sql,{})).rows ;
 
     }catch(err){
-        return console.log(err);
+
+    return res.json({success:false,message:"database error"});
+       console.log(err);
     }
 
     console.log(result);
@@ -99,7 +111,7 @@ async function getMovieById(req,res){
     let sql,movie ;
 
     try{
-        sql = 'select * from movies where movie_id=:movie_id';
+        sql = 'select * from movies where m_id=:movie_id';
         binds={movie_id} ;
 
         movie = (await database.execute(sql,binds)).rows ;

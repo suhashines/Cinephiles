@@ -5,12 +5,12 @@ async function getAllUsers(req,res){
 
     let result;
 
-    const sql = 'select * from users' ;
+    const sql = `select * from users ` ;
     const binds = {};
 
     try{
 
-        result = (await database.execute(sql,binds)).rows ;
+        result = (await database.execute(sql,binds)).rows ; 
 
         console.log(result);
 

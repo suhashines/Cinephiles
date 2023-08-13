@@ -15,8 +15,7 @@ async function loginUser(req,res){
     const data = req.body;
   
     console.log("data received from frontend", data); 
-  
-    // let user = await userModel.findOne({ email: data.email });
+
 
     sql = 'SELECT * FROM USERS WHERE EMAIL = :email' ;
 
