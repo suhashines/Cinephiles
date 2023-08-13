@@ -2,7 +2,7 @@ import React from 'react'
 import AuthForm from '../Auth/AuthForm' 
 import { sendAdminAuthRequest } from '../../api-helpers/api-helpers';
 
-const Admin = () => {
+const Admin = (props) => {
   const getData = (data) => {
     console.log("Admin", data);
     sendAdminAuthRequest(data.inputs)
@@ -12,7 +12,7 @@ const Admin = () => {
 
   return (
     <div>
-      <AuthForm onSubmit={getData} isAdmin={true}/>
+      <AuthForm setValue={props.setValue} prevValue={props.prevValue} onSubmit={getData} isAdmin={true}/>
     </div>
   )
 }

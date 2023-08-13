@@ -245,7 +245,7 @@ ALTER TABLE movies
 
 
 ALTER TABLE movies
-    ADD back_poster_url VARCHAR2(200);
+    ADD back_poster_url VARCHAR2(200); 
 
 -----------------new update-------------------------------------
        

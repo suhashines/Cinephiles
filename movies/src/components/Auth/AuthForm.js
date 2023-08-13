@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {Box, Button, Dialog, FormLabel, IconButton, TextField, Typography} from "@mui/material";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import {useNavigate} from "react-router-dom";
+
 const labelStyle = {mt:1, mb:1}
 
-const AuthForm = ({onSubmit, isAdmin}) => {
+const AuthForm = ({onSubmit, isAdmin, setValue, prevValue}) => {
+    const navigate = useNavigate();
     const [isSignup, setIsSignup] = useState(false)
     const [inputs, setInputs] = useState({
         name:"",
@@ -25,15 +28,22 @@ const AuthForm = ({onSubmit, isAdmin}) => {
         }
         onSubmit({inputs, signup : isAdmin ? false : isSignup});
     }
+    const handleClose = () => {
+        navigate(-1);
+        setValue(prevValue);
+    }
   return (
     <Dialog PaperProps={{style:{borderRadius:20}}} open={true}>
         <Box sx={{ml:"auto", padding:1}}>
-            <IconButton>
+            <IconButton onClick={handleClose}>
                 <CloseRoundedIcon/>
             </IconButton>
         </Box>
         <Typography variant="h4" textAlign={"center"}>
-            {isSignup ? "Signup" : "Login"}
+            {isSignup ? "Signup" : "Login"} as
+        </Typography>
+        <Typography variant="h4" textAlign={"center"}>
+            {isAdmin ? "Manager" : "User"}
         </Typography>
         <form onSubmit={handleSubmit}>
             <Box
@@ -44,7 +54,7 @@ const AuthForm = ({onSubmit, isAdmin}) => {
                 width={400}
                 margin={"auto"}
                 padding={6}>
-                {isAdmin && isSignup && (
+                {isSignup && (
                     <>
                     {" "}
                     <FormLabel sx={labelStyle}>Name</FormLabel>
@@ -57,7 +67,6 @@ const AuthForm = ({onSubmit, isAdmin}) => {
                         name="name"/>
                     </>
                 )}
-                
                 <FormLabel sx={labelStyle}>Email</FormLabel>
                 <TextField
                     value={inputs.email}
@@ -79,15 +88,14 @@ const AuthForm = ({onSubmit, isAdmin}) => {
                     type='submit'
                     variant={"contained"} 
                     fullWidth>
-                        Login
+                        {isSignup ? "Signup" : "Login"}
+                </Button>                
+                <Button
+                    onClick={()=>setIsSignup(!isSignup)} 
+                    sx={{mt:2, borderRadius:10}} fullWidth>
+                        Switch To {isSignup ? "Login" : "Signup"}
                 </Button>
-                {!isAdmin && (
-                    <Button
-                        onClick={()=>setIsSignup(!isSignup)} 
-                        sx={{mt:2, borderRadius:10}} fullWidth>
-                            Switch To {isSignup ? "Login" : "Signup"}
-                    </Button>
-                )}
+                
                 
             </Box>
         </form>
