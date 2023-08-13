@@ -31,6 +31,7 @@ const HomePage = ({setValue}) => {
         {movies && movies.slice(0,4).map((movie,index)=>(
           <MovieItem id={movie.M_ID} 
           title={movie.TITLE} 
+
           posterurl={movie.POSTER_URL} 
           releaseDate={movie.RELEASE_DATE} 
           key={index}
