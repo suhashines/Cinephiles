@@ -26,7 +26,7 @@ app.listen(port,()=>{
 
 
 
-app.use("/directors",directorRouter);
+app.use("/director",directorRouter);
 app.use("/user",userRouter);
 app.use('/auth',authRouter);  
 app.use('/admin',adminRouter);
