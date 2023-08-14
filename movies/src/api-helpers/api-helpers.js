@@ -28,6 +28,7 @@ export const sendUserAuthRequest = async (data, signup) => {
     .post(`/user/${signup ? "signup" : "login"}`,{
         email: data.email,
         password: data.password,
+        confirmPassword: data.confirmPassword,
         name: signup ? data.name : "",
     })
     .catch((err) => console.log(err));
@@ -41,18 +42,18 @@ export const sendUserAuthRequest = async (data, signup) => {
     return resData;
 };
 
-export const sendAdminAuthRequest = async(data) => {
+export const sendAdminAuthRequest = async(data, signup) => {
     const res = await axios
-    .post("/admin/login", {
+    .post(`/manager/${signup ? "signup" : "login"}`, {
         email: data.email,
         password: data.password,
     })
     .catch((err) => console.log(err));
 
-    if(res.status !== 200){
-        return console.log("Error while fetching data");
+    if(!res.data.success){
+        return console.log(res.message);
     }
 
-    const resData = await res.data;
+    const resData =  res.data;
     return resData;
 };

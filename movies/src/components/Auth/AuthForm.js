@@ -11,7 +11,8 @@ const AuthForm = ({onSubmit, isAdmin, setValue, prevValue}) => {
     const [inputs, setInputs] = useState({
         name:"",
         email:"",
-        password:""
+        password:"",
+        confirmPassword:""
     })
     const handleChange = (e) => {
         setInputs((prevState)=>({
@@ -83,6 +84,19 @@ const AuthForm = ({onSubmit, isAdmin, setValue, prevValue}) => {
                     margin={"normal"}  
                     type={"password"} 
                     name="password"/>
+                {isSignup && (
+                    <>
+                    <FormLabel sx={labelStyle}>Confirm Password</FormLabel>
+                    <TextField
+                    value={inputs.confirmPassword}
+                    onChange={handleChange} 
+                    variants={"standard"} 
+                    margin={"normal"}  
+                    type={"password"} 
+                    name="confirmPassword"/>
+                    </>
+                )}
+                
                 <Button 
                     sx={{mt:2, borderRadius:10, bgcolor:"#2b2d42", color:"white"}} 
                     type='submit'

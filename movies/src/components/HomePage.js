@@ -13,8 +13,7 @@ const HomePage = ({setValue}) => {
     <Box width={"100%"} height={"100%"} marginTop={2} margin={"auto"}>
       <Box width={"80%"} height={"40vh"} padding={2} margin={"auto"}>
         <img
-          src="https://img.freepik.com/free-vector/movie-theater-hall-with-people-watching-film-three-sided-panoramic-screen_107791-5707.jpg?
-          w=1800&t=st=1691934002~exp=1691934602~hmac=0813cc200e5d53c367b2354e4a36067293cb3ceee6288017aed99eb76e72db27"
+          src="https://prodimage.images-bn.com/pimages/0681410981006_p0_v1_s1200x630.jpg"
           alt='Theatre'
           width={"100%"}
           height={"100%"}
