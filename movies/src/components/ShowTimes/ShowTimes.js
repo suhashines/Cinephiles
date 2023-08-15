@@ -30,7 +30,7 @@ const ShowTimes = () => {
         // justifyContent={"center"}
         >
         {movies && movies.map((movie,index)=>(
-          <MovieDetails movie={movie} index={index}/>
+          <MovieDetails movie={movie} key={index}/>
         ))}
       </Box>
     </Box>

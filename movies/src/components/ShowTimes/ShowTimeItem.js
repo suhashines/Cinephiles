@@ -45,7 +45,7 @@ const ShowTimeItems = ({releaseDate, title}) => {
             width={"100%"}
             padding={3}
         >
-        {dummyArray.map(()=>(
+        {dummyArray.map((index)=>(
                 <Box
                     display={"flex"}
                     flexDirection={"row"}
@@ -55,6 +55,7 @@ const ShowTimeItems = ({releaseDate, title}) => {
                     width={"30%"}
                     textAlign={"center"}
                     borderRadius={1}
+                    key={index}
                     sx={{ "&:hover": { boxShadow: 10 } }}
                 >
                     <Typography variant="p" textAlign={"center"} color={"black"} fontSize={12}>

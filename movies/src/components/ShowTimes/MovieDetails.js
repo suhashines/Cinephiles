@@ -6,12 +6,6 @@ import ImageButton from '../ImageButton';
 
 const MovieDetails = (props) => {
     const dummyArray = [0, 1, 2, 3];
-//   const [movies, setMovies] = useState([]);
-//   useEffect(()=>{
-//     getAllMovies()
-//     .then((data)=>setMovies(data.result))
-//     .catch((err)=>console.log(err))
-//   },[])
   return (
     <Box margin={"auto"} width={"100%"} margintop={2}>
       <Box
@@ -73,8 +67,8 @@ const MovieDetails = (props) => {
             width={"250%"}
             justifyContent={"left"}
         >
-        {dummyArray.map(()=>(
-            <ShowTimeItems releaseDate={props.movie.RELEASE_DATE} title={props.movie.TITLE}/>
+        {dummyArray.map((index)=>(
+            <ShowTimeItems key={index} releaseDate={props.movie.RELEASE_DATE} title={props.movie.TITLE}/>
         ))} 
         </Box>
       </Box>
