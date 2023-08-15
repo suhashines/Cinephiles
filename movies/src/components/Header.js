@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import MovieIcon from '@mui/icons-material/Movie';
-import { AppBar, Autocomplete, Button, IconButton, Tab, Tabs, TextField, Toolbar, Typography } from '@mui/material'
+import { AppBar, Autocomplete, Button, Tab, Tabs, TextField, Toolbar } from '@mui/material'
 import { Box } from '@mui/system';
 import { getAllMovies } from '../api-helpers/api-helpers';
 import { Link, useNavigate } from 'react-router-dom';
-import { MovieItem } from './Movies/MovieItem';
-import AuthForm from './Auth/AuthForm';
 
 
 const Header = (props) => {   
@@ -26,6 +24,7 @@ const Header = (props) => {
 
     const handleMovieIconClick = () => {
         props.setValue(0);
+        props.setView(false);
         navigate('/'); // Redirect to the base directory when the movie icon is clicked
     };
 
@@ -63,7 +62,7 @@ const Header = (props) => {
                 value={props.value} 
                 onChange={(e,val)=>handleTabChange(val)}>
                     <Tab LinkComponent={Link} to={"/"} label="Home"/>
-                    <Tab LinkComponent={Link} to={"/movies"} label="Movies"/>
+                    <Tab LinkComponent={Link} to={"/showtimes"} label="ShowTimes"/>
                     <Tab LinkComponent={Link} to={"/admin"} label="Manager"/>
                     <Tab LinkComponent={Link} to ={"/auth"} label="User"/>
                 </Tabs>

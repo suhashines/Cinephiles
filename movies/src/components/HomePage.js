@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import MovieItem from './Movies/MovieItem'
-import { Link } from 'react-router-dom'
 import { getAllMovies } from '../api-helpers/api-helpers'
 
-const HomePage = ({setValue}) => {
+const HomePage = ({setValue, setView, view}) => {
   const [movies, setMovies] = useState([])
+  
   useEffect(()=>{
     getAllMovies().then((data)=>setMovies(data.result)).catch((err)=>console.log(err))
   },[])
@@ -27,22 +27,31 @@ const HomePage = ({setValue}) => {
         flexWrap={"wrap"}
         margin={"auto"}
         width={"80%"}>
-        {movies && movies.slice(0,4).map((movie,index)=>(
-          <MovieItem id={movie.M_ID} 
-          title={movie.TITLE} 
-
-          posterurl={movie.POSTER_URL} 
-          releaseDate={movie.RELEASE_DATE} 
-          key={index}
-          />
-        ))}
+        {view? movies && movies.map((movie,index)=>(
+            <MovieItem id={movie.M_ID} 
+            title={movie.TITLE} 
+            posterurl={movie.POSTER_URL} 
+            releaseDate={movie.RELEASE_DATE} 
+            key={index}
+            />
+        ))
+          :movies && movies.slice(0,4).map((movie,index)=>(
+            <MovieItem id={movie.M_ID} 
+            title={movie.TITLE} 
+            posterurl={movie.POSTER_URL} 
+            releaseDate={movie.RELEASE_DATE} 
+            key={index}
+            />
+          ))
+        }
+        
       </Box>
       <Box display={"flex"} padding={5} margin={"auto"}>
-        <Button LinkComponent={Link} to="/movies" 
+        <Button 
         variant={"outlined"}
-        onClick={()=>setValue(1)} 
+        onClick={()=>setView(!view)} 
         sx={{margin:"auto", color:"#2b2d42"}}>
-          View All Movies
+          { view ? "View Less" : "View More" }
         </Button>
       </Box>
     </Box>
