@@ -55,7 +55,8 @@ const MovieDetails = (props) => {
                 <Box margin={"2"} marginTop={5} display={"flex"} fontSize={10} width={"100%"} alignItems={"flex-end"}>
                     <Button 
                         variant={"outlined"} 
-                        sx={{margin:"auto", color:"#7c4699", bgcolor:"#e3e4e6", fontSize:"12px", borderColor:"#7c4699"}}                
+                        sx={{margin:"auto", color:"#7c4699", bgcolor:"#e3e4e6", fontSize:"12px", borderColor:"#7c4699",
+                        '&:hover': {backgroundColor: '#900c3f', borderColor: '#900c3f', color:"#e3e4e6"}}}                
                     >
                         Watch Trailer
                     </Button>

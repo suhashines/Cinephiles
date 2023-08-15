@@ -5,7 +5,7 @@ import React from 'react'
 // import PlaneTicketCardDemo from './Ticket';
 
 const ShowTimeItems = ({releaseDate, title}) => {
-    const dummyArray = [0, 1, 2, 3, 4];
+    const dummyArray = [0, 1, 2, 3];
   return (
     <Box
         display={"flex"}
@@ -13,11 +13,11 @@ const ShowTimeItems = ({releaseDate, title}) => {
         justifyContent={"center"}
         alignItems={"center"}        
         width={"100%"}
-        height={200}
+        height={"78%"}
         margin={"auto"}
         marginLeft={2}
         marginRight={2}
-        padding={6}
+        padding={4}
         // border={"1px solid #4d4e4f"}
         boxShadow={2}
         // bgcolor={"#e6e355"}
@@ -27,7 +27,9 @@ const ShowTimeItems = ({releaseDate, title}) => {
         <Box
             display={"flex"}
             // padding={1}
-            width={"100%"}
+            width={"150%"}
+            height={"20%"}
+            marginBottom={"10%"}
             // marginTop={-2}
         >            
             <Typography variant="h6" textAlign={"center"} width={"100%"}>
@@ -43,22 +45,24 @@ const ShowTimeItems = ({releaseDate, title}) => {
             flexWrap={"wrap"}
             justifyContent={"center"}
             width={"100%"}
-            padding={3}
+            height={"50%"}
+            padding={1}
         >
         {dummyArray.map((index)=>(
                 <Box
                     display={"flex"}
                     flexDirection={"row"}
-                    padding={1}
-                    margin={0.8}
+                    padding={0.9}
+                    margin={"2%"}
                     bgcolor={"#e3e4e6"}
-                    width={"30%"}
+                    width={"auto"}
+                    height={"13%"}
                     textAlign={"center"}
                     borderRadius={1}
                     key={index}
                     sx={{ "&:hover": { boxShadow: 10 } }}
                 >
-                    <Typography variant="p" textAlign={"center"} color={"black"} fontSize={12}>
+                    <Typography variant="p" textAlign={"center"} color={"black"} fontSize={13} width={"100%"} margin={"auto"}>
                         7:30 PM
                     </Typography>
                 </Box>
@@ -67,7 +71,8 @@ const ShowTimeItems = ({releaseDate, title}) => {
         <Box margin={"2"} display={"flex"} fontSize={10} width={"100%"}>
             <Button 
                 variant={"outlined"} 
-                sx={{margin:"auto", color:"white", bgcolor:"#7c4699", fontSize:"12px", '&:hover': {backgroundColor: '#900c3f', borderColor: '#900c3f'}}}                
+                sx={{margin:"auto", marginTop:"15%", color:"white", bgcolor:"#7c4699", fontSize:"12px", 
+                '&:hover': {backgroundColor: '#e3e4e6', borderColor: '#7c4699', color: '#7c4699'}}}                
             >
                  Get Tickets
             </Button>
