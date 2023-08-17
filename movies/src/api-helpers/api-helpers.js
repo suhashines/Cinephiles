@@ -6,7 +6,7 @@ export const getAllMovies = async() => {
     let res;
 
     try{
-         res = await axios.get("http://localhost:5000/movie")
+         res = await axios.get(`/movie`)
     }catch(err){
         console.log(err);
     }
@@ -24,12 +24,11 @@ export const getAllMovies = async() => {
 
 export const sendUserAuthRequest = async (data, signup) => {
 
-    // const res = await axios.post(`http://localhost:3000/user/${signup ? "signup" : "login"}`,{
-        
     const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`,{
         email: data.email,
         password: data.password,
+        confirmPassword: data.confirmPassword,
         name: signup ? data.name : "",
     })
     .catch((err) => console.log(err));
@@ -43,18 +42,18 @@ export const sendUserAuthRequest = async (data, signup) => {
     return resData;
 };
 
-export const sendAdminAuthRequest = async(data) => {
+export const sendAdminAuthRequest = async(data, signup) => {
     const res = await axios
-    .post("/admin/login", {
+    .post(`/manager/${signup ? "signup" : "login"}`, {
         email: data.email,
         password: data.password,
     })
     .catch((err) => console.log(err));
 
-    if(res.status != 200){
-        return console.log("Error while fetching data");
+    if(!res.data.success){
+        return console.log(res.message);
     }
 
-    const resData = await res.data;
+    const resData =  res.data;
     return resData;
 };

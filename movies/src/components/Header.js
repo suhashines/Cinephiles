@@ -1,27 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import MovieIcon from '@mui/icons-material/Movie';
-import { AppBar, Autocomplete, Tab, Tabs, TextField, Toolbar, Typography } from '@mui/material'
+import { AppBar, Autocomplete, Button, Tab, Tabs, TextField, Toolbar } from '@mui/material'
 import { Box } from '@mui/system';
 import { getAllMovies } from '../api-helpers/api-helpers';
-import { Link } from 'react-router-dom';
-import { MovieItem } from './Movies/MovieItem';
+import { Link, useNavigate } from 'react-router-dom';
 
 
-const Header = () => {
-    const [value,setValue] = useState(0)
-    
+const Header = (props) => {   
     useEffect(()=>{
         getAllMovies()
         .then((data)=>setMovies(data.result))  //  previously it was data.movies
         .catch((err)=>console.log(err))
     },[]);
+
     const [movies, setMovies] = useState([]);
+
+    const handleTabChange = (newValue) => {
+        props.setPrevValue(props.value);
+        props.setValue(newValue);
+    };
+
+    const navigate = useNavigate();
+
+    const handleMovieIconClick = () => {
+        props.setValue(0);
+        props.setView(false);
+        navigate('/'); // Redirect to the base directory when the movie icon is clicked
+    };
+
   return (
     <AppBar position='sticky' sx={{bgcolor:"#2b2d42"}}>
-        <Toolbar>
-            <Box width={"20%"}>
-                <MovieIcon/>
-            </Box>
+        <Toolbar>                
+            <Button onClick={handleMovieIconClick} style={{color:'white'}}>
+                <MovieIcon style={{color:'white'}}/>
+                <span style={{ paddingLeft: '8px' }}>Cinephiles</span>
+            </Button>
+                            
             <Box width={"30%"} margin={"auto"}>
             <Autocomplete
                 freeSolo
@@ -45,11 +59,12 @@ const Header = () => {
             <Box display={"flex"}>
                 <Tabs textColor='inherit' 
                 indicatorColor='secondary' 
-                value={value} 
-                onChange={(e,val)=>setValue(val)}>
-                    <Tab LinkComponent={Link} to={"/movies"} label="Movies"/>
-                    <Tab LinkComponent={Link} to={"/admin"} label="Admin"/>
-                    <Tab LinkComponent={Link} to ={"/auth"} label="Auth"/>
+                value={props.value} 
+                onChange={(e,val)=>handleTabChange(val)}>
+                    <Tab LinkComponent={Link} to={"/"} label="Home"/>
+                    <Tab LinkComponent={Link} to={"/showtimes"} label="ShowTimes"/>
+                    <Tab LinkComponent={Link} to={"/admin"} label="Manager"/>
+                    <Tab LinkComponent={Link} to ={"/auth"} label="User"/>
                 </Tabs>
             </Box>
         </Toolbar>
