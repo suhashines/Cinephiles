@@ -4,9 +4,14 @@ import HomePage from "./components/HomePage";
 import Movies from "./components/Movies/Movies";
 import Admin from "./components/Admin/Admin";
 import Auth from "./components/Auth/Auth";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { useState } from "react";
+import ShowTimes from "./components/ShowTimes/ShowTimes";
 
 function App() {
+  const [value,setValue] = useState(0);
+  const [prevValue, setPrevValue] = useState(0);
+  const [view, setView] = useState(false)
   // const isAdminLoggedIn = useSelector((state) => state.user.isLoggedIn);
   // const isUserLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   // console.log("isAdminLoggedIn", isAdminLoggedIn);
@@ -14,13 +19,14 @@ function App() {
 
   return (
     <div>
-      <Header/>
+      <Header value={value} setValue={setValue} prevValue={prevValue} setPrevValue={setPrevValue} setView={setView}/>
       <section>
         <Routes>
-          <Route path="/" element={<HomePage/>}/>
+          <Route path="/" element={<HomePage setValue={setValue} view={view} setView={setView}/>}/>
           <Route path="/movies" element={<Movies/>}/>
-          <Route path="/admin" element={<Admin/>}/>
-          <Route path="/auth" element={<Auth/>}/>
+          <Route path="/admin" element={<Admin setValue={setValue} prevValue={prevValue}/>}/>
+          <Route path="/auth" element={<Auth setValue={setValue} prevValue={prevValue}/>}/>
+          <Route path="/showtimes" element={<ShowTimes/>}/>
         </Routes>
       </section>
     </div>

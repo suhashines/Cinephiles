@@ -27,7 +27,7 @@ async function loginUser(req,res){
     if (result.length==0) {
       return res.json({
         success: false,
-        message: "invalid username",
+        message: "invalid credentials",
       });
     } else {
       
