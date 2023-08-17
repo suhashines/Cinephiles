@@ -77,7 +77,7 @@ async function signupAdmin(req,res){
             console.log(e);
             return res.json({
               success: false ,
-              message:"Error occured while registering manageer"})
+              message:"Error occured while registering manager"})
         }
 
 
@@ -130,25 +130,15 @@ async function loginAdmin(req,res){
 
         console.log("password matched,authenticated");
   
-        //res.cookie("isLoggedIn", true, { httpOnly: true });
   
-        // before using cookies we will create jwt
-  
-        // first we need payload which is a unique id, in that case we can use our admin_id
-        // then we need a secret key
-        //and finally we set an expiry time
-  
-        const token = jwt.sign({id:admin.ADMIN_ID},process.env.secretKey,{
+        const token = jwt.sign({id:admin.AD_ID},process.env.secretKey,{
             expiresIn:"1d"
         })
-  
-        // let token = jwt.sign({ payload: uid }, secretKey); // by default the algorithm is defined here
-  
-        //token contains an important thing , signature
+
 
         console.log('cookie is made');
 
-        res.cookie("isLoggedIn", 'true');
+        res.cookie(jwt,token,{httpOnly:true});
 
     
 
