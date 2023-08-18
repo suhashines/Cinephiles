@@ -252,3 +252,30 @@ ALTER TABLE movies
 ALTER TABLE ADMINS 
 
 RENAME COLUMN name TO email ;
+
+----- 8/18/23--------
+
+----------------location table update-------------------
+ALTER TABLE CINEPHILES.LOCATIONS
+ADD CONSTRAINT unique_locations unique(building,road,city);
+
+---------------delete table movie genres-----------
+
+DROP TABLE MOVIEGENRES ;
+
+CREATE TABLE movieGenres (
+    m_id NUMBER,
+    gn_id NUMBER,
+    PRIMARY key(m_id,gn_id),
+    CONSTRAINT fk_moviegenres_movies
+        FOREIGN KEY (m_id)
+        REFERENCES movies (m_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_moviegenres_genres
+        FOREIGN KEY (gn_id)
+        REFERENCES genres (gn_id)
+        ON DELETE CASCADE
+);
+
+
+

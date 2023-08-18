@@ -95,6 +95,8 @@ async function loginAdmin(req,res){
 
     console.log("req received for admin Login"); 
 
+    // res.cookie("access_token",0,{httpOnly:true});
+
     let sql,result ;
   
     const data = req.body;
@@ -138,7 +140,10 @@ async function loginAdmin(req,res){
 
         console.log('cookie is made');
 
-        res.cookie(jwt,token,{httpOnly:true});
+        res.cookie("access_token",token,
+        {
+          httpOnly:true
+        });
 
     
 

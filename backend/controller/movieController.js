@@ -5,38 +5,7 @@ const jwt = require('jsonwebtoken');
 
 async function addMovie(req,res){
 
-
-    //first we need to verify the admin
-
-    const extractedToken = req.cookies.access_token ;  //we'll put the token inside bearer token
-
-    if(!extractedToken){
-        return res.json({success:false,message:"token not found"})
-    }
-
-    console.log("extracted token",extractedToken);
-
-
-    let admin_id ;
-
-    //verification steps 
-
-    jwt.verify(extractedToken, process.env.secretKey, (err, decrypted) => {
-
-        if (err) {
-            return res.status(400).json({ success: false, message: "authorization failed" });
-        }
-        // decrypt the token , store admin_id from the decrypted token
-        admin_id = decrypted.id;
-        console.log("admin with id ", admin_id);
-
-        return;
-    })
-    
-    
-    //admin has been verified. Now he can add movie here 
-
-
+    console.log("got my access_id :",req.access_id);
 
     let movie = req.body ;
 
@@ -44,6 +13,13 @@ async function addMovie(req,res){
     console.log("movie received: ",movie);
 
         let sql ;
+
+
+        const result = (await database.execute('select * from movies where title=:title and release_date=:release_date',{title:movie.title,release_date:movie.release_date})).rows;
+
+        if(result.length!=0){
+            res.json({success:false,message:"Movie already exists"});
+        }
 
         const movies = (await database.execute('select * from movies order by movie_id desc',{})).rows;
 
@@ -56,7 +32,7 @@ async function addMovie(req,res){
     try{
 
         sql = 'insert into movies(movie_id,title,description,release_date,poster_url,admin_id) values(:movie_id,:title,:description,:release_date,:poster_url,:admin_id) ' ;
-        binds = {movie_id:newId,title:movie.title,description:movie.description,release_date:movie.release_date,poster_url:movie.poster_url,admin_id:admin_id} ;
+        binds = {movie_id:newId,title:movie.title,description:movie.description,release_date:movie.release_date,poster_url:movie.poster_url,admin_id:req.access_id} ;
 
         let output = (await database.execute(sql,binds)).rowsAffected;
 
