@@ -20,7 +20,7 @@ async function loadMovies(){
             url: 'https://advanced-movie-search.p.rapidapi.com/discover/movie',
             params: {
               with_genres: gn_id,
-              page: 5
+              page: 1  // change page no (2,3,4,5...) and run the program to load movies
             },
             headers: {
               'X-RapidAPI-Key': '0d447f2587msh89d82b3654d9521p1c611ejsn914d1101a1be',

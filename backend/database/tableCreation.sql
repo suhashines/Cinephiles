@@ -263,6 +263,8 @@ ADD CONSTRAINT unique_locations unique(building,road,city);
 
 DROP TABLE MOVIEGENRES ;
 
+------------create it again-------------------
+
 CREATE TABLE movieGenres (
     m_id NUMBER,
     gn_id NUMBER,
