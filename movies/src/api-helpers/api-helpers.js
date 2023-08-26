@@ -38,7 +38,6 @@ export const sendUserAuthRequest = async (data, signup) => {
     }
 
     const resData =  res.data;
-
     return resData;
 };
 
@@ -51,7 +50,7 @@ export const sendAdminAuthRequest = async(data, signup) => {
     .catch((err) => console.log(err));
 
     if(!res.data.success){
-        return console.log(res.message);
+        return console.log(res.data.message);
     }
 
     const resData =  res.data;
