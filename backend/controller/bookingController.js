@@ -3,33 +3,6 @@ const database = require('../database/database');
 const jwt = require('jsonwebtoken');
 
 async function addBooking(req,res){
-
-
-    //first we need to verify the user
-
-    const extractedToken = req.headers.authorization.split(" ")[1] ;  //we'll put the token inside bearer token
-
-    if(!extractedToken){
-        return res.json({success:false,message:"token not found"})
-    }
-
-    console.log("extracted token",extractedToken);
-
-
-    let user_id ;
-
-    //verification steps 
-
-    await jwt.verify(extractedToken,process.env.secretKey,(err,decrypted)=>{
-
-        if(err){
-           return res.status(400).json({success:false, message:"authorization failed"});
-        }
-        // decrypt the token , store admin_id from the decrypted token
-        user_id = decrypted.id ;
-        console.log("user with id ",user_id);
-        return ;
-    })
     
     
     //user is verified. Now he can add movie here 
@@ -70,6 +43,7 @@ async function addBooking(req,res){
 
     return res.json({success:true,message:"booked successfully"});
 }
+
 
 async function getBookingById(req,res){
 
