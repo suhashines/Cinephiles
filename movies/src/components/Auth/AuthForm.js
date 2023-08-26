@@ -27,7 +27,8 @@ const AuthForm = ({onSubmit, isAdmin, setValue, prevValue}) => {
         }else{
             console.log("login")
         }
-        onSubmit({inputs, signup : isAdmin ? false : isSignup});
+        // onSubmit({inputs, signup : isAdmin ? false : isSignup});
+        onSubmit({inputs, signup : isSignup});
     }
     const handleClose = () => {
         navigate(-1);
