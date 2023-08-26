@@ -39,7 +39,7 @@ app.use("/user",userRouter);
 app.use('/auth',authRouter);  
 app.use('/manager',adminRouter);
 app.use('/movie',movieRouter);
-app.use('/booking',bookingRouter);
+app.use('/booking',bookingRouter); 
 
 
 app.use("/",(req,res,next)=>{ 

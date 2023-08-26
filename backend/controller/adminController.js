@@ -168,3 +168,5 @@ async function loginAdmin(req,res){
 
 
 module.exports = {signupAdmin,loginAdmin};
+
+

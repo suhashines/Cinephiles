@@ -281,3 +281,20 @@ CREATE TABLE movieGenres (
 
 
 
+-----22-08-23---------------------
+
+drop table bookings,seats;
+
+
+CREATE TABLE seats (
+    s_id varchar2(5) not null,
+    category VARCHAR2(100) NOT NULL,
+    price NUMBER NOT NULL,
+    g_id NUMBER NOT NULL,
+    primary key(s_id,g_id),
+    CONSTRAINT fk_seats_galleries
+        FOREIGN KEY (g_id)
+        REFERENCES galleries (g_id)
+);
+
+

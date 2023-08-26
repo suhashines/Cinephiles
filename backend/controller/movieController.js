@@ -103,5 +103,39 @@ async function getMovieById(req,res){
     return res.json({success:true,movie});
 }
 
+async function getCurrent(req,res){
 
-module.exports = {addMovie,getAllMovies,getMovieById};
+    let sql,result ;
+
+    try{
+        sql = `select * from movies where `
+    }catch(err){
+
+    }
+
+}
+
+async function comingSoon(req,res){
+
+    let sql,result ;
+
+    try{
+
+        sql = `select * from movies where release_date > sysdate+7` ;
+
+        result = (await database.execute(sql,{})).rows;
+        
+    }catch(err){
+
+        return res.json({success:false,message:"database error"});
+
+    }
+
+    res.json({
+        success:false,
+        movies: result
+    });
+}
+
+
+module.exports = {addMovie,getAllMovies,getMovieById,getCurrent,comingSoon};
