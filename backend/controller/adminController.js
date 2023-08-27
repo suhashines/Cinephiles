@@ -167,6 +167,18 @@ async function loginAdmin(req,res){
 }
 
 
-module.exports = {signupAdmin,loginAdmin};
+async function getAllManagers(req,res){
+
+  let sql,result ;
+
+  sql = `select * from admins` ;
+
+  result = (await database.execute(sql,{})).rows ;
+
+  return res.json({success:true,result:result});
+}
+
+
+module.exports = {signupAdmin,loginAdmin,getAllManagers};
 
 

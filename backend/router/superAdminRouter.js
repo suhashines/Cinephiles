@@ -16,9 +16,5 @@ superRouter.route("/addTheatre")
 superRouter.route("/assign")
 .post(superController.assignManager);
 
-superRouter.route("/getAllManagers")
-.get(superController.getAllManagers);
-
-
 
 module.exports = superRouter ;

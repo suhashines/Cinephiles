@@ -50,7 +50,7 @@ async function loginUser(req,res){
           expiresIn:"1d"
       })
 
-       res.cookie('jwt',token,{httpOnly:true}) ;
+       res.cookie('access_token',token,{httpOnly:true}) ;
 
        res.json({
           success: true,

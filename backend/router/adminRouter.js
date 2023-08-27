@@ -10,4 +10,7 @@ adminRouter.route('/signup')
 adminRouter.route('/login')
 .post(adminController.loginAdmin);
 
+adminRouter.route('/')
+.get(adminController.getAllManagers);
+
 module.exports = adminRouter;

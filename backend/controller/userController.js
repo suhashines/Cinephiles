@@ -118,6 +118,23 @@ async function signupUser(req,res){
 
 }
 
+async function getUserDetails(req,res){
+
+    console.log("got access_id : ",req.access_id) ;
+
+    let sql,result ;
+
+    try{
+      sql = `select u_id,name,email from users where u_id=:u_id` ;
+
+      result = (await database.execute(sql,{u_id:req.access_id})).rows;
+    }catch(err){
+      console.log(err);
+    }
+
+    return res.json({success:true,result:result[0]});
+}
+
 
 async function getAllBookingOfUser(req,res){
 
@@ -141,4 +158,4 @@ async function getAllBookingOfUser(req,res){
 }
 
 
-module.exports={getAllUsers,signupUser,getAllBookingOfUser} ;
+module.exports={getAllUsers,signupUser,getAllBookingOfUser,getUserDetails} ;

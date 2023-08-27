@@ -91,21 +91,10 @@ async function addTheatre(req,res){
 }
 
 
-async function getAllManagers(req,res){
-
-    let sql,result ;
-
-    sql = `select * from admins` ;
-
-    result = (await database.execute(sql,{})).rows ;
-
-    return res.json({success:true,result:result});
-}
-
 async function assignManager(req,res){
 
     
 }
 
 
-module.exports = {login,addTheatre,assignManager,getAllManagers};
+module.exports = {login,addTheatre,assignManager};
