@@ -55,7 +55,7 @@ async function addMovie(req,res){
 
 async function getAllMovies(req,res){
 
-    const sql = 'select * from movies order by release_date desc';
+    const sql = ` SELECT m_id,title,release_date,duration,SUBSTR(synopsis, 1, INSTR(synopsis,'.') - 1) AS synopsis,poster_url,back_poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC FETCH FIRST 100 ROWS ONLY `
 
     console.log('req recieved for fetching all movies');
 
@@ -63,6 +63,7 @@ async function getAllMovies(req,res){
 
 
     try{
+
 
         result = (await database.execute(sql,{})).rows ;
 

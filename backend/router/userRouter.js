@@ -26,5 +26,8 @@ userRouter.route("/signout")
 .get(userController.signOut);
 
 
+userRouter.route("/changePassword")
+.post(userController.changePassword);
+
 
 module.exports = userRouter;
