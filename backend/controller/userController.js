@@ -158,4 +158,13 @@ async function getAllBookingOfUser(req,res){
 }
 
 
-module.exports={getAllUsers,signupUser,getAllBookingOfUser,getUserDetails} ;
+async function signOut(req,res){
+
+  res.cookie('access_token','');
+
+  res.json({success:true});
+
+}
+
+
+module.exports={getAllUsers,signupUser,getAllBookingOfUser,getUserDetails,signOut} ;
