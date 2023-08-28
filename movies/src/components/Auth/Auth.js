@@ -6,11 +6,15 @@ import { userActions } from '../../store'
 
 const Auth = (props) => {
   const dispatch = useDispatch();
+  const onResRecieve = (data) => {
+    console.log(data);
+    dispatch(userActions.login());
+    localStorage.setItem('userId', data.userToken);
+  }
   const getData = (data) => {    
     console.log("Auth", data);
     sendUserAuthRequest(data.inputs, data.signup)
-    .then((res) => console.log(res))
-    .then(() => dispatch(userActions.login()))
+    .then(onResRecieve)
     .catch((err) => console.log(err));  
   }
 

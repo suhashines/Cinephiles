@@ -23,7 +23,6 @@ export const getAllMovies = async() => {
 };
 
 export const sendUserAuthRequest = async (data, signup) => {
-
     const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`,{
         email: data.email,
@@ -46,6 +45,8 @@ export const sendAdminAuthRequest = async(data, signup) => {
     .post(`/manager/${signup ? "signup" : "login"}`, {
         email: data.email,
         password: data.password,
+        confirmPassword: data.confirmPassword,
+        name: signup ? data.name : "",
     })
     .catch((err) => console.log(err));
 
@@ -56,3 +57,24 @@ export const sendAdminAuthRequest = async(data, signup) => {
     const resData =  res.data;
     return resData;
 };
+
+export const getMovieById = async(id) => {
+    
+    let res;
+
+    try{
+         res = await axios.get(`/movie/:${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    if(!res.data.success){
+        return console.log(res.data.message);
+    }
+
+    const data = res.data ;
+
+    return data;
+}
