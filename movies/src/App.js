@@ -4,9 +4,12 @@ import HomePage from "./components/HomePage";
 import Movies from "./components/Movies/Movies";
 import Admin from "./components/Admin/Admin";
 import Auth from "./components/Auth/Auth";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import ShowTimes from "./components/ShowTimes/ShowTimes";
+import { adminActions, userActions } from "./store";
+import Bookings from "./Bookings/Bookings";
+import Profile from "./components/Profile/Profile";
 
 function App() {
   const [value,setValue] = useState(0);
@@ -18,6 +21,18 @@ function App() {
   console.log("isAdminLoggedIn", isAdminLoggedIn);
   console.log("isUserLoggedIn", isUserLoggedIn);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(localStorage.getItem('adminId')){
+      dispatch(adminActions.login());
+    }
+    else if(localStorage.getItem('userId')){
+      dispatch(userActions.login());
+    }
+  }
+  ,[])
+
   return (
     <div>
       <Header value={value} setValue={setValue} prevValue={prevValue} setPrevValue={setPrevValue} setView={setView}/>
@@ -28,6 +43,8 @@ function App() {
           <Route path="/admin" element={<Admin setValue={setValue} prevValue={prevValue}/>}/>
           <Route path="/auth" element={<Auth setValue={setValue} prevValue={prevValue}/>}/>
           <Route path="/showtimes" element={<ShowTimes/>}/>
+          <Route path="/bookings/:id" element={<Bookings/>}/>
+          <Route path="/profile/:id" element={<Profile/>}/>
         </Routes>
       </section>
     </div>
