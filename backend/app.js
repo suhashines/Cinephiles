@@ -4,9 +4,13 @@ const app = express() ;
 
 const cors = require('cors');
 
+const cookieParser = require('cookie-parser'); 
+
 app.use(cors());
 
-app.use(express.json());         
+app.use(express.json());    
+
+app.use(cookieParser());
  
 const directorRouter = require('./router/directorRouter');
 
@@ -19,6 +23,11 @@ const adminRouter = require('./router/adminRouter');
 const movieRouter = require('./router/movieRouter');
 
 const bookingRouter = require('./router/bookingRouter');
+
+const superRouter = require('./router/superAdminRouter');
+
+
+const theatreRouter = require('./router/theatreRouter');
 
 
 const port = 5000 ;       
@@ -35,8 +44,9 @@ app.use("/user",userRouter);
 app.use('/auth',authRouter);  
 app.use('/manager',adminRouter);
 app.use('/movie',movieRouter);
-app.use('/booking',bookingRouter);
-
+app.use('/booking',bookingRouter); 
+app.use('/super',superRouter);
+app.use('/theatre',theatreRouter);
 
 app.use("/",(req,res,next)=>{ 
 

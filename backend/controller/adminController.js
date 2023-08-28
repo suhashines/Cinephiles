@@ -77,7 +77,7 @@ async function signupAdmin(req,res){
             console.log(e);
             return res.json({
               success: false ,
-              message:"Error occured while registering manageer"})
+              message:"Error occured while registering manager"})
         }
 
 
@@ -94,6 +94,8 @@ async function signupAdmin(req,res){
 async function loginAdmin(req,res){
 
     console.log("req received for admin Login"); 
+
+    // res.cookie("access_token",0,{httpOnly:true});
 
     let sql,result ;
   
@@ -130,25 +132,18 @@ async function loginAdmin(req,res){
 
         console.log("password matched,authenticated");
   
-        //res.cookie("isLoggedIn", true, { httpOnly: true });
   
-        // before using cookies we will create jwt
-  
-        // first we need payload which is a unique id, in that case we can use our admin_id
-        // then we need a secret key
-        //and finally we set an expiry time
-  
-        const token = jwt.sign({id:admin.ADMIN_ID},process.env.secretKey,{
+        const token = jwt.sign({id:admin.AD_ID},process.env.secretKey,{
             expiresIn:"1d"
         })
-  
-        // let token = jwt.sign({ payload: uid }, secretKey); // by default the algorithm is defined here
-  
-        //token contains an important thing , signature
+
 
         console.log('cookie is made');
 
-        res.cookie("isLoggedIn", 'true');
+        res.cookie("access_token",token,
+        {
+          httpOnly:true
+        });
 
     
 
@@ -172,4 +167,18 @@ async function loginAdmin(req,res){
 }
 
 
-module.exports = {signupAdmin,loginAdmin};
+async function getAllManagers(req,res){
+
+  let sql,result ;
+
+  sql = `select * from admins` ;
+
+  result = (await database.execute(sql,{})).rows ;
+
+  return res.json({success:true,result:result});
+}
+
+
+module.exports = {signupAdmin,loginAdmin,getAllManagers};
+
+

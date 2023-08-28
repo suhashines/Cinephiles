@@ -92,11 +92,6 @@ async function getMoviesByDirector(req,res){
 
 
 async function addDirector(req,res){
-
-
-    
-
-
     let sql, result ;
 
     const {name,country,dob} = req.body ;

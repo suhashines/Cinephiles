@@ -252,3 +252,69 @@ ALTER TABLE movies
 ALTER TABLE ADMINS 
 
 RENAME COLUMN name TO email ;
+
+----- 8/18/23--------
+
+----------------location table update-------------------
+ALTER TABLE CINEPHILES.LOCATIONS
+ADD CONSTRAINT unique_locations unique(building,road,city);
+
+---------------delete table movie genres-----------
+
+DROP TABLE MOVIEGENRES ;
+
+------------create it again-------------------
+
+CREATE TABLE movieGenres (
+    m_id NUMBER,
+    gn_id NUMBER,
+    PRIMARY key(m_id,gn_id),
+    CONSTRAINT fk_moviegenres_movies
+        FOREIGN KEY (m_id)
+        REFERENCES movies (m_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_moviegenres_genres
+        FOREIGN KEY (gn_id)
+        REFERENCES genres (gn_id)
+        ON DELETE CASCADE
+);
+
+
+
+-----22-08-23---------------------
+
+drop table bookings,seats;
+
+
+CREATE TABLE seats (
+    s_id varchar2(5) not null,
+    category VARCHAR2(100) NOT NULL,
+    price NUMBER NOT NULL,
+    g_id NUMBER NOT NULL,
+    primary key(s_id,g_id),
+    CONSTRAINT fk_seats_galleries
+        FOREIGN KEY (g_id)
+        REFERENCES galleries (g_id)
+);
+
+
+-------- 26-08-23--------------------
+
+CREATE TABLE superAdmin(
+
+    id number primary key,
+    email varchar2(100) not null unique,
+    password varchar2(100) not null
+
+);
+
+INSERT INTO SUPERADMIN 
+VALUES ('1','super@gmail.com','12345');
+
+ALTER TABLE theatres 
+ADD city/building,road varchar2(100);
+
+ALTER TABLE THEATRES 
+ADD CONSTRAINT location_constraint unique(building,road,city);
+
+----------------more updates at theatres.sql ------------------
