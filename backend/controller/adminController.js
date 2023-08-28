@@ -151,7 +151,7 @@ async function loginAdmin(req,res){
           success: true,
           message: "Login Successful",
           token,
-          id:admin.ADMIN_ID
+          id: admin.AD_ID
         });
 
         console.log('response has been sent'); 

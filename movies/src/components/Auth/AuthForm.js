@@ -98,7 +98,8 @@ const AuthForm = ({onSubmit, isAdmin, setValue, prevValue}) => {
                     </>
                 )}
                 
-                <Button 
+                <Button
+                    onClick={()=>handleClose()} 
                     sx={{mt:2, borderRadius:10, bgcolor:"#2b2d42", color:"white"}} 
                     type='submit'
                     variant={"contained"} 
