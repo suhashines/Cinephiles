@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const database = require('../database/database');
+// const database = require('../database/database');
 
 async function loadGenres(){
 

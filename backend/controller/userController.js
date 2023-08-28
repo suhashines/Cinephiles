@@ -169,7 +169,10 @@ async function signOut(req,res){
 
 async function changePassword(req,res){
 
-  let {u_id,oldPassword,newPassword} = req.body ;
+  let {u_id,oldPassword,newPassword,confirmPassword} = req.body ;
+
+  if(newPassword!=confirmPassword)
+    return res.json({success:false,message:"password and confirm password doesn't match"});
 
   let sql,result ;
 

@@ -52,13 +52,15 @@ async function loadMovies(){
                     continue;
                 }
 
+                console.log(movies[j]);
+
                 sql = `insert into movies(m_id,title,release_date,duration,synopsis,poster_url,ad_id,d_id,back_poster_url) values(:m_id,:title,to_date(:release_date,'YYYY-MM-DD'),:duration,:synopsis,:poster_url,:ad_id,:d_id,:back_poster_url) ` ;
                 binds = {m_id:m_id,title:title,release_date:release_date,duration:120,synopsis:synopsis,poster_url:poster_url,ad_id:1,d_id:1,back_poster_url:back_poster_url} ;
 
 
-                (await database.execute(sql,binds));
+                // (await database.execute(sql,binds));
 
-                (await database.execute('insert into movieGenres(m_id,gn_id)values(:m_id,:gn_id)',{m_id:m_id,gn_id:gn_id}));
+                // (await database.execute('insert into movieGenres(m_id,gn_id)values(:m_id,:gn_id)',{m_id:m_id,gn_id:gn_id}));
 
               }
 
