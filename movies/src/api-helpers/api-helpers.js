@@ -63,7 +63,7 @@ export const getMovieById = async(id) => {
     let res;
 
     try{
-         res = await axios.get(`/movie/:${id}`)
+         res = await axios.get(`/movie/${id}`)
     }catch(err){
         console.log(err);
     }
@@ -75,6 +75,26 @@ export const getMovieById = async(id) => {
     }
 
     const data = res.data ;
+
+    return data;
+}
+
+export const getUserDetails = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/user/details`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.result) ;
+
+    if(!res.result.success){
+        return console.log(res.result.message);
+    }
+
+    const data = res.result ;
 
     return data;
 }

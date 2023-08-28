@@ -80,15 +80,15 @@ const Header = (props) => {
                     )}
                     {isUserLoggedIn && (
                         <>
-                            <Tab value={2} LinkComponent={Link} to={"/user"} label="Profile"/>
-                            <Tab value={3} onClick={() => logout(false)} LinkComponent={Link} to={"/"} label="Logout"/>
+                            <Tab value={2} LinkComponent={Link} to={"/profile/:id"} label="Profile"/>
+                            <Tab value={3} onClick={() => logout(false)} LinkComponent={Link} to={"/"} label="Signout"/>
                         </>
                     )}
                     {isAdminLoggedIn && (
                         <>
                             <Tab value={2} LinkComponent={Link} to={"/add"} label="Add Movie"/>
                             <Tab value={3} LinkComponent={Link} to={"/manager"} label="Profile"/>
-                            <Tab value={4} onClick={() => logout(true)} LinkComponent={Link} to={"/"} label="Logout"/>
+                            <Tab value={4} onClick={() => logout(true)} LinkComponent={Link} to={"/"} label="Signout"/>
                         </>
                     )}                    
                 </Tabs>

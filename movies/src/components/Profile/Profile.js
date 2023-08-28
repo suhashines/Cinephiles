@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
@@ -8,9 +8,18 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import BasicInfo from './BasicInfo';
 import ChangePass from './ChangePass';
+import { getUserDetails } from '../../api-helpers/api-helpers';
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
     const [value, setValue] = useState(0);
+    const [user, setUser] = useState();
+    const id = useParams().id;
+    useEffect(()=>{
+        getUserDetails(id)
+        .then((res)=>setUser(res.result))
+        .catch((err)=>console.log(err))
+    },[])
   return (
     <Box
         display={"flex"}
@@ -55,7 +64,7 @@ const Profile = () => {
                     padding={0.5}
                 >
                     <Typography fontWeight={'bold'}>
-                        User
+                        user
                     </Typography>                    
                 </Box>
                 <Box
@@ -109,31 +118,31 @@ const Profile = () => {
                 bgcolor={"#edeef0"}
             >
                 <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
-                    <Button onClick={()=>setValue(0)} style={{color:'black', width: '100%', justifyContent: 'left'}}>
+                    <Button onClick={()=>setValue(0)} style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <HomeIcon style={{color:'#7c4699'}}/>
                         <span style={{ paddingLeft: '8px' }}>Home</span>
                     </Button>
                 </Box>
                 <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
-                    <Button onClick={()=>setValue(1)}  style={{color:'black', width: '100%', justifyContent: 'left'}}>
+                    <Button onClick={()=>setValue(1)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <PersonIcon style={{color:'#7c4699'}}/>
                         <span style={{ paddingLeft: '8px' }}>Profile</span>
                     </Button>
                 </Box>
                 <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
-                    <Button onClick={()=>setValue(2)}  style={{color:'black', width: '100%', justifyContent: 'left'}}>
+                    <Button onClick={()=>setValue(2)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <LockOpenIcon style={{color:'#7c4699'}}/>
                         <span style={{ paddingLeft: '8px' }}>Change Password</span>
                     </Button>
                 </Box>
                 <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
-                    <Button onClick={()=>setValue(3)}  style={{color:'black', width: '100%', justifyContent: 'left'}}>
+                    <Button onClick={()=>setValue(3)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <ConfirmationNumberIcon style={{color:'#7c4699'}}/>
                         <span style={{ paddingLeft: '8px' }}>Tickets</span>
                     </Button>
                 </Box>
                 <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
-                    <Button onClick={()=>setValue(4)}  style={{color:'black', width: '100%', justifyContent: 'left'}}>
+                    <Button onClick={()=>setValue(4)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <ExitToAppIcon style={{color:'#7c4699'}}/>
                         <span style={{ paddingLeft: '8px' }}>Signout</span>
                     </Button>
