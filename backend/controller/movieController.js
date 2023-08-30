@@ -55,8 +55,35 @@ async function addMovie(req,res){
 
 async function getAllMovies(req,res){
 
-    // const sql = ` SELECT m_id,title,release_date,duration,SUBSTR(synopsis, 1, INSTR(synopsis,'.') - 1) AS synopsis,poster_url,back_poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC FETCH FIRST 100 ROWS ONLY `
-    const sql = ` SELECT m_id,title,release_date,duration,SUBSTR(synopsis, 1, INSTR(synopsis,'.') - 1) AS synopsis,poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC FETCH FIRST 100 ROWS ONLY `
+   
+    let func = `
+    CREATE OR REPLACE FUNCTION getAllActors(id IN NUMBER) RETURN VARCHAR2 IS
+       actor_names VARCHAR2(1000); 
+      
+    BEGIN
+       
+       actor_names := '';
+    
+       
+       FOR actor_rec IN (SELECT a.name 
+                            FROM actors a,MOVIEACTORS ma
+                            WHERE a.A_ID = ma.A_ID 
+                            AND ma.m_id = id) 
+       LOOP
+          
+          actor_names := actor_names || ', ' || actor_rec.name;
+       END LOOP;
+    
+       
+       IF LENGTH(actor_names) > 2 THEN
+          actor_names := SUBSTR(actor_names, 3);
+       END IF;
+    
+       
+       RETURN actor_names;
+    END` ;
+
+    const sql = ` SELECT m_id,title,getAllActors(m_id) actors ,release_date,duration,poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC FETCH FIRST 1000 ROWS ONLY `
     console.log('req recieved for fetching all movies');
 
     let result;
@@ -136,6 +163,11 @@ async function comingSoon(req,res){
         success:false,
         movies: result
     });
+}
+
+
+async function getUpcoming(req,res){
+
 }
 
 

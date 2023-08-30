@@ -37,3 +37,77 @@ END;
 
 ----------------------------------------
 
+--random showtime generator function 
+
+CREATE OR REPLACE FUNCTION random_date RETURN timestamp IS 
+
+	
+random_ts timestamp ;
+
+BEGIN 
+
+SELECT TO_TIMESTAMP(
+    TO_CHAR(
+        TO_DATE('2023-09-02', 'YYYY-MM-DD') +
+        DBMS_RANDOM.VALUE(0, 120), -- Random days from September 2 to December 31
+        'YYYY-MM-DD'
+    )
+    || ' ' ||
+    TO_CHAR(
+        TRUNC(DBMS_RANDOM.VALUE(0, 24)), -- Random hours
+        'FM00'
+    )
+    || ':' ||
+    TO_CHAR(
+        TRUNC(DBMS_RANDOM.VALUE(0, 60)), -- Random minutes 
+        'FM00'
+    )
+    || ':' ||
+    TO_CHAR(
+        TRUNC(DBMS_RANDOM.VALUE(0, 0)), -- Random seconds 
+        'FM00'
+    ) ,
+    'YYYY-MM-DD HH24:MI:SS') INTO random_ts 
+    FROM DUAL ;
+   
+dbms_output.put_line(random_ts);
+
+RETURN random_ts ;
+
+END ;
+
+------------data using pl-sql---------------
+
+
+DECLARE 
+mt NUMBER ;
+cnt NUMBER ;
+
+BEGIN
+	
+	cnt := 0 ;
+	
+	FOR r IN (SELECT g_id,t_id FROM GALLERIES g)
+	
+	LOOP 
+		
+		FOR k IN (SELECT mt_id FROM MOVIETHEATRES mt WHERE mt.T_ID=r.t_id)
+		
+		LOOP 
+			
+			mt := k.mt_id ;
+			
+			INSERT INTO showtimes(show_id,mt_id,date_time,g_id) 
+			VALUES (cnt,mt,random_date,r.g_id) ;
+		
+			cnt := cnt+1 ;
+		
+		    
+			
+		END LOOP;
+		
+		
+	END LOOP;
+	
+	
+END;

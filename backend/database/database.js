@@ -20,8 +20,8 @@ Object.assign(process.env, envVars);
 // dotenv is set
 
 
-console.log("username: ",process.env.username);
-console.log("password: ",process.env.password);
+// console.log("username: ",process.env.username);
+// console.log("password: ",process.env.password);
 
 
 async function getConnection() {
