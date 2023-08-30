@@ -50,7 +50,7 @@ const MovieDetails = (props) => {
                     textOverflow={"ellipsis"}
                     width={"70%"}
                 >
-                    {props.movie.SYNOPSIS}
+                    {props.movie.ACTORS}
                 </Typography>
                 <Box margin={"2"} marginTop={5} display={"flex"} fontSize={10} width={"100%"} alignItems={"flex-end"}>
                     <Button 

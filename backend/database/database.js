@@ -73,18 +73,6 @@ async function execute(sql, binds) {
 }
 
 
-// async function getDirectors(){
-
-//   const sql = 'SELECT * FROM DIRECTORS' ;
-
-//   let result = (await execute(sql,{})).rows ;
-
-//   console.log(result);
-// }
-
-
-// getDirectors();
-
 
 
 module.exports = { execute }; 
