@@ -19,5 +19,8 @@ bookingRouter.route("/galleries")
 bookingRouter.route("/seats")
 .post(bookingController.total);
 
+bookingRouter.route("/confirm")
+.post(bookingController.addBooking);
+
 
 module.exports = bookingRouter;

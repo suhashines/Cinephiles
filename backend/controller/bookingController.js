@@ -6,17 +6,19 @@ const jwt = require('jsonwebtoken');
 async function addBooking(req,res){
     
     
-    //user is verified. Now he can add movie here 
+    //user is verified. Now he can confirm booking 
 
 
-    let data = req.body ;
+    let (seats,g_id,show_id) = req.body ;
+
+    let u_id = req.access_id ;
 
     let sql,bookings;
 
 
     try{
         
-        sql = 'select * from bookings order by booking_id desc' ;
+        sql = 'select * from bookings order by book_id desc' ;
 
         bookings = (await database.execute(sql,{})).rows ;
 
@@ -27,19 +29,30 @@ async function addBooking(req,res){
         return console.log(err);
     }
 
-    const booking_id = bookings[0].BOOKING_ID + 1 ;
+    let book_id ;
 
-    console.log("new booking id ",booking_id);
+    if(bookings.length==0){
+        book_id = 0 ;
+    }else{
+        book_id = bookings[0].BOOK_ID + 1 ;
+    }
 
-    try{
+    
 
-        sql = 'INSERT INTO Bookings(booking_id,user_id, movie_id, seat_number, booking_date) values(:booking_id,:user_id,:movie_id,:seat_number,:booking_date)';
-
-        (await database.execute(sql,{booking_id:booking_id,user_id:user_id,movie_id:data.movie_id,seat_number:data.seat_number,booking_date:data.booking_date})).rowsAffected ;
+    console.log("new booking id ",book_id);
 
 
-    }catch(err){
-        return console.log(err);
+    for(let i=0;i<seats.length;i++){
+
+        let s_id = seats[i] ;
+
+        sql = 
+        `INSERT INTO Bookings(book_id,show_id ,s_id, g_id, u_id,book_date)
+        values(:book_id,:show_id,:s_id,:g_id,:u_id,sysdate)`;
+
+        binds = {book_id:book_id,show_id:show_id,s_id:s_id,u_id:u_id} ;
+
+        (await database.execute(sql,binds)) ;
     }
 
     return res.json({success:true,message:"booked successfully"});
@@ -176,7 +189,7 @@ WHERE b.show_id = :show_id
 AND b.s_id = s.s_id
 
 ) 
-oRDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
+ORDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
 
      result = (await database.execute(sql,{g_id:g_id,category:category,show_id:show_id})).rows ;
 
@@ -226,7 +239,7 @@ async function total(req,res){
 
 async function confirmBooking(req,res){
 
-    
+
 }
 
 
