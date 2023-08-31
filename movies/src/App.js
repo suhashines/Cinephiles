@@ -10,6 +10,7 @@ import ShowTimes from "./components/ShowTimes/ShowTimes";
 import { adminActions, userActions } from "./store";
 import Bookings from "./Bookings/Bookings";
 import Profile from "./components/Profile/Profile";
+import BuyTicket from "./Bookings/BuyTicket";
 
 function App() {
   const [value,setValue] = useState(0);
@@ -45,6 +46,7 @@ function App() {
           <Route path="/showtimes" element={<ShowTimes/>}/>
           <Route path="/bookings/:id" element={<Bookings/>}/>
           <Route path="/profile/:id" element={<Profile/>}/>
+          <Route path="/buyticket" element={<BuyTicket/>}/>
         </Routes>
       </section>
     </div>
