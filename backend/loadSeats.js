@@ -36,7 +36,7 @@ function generateLabels(row, col) {
 
     let sql,galleries;
 
-    sql = ' SELECT * FROM galleries g WHERE NOT exists(SELECT * FROM seats s WHERE s.g_id=g.g_id)'
+    sql = ' SELECT * FROM galleries g '
 
     galleries = (await db.execute(sql,{})).rows ;
 
@@ -77,7 +77,7 @@ function generateLabels(row, col) {
 
             binds = {s_id:s_id,category:category,price:price,g_id:g_id};
 
-            (await db.execute(sql,binds)) ;
+            // (await db.execute(sql,binds)) ;
 
         }
     }

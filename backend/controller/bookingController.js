@@ -45,6 +45,9 @@ async function addBooking(req,res){
 }
 
 
+
+
+
 async function getBookingById(req,res){
 
     let booking_id = req.params.id ;
@@ -98,4 +101,37 @@ async function deleteBookingById(req,res){
 }
 
 
-module.exports = {addBooking,getBookingById,deleteBookingById};
+
+async function getGalleries(req,res){
+
+   const {t_id,m_id,date,time} = req.body ;
+
+
+   console.log('data received for fetching galleries');
+
+
+   let sql = 
+   `
+   SELECT s.G_ID,(SELECT name FROM GALLERIES g WHERE g.G_ID=s.G_ID) name, show_id
+   FROM SHOWTIMES s,MOVIETHEATRES mt
+   WHERE s.MT_ID = mt.MT_ID 
+   AND mt.M_ID = :m_id AND mt.T_ID = :t_id AND 
+   
+   to_char(s.date_time,'DD-MON-YY')= '${date}' AND
+   
+   to_char(s.date_time,'HH24:MI') = TO_CHAR(TO_TIMESTAMP('${time}','HH12:MI AM'),'HH24:MI') ` ;
+
+
+   let galleries = (await database.execute(sql,{m_id:m_id,t_id:t_id})).rows;
+
+
+   return res.json({galleries});
+
+}
+
+
+module.exports =
+ {addBooking,
+getBookingById,
+deleteBookingById,
+getGalleries};
