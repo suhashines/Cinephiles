@@ -20,7 +20,7 @@ bookingRouter.route("/seats")
 .post(bookingController.total);
 
 bookingRouter.route("/confirm")
-.post(bookingController.addBooking);
+.post(vt.verifyToken,bookingController.addBooking);
 
 
 module.exports = bookingRouter;
