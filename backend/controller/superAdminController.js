@@ -54,7 +54,12 @@ async function addTheatre(req,res){
 
 
     try{
-        sql = `select * from theatres where lower(building) = lower(:building) and lower(road) = lower(:road) and lower(city) = lower(:city)` ;
+        sql = 
+        
+        `select * from theatres
+         where lower(building) = lower(:building) 
+         and lower(road) = lower(:road)
+          and lower(city) = lower(:city)` ;
 
         result = (await database.execute(sql,{building:building,road:road,city:city})).rows;
 

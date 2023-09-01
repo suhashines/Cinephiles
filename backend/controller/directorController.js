@@ -72,7 +72,10 @@ async function getMoviesByDirector(req,res){
     try{
 
 
-        sql = `SELECT * FROM movies WHERE d_id = (SELECT d_id FROM directors where utl_match.edit_distance(lower(name),replace(:name,'-',' ')) <= 10 ) ` 
+        sql = 
+        
+        `SELECT * FROM movies
+         WHERE d_id = (SELECT d_id FROM directors where utl_match.edit_distance(lower(name),replace(:name,'-',' ')) <= 10 ) ` 
 
         result = (await database.execute(sql,{name:name})).rows ;
         
@@ -92,6 +95,7 @@ async function getMoviesByDirector(req,res){
 
 
 async function addDirector(req,res){
+    
     let sql, result ;
 
     const {name,country,dob} = req.body ;

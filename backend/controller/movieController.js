@@ -83,7 +83,10 @@ async function getAllMovies(req,res){
        RETURN actor_names;
     END` ;
 
-    const sql = ` SELECT m_id,title,getAllActors(m_id) actors ,release_date,duration,poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC FETCH FIRST 1000 ROWS ONLY `
+    const sql =
+    ` SELECT m_id,title,getAllActors(m_id) actors ,
+    release_date,duration,poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC fetch first 100 rows only`
+
     console.log('req recieved for fetching all movies');
 
     let result;
@@ -100,7 +103,7 @@ async function getAllMovies(req,res){
        console.log(err);
     }
 
-    console.log(result);
+    console.log('all the movies ',result.length);
 
     res.json({success:true,result});
 }
@@ -133,13 +136,19 @@ async function getMovieById(req,res){
 
 async function getCurrent(req,res){
 
-    let sql,result ;
+    let sql,movies ;
 
-    try{
-        sql = `select * from movies where `
-    }catch(err){
+    sql = `SELECT * 
+    FROM movies 
+    WHERE m_id IN 
+    (SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID  in 
+    (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 14) )`;
 
-    }
+    movies = (await database.execute(sql,{})).rows ;
+
+    console.log("all the current movies ",movies.length);
+
+    res.json({movies:movies});
 
 }
 
@@ -147,28 +156,85 @@ async function comingSoon(req,res){
 
     let sql,result ;
 
-    try{
+    sql =
+    
+    `SELECT *
+    FROM movies m
+    
+    WHERE NOT EXISTS (
+    
+    SELECT *
+    FROM SHOWTIMES s,MOVIETHEATRES mt
+    WHERE s.MT_ID = mt.MT_ID 
+    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14
+    AND mt.M_ID = m.m_id
+    ) 
+    
+    AND EXISTS (
+    
+    
+    SELECT *
+    FROM SHOWTIMES s,MOVIETHEATRES mt
+    WHERE s.MT_ID = mt.MT_ID 
+    AND s.DATE_TIME >sysdate+14
+    AND mt.M_ID = m.m_id
+    
+    )` ;
 
-        sql = `select * from movies where release_date > sysdate+7` ;
+    movies = (await database.execute(sql,{})).rows ;
 
-        result = (await database.execute(sql,{})).rows;
-        
-    }catch(err){
+    console.log("all the coming soon count ",movies.length);
 
-        return res.json({success:false,message:"database error"});
+    res.json({movies:movies});
+}
 
+
+
+async function getCitiesAndTheatres(req,res){
+
+
+    const {m_id,city} = req.query;
+
+    if(!city){
+
+        // i need to find city only
+        let sql = 
+
+        `SELECT t.CITY 
+        FROM THEATRES t,MOVIETHEATRES mt
+        WHERE t.t_id = mt.T_ID 
+        AND mt.m_id = :m_id  `
+
+
+        let cities = (await database.execute(sql,{m_id:m_id})).rows ;
+
+        return res.json({cities});
     }
 
-    res.json({
-        success:false,
-        movies: result
-    });
+
+    // I have m_id and city, now need to find theatres info
+
+    let sql = 
+
+    `SELECT * 
+    FROM theatres t
+    WHERE lower(city)=lower(:city)
+    AND t_id IN (
+    
+    SELECT t_id 
+    FROM MOVIETHEATRES mt
+    WHERE mt.m_id = :m_id) ` ;
+
+    theatres = (await database.execute(sql,{m_id:m_id,city:city})).rows ;
+
+    res.json({theatres});
 }
 
 
-async function getUpcoming(req,res){
-
-}
-
-
-module.exports = {addMovie,getAllMovies,getMovieById,getCurrent,comingSoon};
+module.exports = 
+{addMovie,
+getAllMovies,
+getMovieById,
+getCurrent,
+comingSoon,
+getCitiesAndTheatres};

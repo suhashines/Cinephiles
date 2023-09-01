@@ -9,14 +9,14 @@ theatreRouter.route("/")
 theatreRouter.route("/cities")
 .get(theatreController.getAllCities);
 
-theatreRouter.route("/:id")
+theatreRouter.route("/movies/:id")
 .get(theatreController.getTheatreMovies);
 
 theatreRouter.route("/current/:id")
 .get(theatreController.getCurrentMovies)
 
-theatreRouter.route("/nextweek/:id")
-.get(theatreController.getNextWeekMovies);
+theatreRouter.route("/showtimes")
+.get(theatreController.getMovieShowtimes);
 
 theatreRouter.route("/upcoming/:id")
 .get(theatreController.getComingSoonMovies);

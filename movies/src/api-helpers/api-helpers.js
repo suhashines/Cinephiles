@@ -63,7 +63,7 @@ export const getMovieById = async(id) => {
     let res;
 
     try{
-         res = await axios.get(`/movie/${id}`)
+         res = await axios.get(`/movie/find/${id}`)
     }catch(err){
         console.log(err);
     }

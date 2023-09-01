@@ -33,7 +33,7 @@ async function signupUser(req,res){
     console.log(data);
 
     if (!data.name || !data.email || !data.password || !data.confirmPassword) {
-        return res.status(400).json({ error: 'All fields are required.' });
+        return res.status(400).json({ success:false, message: 'All fields are required.' });
       }  //here return means now we're going to exit from the function as well
 
     let sql,result ;

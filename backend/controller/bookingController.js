@@ -1,3 +1,4 @@
+const { all } = require('axios');
 const database = require('../database/database');
 
 const jwt = require('jsonwebtoken');
@@ -5,17 +6,19 @@ const jwt = require('jsonwebtoken');
 async function addBooking(req,res){
     
     
-    //user is verified. Now he can add movie here 
+    //user is verified. Now he can confirm booking 
 
 
-    let data = req.body ;
+    let (seats,g_id,show_id) = req.body ;
+
+    let u_id = req.access_id ;
 
     let sql,bookings;
 
 
     try{
         
-        sql = 'select * from bookings order by booking_id desc' ;
+        sql = 'select * from bookings order by book_id desc' ;
 
         bookings = (await database.execute(sql,{})).rows ;
 
@@ -26,23 +29,37 @@ async function addBooking(req,res){
         return console.log(err);
     }
 
-    const booking_id = bookings[0].BOOKING_ID + 1 ;
+    let book_id ;
 
-    console.log("new booking id ",booking_id);
+    if(bookings.length==0){
+        book_id = 0 ;
+    }else{
+        book_id = bookings[0].BOOK_ID + 1 ;
+    }
 
-    try{
+    
 
-        sql = 'INSERT INTO Bookings(booking_id,user_id, movie_id, seat_number, booking_date) values(:booking_id,:user_id,:movie_id,:seat_number,:booking_date)';
-
-        (await database.execute(sql,{booking_id:booking_id,user_id:user_id,movie_id:data.movie_id,seat_number:data.seat_number,booking_date:data.booking_date})).rowsAffected ;
+    console.log("new booking id ",book_id);
 
 
-    }catch(err){
-        return console.log(err);
+    for(let i=0;i<seats.length;i++){
+
+        let s_id = seats[i] ;
+
+        sql = 
+        `INSERT INTO Bookings(book_id,show_id ,s_id, g_id, u_id,book_date)
+        values(:book_id,:show_id,:s_id,:g_id,:u_id,sysdate)`;
+
+        binds = {book_id:book_id,show_id:show_id,s_id:s_id,u_id:u_id} ;
+
+        (await database.execute(sql,binds)) ;
     }
 
     return res.json({success:true,message:"booked successfully"});
 }
+
+
+
 
 
 async function getBookingById(req,res){
@@ -98,4 +115,138 @@ async function deleteBookingById(req,res){
 }
 
 
-module.exports = {addBooking,getBookingById,deleteBookingById};
+
+async function getGalleries(req,res){
+
+   const {t_id,m_id,date,time} = req.body ;
+
+
+   console.log('data received for fetching galleries');
+
+
+   let sql = 
+   `
+   SELECT s.G_ID,(SELECT name FROM GALLERIES g WHERE g.G_ID=s.G_ID) name, show_id
+   FROM SHOWTIMES s,MOVIETHEATRES mt
+   WHERE s.MT_ID = mt.MT_ID 
+   AND mt.M_ID = :m_id AND mt.T_ID = :t_id AND 
+   
+   to_char(s.date_time,'DD-MON-YY')= '${date}' AND
+   
+   to_char(s.date_time,'HH24:MI') = TO_CHAR(TO_TIMESTAMP('${time}','HH12:MI AM'),'HH24:MI') ` ;
+
+
+   let galleries = (await database.execute(sql,{m_id:m_id,t_id:t_id})).rows;
+
+
+   return res.json({galleries});
+
+}
+
+
+async function getGallerySeats(req,res){
+
+    const {g_id,show_id,category} = req.query ;
+
+
+    //first I fetch all the seats
+
+     let sql = 
+     `
+     SELECT s_id,category,price,
+     (SELECT tiers FROM GALLERIES g WHERE g.G_ID=s.g_id) tiers , 
+     (SELECT columns FROM GALLERIES g WHERE g.G_ID=s.g_id)columns
+     FROM seats s
+     WHERE g_id = :g_id and lower(category) = lower(:category)
+     ORDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
+
+     result = (await database.execute(sql,{g_id:g_id,category:category})).rows ;
+
+     const rows = result[0].TIERS ;
+
+     const columns = result[0].COLUMNS ;
+
+     const price = result[0].PRICE ;
+
+     console.log(rows,columns);
+
+     const allSeats = result ;
+
+
+     // now I fetch the unbooked seats 
+
+
+     sql = 
+     `
+     SELECT s_id,category,price
+FROM seats s
+WHERE g_id = :g_id AND lower(category) = lower(:category)
+AND NOT EXISTS (
+
+SELECT *
+FROM bookings b
+WHERE b.show_id = :show_id 
+AND b.s_id = s.s_id
+
+) 
+ORDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
+
+     result = (await database.execute(sql,{g_id:g_id,category:category,show_id:show_id})).rows ;
+
+     const available = result ;
+
+
+     return res.json({
+    allSeats:allSeats,
+    available:available,
+    rows : rows ,
+    columns : columns, 
+    price : price
+    
+    }) ;
+
+}
+
+
+
+async function total(req,res){
+
+
+    const {seats,g_id} = req.body ;
+
+    let price = 0 ;
+
+    for(let i=0;i<seats.length;i++){
+
+        let sql = 
+        `SELECT price
+        FROM seats 
+        WHERE s_id = :s_id
+        AND g_id = :g_id `
+
+        let s_id = seats[i] ;
+
+        result = (await database.execute(sql,{s_id:s_id,g_id:g_id})).rows ;
+
+        price += result[0].PRICE ;
+    }
+
+    res.json({total:price});
+
+    
+}
+
+
+async function confirmBooking(req,res){
+
+
+}
+
+
+module.exports =
+ {addBooking,
+getBookingById,
+deleteBookingById,
+getGalleries,
+getGallerySeats,
+total};
