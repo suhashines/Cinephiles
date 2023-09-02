@@ -146,27 +146,29 @@ async function getGalleries(req,res){
 
 async function getGallerySeats(req,res){
 
-    const {g_id,show_id,category} = req.query ;
+    const {g_id,show_id} = req.query ;
 
 
     //first I fetch all the seats
 
      let sql = 
-     `
-     SELECT s_id,category,price,
-     (SELECT tiers FROM GALLERIES g WHERE g.G_ID=s.g_id) tiers , 
-     (SELECT columns FROM GALLERIES g WHERE g.G_ID=s.g_id)columns
-     FROM seats s
-     WHERE g_id = :g_id and lower(category) = lower(:category)
-     ORDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
+     ` SELECT s_id,category,price,
+        (SELECT tiers FROM GALLERIES g WHERE g.G_ID=s.g_id) tiers , 
+        (SELECT columns FROM GALLERIES g WHERE g.G_ID=s.g_id)columns,
+        (SELECT 1-count(*)
+        FROM bookings b 
+        WHERE b.g_id=s.g_id AND b.show_id=:show_id AND b.s_id = s.s_id) available  
+        FROM seats s
+        WHERE g_id = :g_id
+        -- ORDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
 
-     result = (await database.execute(sql,{g_id:g_id,category:category})).rows ;
+     result = (await database.execute(sql,{g_id:g_id,show_id:show_id})).rows ;
+
+     console.log(result);
 
      const rows = result[0].TIERS ;
 
      const columns = result[0].COLUMNS ;
-
-     const price = result[0].PRICE ;
 
      console.log(rows,columns);
 
@@ -176,33 +178,10 @@ async function getGallerySeats(req,res){
      // now I fetch the unbooked seats 
 
 
-     sql = 
-     `
-     SELECT s_id,category,price
-FROM seats s
-WHERE g_id = :g_id AND lower(category) = lower(:category)
-AND NOT EXISTS (
-
-SELECT *
-FROM bookings b
-WHERE b.show_id = :show_id 
-AND b.s_id = s.s_id
-
-) 
-ORDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
-
-     result = (await database.execute(sql,{g_id:g_id,category:category,show_id:show_id})).rows ;
-
-     const available = result ;
-
-
      return res.json({
-    allSeats:allSeats,
-    available:available,
     rows : rows ,
     columns : columns, 
-    price : price
-    
+    allSeats:allSeats,
     }) ;
 
 }

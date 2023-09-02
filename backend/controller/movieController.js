@@ -197,13 +197,20 @@ async function getCitiesAndTheatres(req,res){
 
     if(!city){
 
-        // i need to find city only
+        // i need to find those cities in the theatre of which the movie is showing
+
         let sql = 
 
-        `SELECT t.CITY 
+        `SELECT t.city name
         FROM THEATRES t,MOVIETHEATRES mt
         WHERE t.t_id = mt.T_ID 
-        AND mt.m_id = :m_id  `
+        AND mt.m_id = :m_id 
+        AND exists(
+        
+        SELECT * 
+        FROM showtimes s
+        WHERE s.MT_ID = mt.mt_id
+        AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14) `
 
 
         let cities = (await database.execute(sql,{m_id:m_id})).rows ;
@@ -216,14 +223,17 @@ async function getCitiesAndTheatres(req,res){
 
     let sql = 
 
-    `SELECT * 
-    FROM theatres t
-    WHERE lower(city)=lower(:city)
-    AND t_id IN (
+    `
+    SELECT t.t_id,(name||' '||building || ','||road||','||city) location 
+    FROM THEATRES t,MOVIETHEATRES mt
+    WHERE t.t_id = mt.T_ID AND lower(t.city)=lower(:city)
+    AND mt.m_id = :m_id 
+    AND exists(
     
-    SELECT t_id 
-    FROM MOVIETHEATRES mt
-    WHERE mt.m_id = :m_id) ` ;
+    SELECT * 
+    FROM showtimes s
+    WHERE s.MT_ID = mt.mt_id
+    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14) ` ;
 
     theatres = (await database.execute(sql,{m_id:m_id,city:city})).rows ;
 
