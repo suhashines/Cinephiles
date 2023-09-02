@@ -72,7 +72,7 @@ const Header = (props) => {
                 onChange={(e,val)=>handleTabChange(val)}>
                     <Tab value={0} LinkComponent={Link} to={"/"} label="Home"/>
                     <Tab value={1} LinkComponent={Link} to={"/showtimes"} label="ShowTimes"/>
-                    {!isAdminLoggedIn && !isUserLoggedIn && (
+                    {/* {!isAdminLoggedIn && !isUserLoggedIn && (
                         <>
                             <Tab value={2} LinkComponent={Link} to={"/admin"} label="Manager"/>
                             <Tab value={3} LinkComponent={Link} to ={"/auth"} label="User"/>
@@ -90,7 +90,7 @@ const Header = (props) => {
                             <Tab value={3} LinkComponent={Link} to={"/manager"} label="Profile"/>
                             <Tab value={4} onClick={() => logout(true)} LinkComponent={Link} to={"/"} label="Signout"/>
                         </>
-                    )}                    
+                    )}                     */}
                 </Tabs>
             </Box>
         </Toolbar>

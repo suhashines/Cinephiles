@@ -7,7 +7,9 @@ const HomePage = ({setValue, setView, view}) => {
   const [movies, setMovies] = useState([])
   
   useEffect(()=>{
-    getAllMovies().then((data)=>setMovies(data.result)).catch((err)=>console.log(err))
+    getAllMovies()
+    .then((data)=>setMovies(data.result))
+    .catch((err)=>console.log(err))
   },[])
   return (
     <Box width={"100%"} height={"100%"} marginTop={2} margin={"auto"}>

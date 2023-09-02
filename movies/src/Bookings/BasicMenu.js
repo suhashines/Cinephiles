@@ -5,9 +5,10 @@ import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
-export default function BasicMenu() {
+export default function BasicMenu(props) {
+  console.log(props.option);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [city, setCity] = React.useState('City');
+  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,7 +38,7 @@ export default function BasicMenu() {
                 transition: 'none',
             }}
       >
-        <span style={{ color:'black', fontWeight:'bold' }}>{city}</span>
+        <span style={{ color:'black', fontWeight:'bold' }}>{props.selection}</span>
         <ArrowDropDownIcon style={{color:'black'}}/>        
       </Button>
       <Menu
@@ -49,9 +50,16 @@ export default function BasicMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={() => {setAnchorEl(null); setCity('Dhaka')}}>Dhaka</MenuItem>
+        {
+          props.option && props.option.map((city) => {
+              return(
+              <MenuItem key={city} onClick={() => {setAnchorEl(null); props.setSelection(city?.CITY)}}>{city?.CITY}</MenuItem>
+              )
+          })
+        }
+        {/* <MenuItem onClick={() => {setAnchorEl(null); setCity('Dhaka')}}>Dhaka</MenuItem>
         <MenuItem onClick={handleClose}>Chattogram</MenuItem>
-        <MenuItem onClick={handleClose}>Khulna</MenuItem>
+        <MenuItem onClick={handleClose}>Khulna</MenuItem> */}
       </Menu>
     </div>
   );

@@ -98,3 +98,187 @@ export const getUserDetails = async(id) => {
 
     return data;
 }
+
+export const getCurrent = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/date/current`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    if(!res.data.success){
+        return console.log(res.data.message);
+    }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getCitiesByMovieId = async(id) => {
+    let res;
+
+    try{
+        res = await axios.get(`/movie/find?m_id=${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    // console.log(res.data) ;
+
+    // if(!res.cities.success){
+    //     return console.log(res.cities.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getTheatresByCity = async(id, city) => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/find?m_id=${id}&city=${city}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getCitiesAndTheatres = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/find`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    if(!res.data.success){
+        return console.log(res.data.message);
+    }
+
+    const data = res.data ;
+
+    return data;
+}
+
+
+export const getAllCities = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre/cities`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    if(!res.data.success){
+        return console.log(res.data.message);
+    }
+
+    const data = res.data ;
+
+    return data;
+}
+
+// export const getTheatreByCity = async(city) => {
+//     let res;
+
+//     try{
+//          res = await axios.get(`/theatre/find?city=${city}`)
+//     }catch(err){
+//         console.log(err);
+//     }
+
+//     console.log(res.data) ;
+
+//     if(!res.data.success){
+//         return console.log(res.data.message);
+//     }
+
+//     const data = res.data ;
+
+//     return data;
+// }
+
+// export const getMovieShowtimes = async(id) => {
+//     let res;
+
+//     try{
+//          res = await axios.get(`/showtime/movie/${id}`)
+//     }catch(err){
+//         console.log(err);
+//     }
+
+//     console.log(res.data) ;
+
+//     if(!res.data.success){
+//         return console.log(res.data.message);
+//     }
+
+//     const data = res.data ;
+
+//     return data;
+// }
+
+// export const getGalleries = async(data) => {
+//     let res;
+
+//     try{
+//          res = await axios.post(`/gallery`,data)
+//     }catch(err){
+//         console.log(err);
+//     }
+
+//     console.log(res.data) ;
+
+//     if(!res.data.success){
+//         return console.log(res.data.message);
+//     }
+
+//     const data = res.data ;
+
+//     return data;
+// }
+
+// export const getGallerySeats = async(data) => {
+//     let res;
+
+//     try{
+//          res = await axios.post(`/gallery/seats`,data)
+//     }catch(err){
+//         console.log(err);
+//     }
+
+//     console.log(res.data) ;
+
+//     if(!res.data.success){
+//         return console.log(res.data.message);
+//     }
+
+//     const data = res.data ;
+
+//     return data;
+// }
+
+
+

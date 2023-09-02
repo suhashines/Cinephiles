@@ -1,11 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Typography } from '@mui/material'
 import BasicMenu from './BasicMenu'
 import RowRadioButtonsGroup from './SeatCategory';
 import SeatBooking from './SeatBooking';
 import TicketSummary from './TicketSummary';
+import { useParams } from 'react-router-dom';
+import { getAllCities, getCitiesAndTheatres, getCitiesByMovieId, getMovieById, getTheatresByCity } from '../api-helpers/api-helpers';
+// import { getTheatreByCity } from '../../../backend/controller/theatreController';
 
 const BuyTicket = () => {
+    const [movie, setMovie] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [city, setCity] = useState('City');
+    const [locations, setLocations] = useState([]);
+    const [location, setLocation] = useState('Location');
+    const id = useParams().id;
+    console.log(id);
+
+    useEffect(()=>{
+        getMovieById(id)
+        .then((res) => setMovie(res.movie))
+        .catch((err) => console.log(err));
+
+        getCitiesByMovieId(id)
+        .then((res) => setCities(res.cities))
+        .catch((err) => console.log(err));
+    },[id]);
+
+    useEffect(()=>{
+        getTheatresByCity(id,city)
+        .then((res) => setLocations(res.theatres))
+        .catch((err) => console.log(err));
+    },[id,city]);
+
   const dummyArray = [0, 1, 2, 3];
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [isShowTimeSelected, setIsShowTimeSelected] = useState(false);
@@ -36,8 +63,8 @@ const BuyTicket = () => {
             // bgcolor={"#e8ebed"}
         >
           <Box>
-            <BasicMenu/>
-            <BasicMenu/>
+            <BasicMenu option = {cities} selection = {city} setSelection = {setCity}/>
+            <BasicMenu option = {locations} selection = {location} setSelection = {setLocation}/>
             {/* <Typography 
               variant='h6'
               color='#7c4699'
@@ -83,6 +110,7 @@ const BuyTicket = () => {
             >
               {dummyArray.map((index) => (
                 <Button
+                  key={index}
                   onClick={() => {setIsDateSelected(!isDateSelected)
                                   setIsShowTimeSelected(false)
                                   setIsSeatSelected(false)}}
@@ -366,7 +394,7 @@ const BuyTicket = () => {
           <Box
             marginTop={2}
           >
-            <TicketSummary/>
+            <TicketSummary movie={movie[0]}/>
           </Box>
           
         </Box>

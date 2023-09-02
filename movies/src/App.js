@@ -46,7 +46,7 @@ function App() {
           <Route path="/showtimes" element={<ShowTimes/>}/>
           <Route path="/bookings/:id" element={<Bookings/>}/>
           <Route path="/profile/:id" element={<Profile/>}/>
-          <Route path="/buyticket" element={<BuyTicket/>}/>
+          <Route path="/buyticket/:id" element={<BuyTicket/>}/>
         </Routes>
       </section>
     </div>
