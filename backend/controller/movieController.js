@@ -216,14 +216,15 @@ async function getCitiesAndTheatres(req,res){
 
     let sql = 
 
-    `SELECT * 
-    FROM theatres t
-    WHERE lower(city)=lower(:city)
-    AND t_id IN (
-    
-    SELECT t_id 
-    FROM MOVIETHEATRES mt
-    WHERE mt.m_id = :m_id) ` ;
+    `
+    SELECT t_id,(building || ','||road||','||city) location 
+        FROM theatres t
+        WHERE lower(city)=lower(:city)
+        AND t_id IN (
+        
+        SELECT t_id 
+        FROM MOVIETHEATRES mt
+        WHERE mt.m_id = :m_id) ` ;
 
     theatres = (await database.execute(sql,{m_id:m_id,city:city})).rows ;
 
