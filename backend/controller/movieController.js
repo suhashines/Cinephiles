@@ -201,7 +201,7 @@ async function getCitiesAndTheatres(req,res){
 
         let sql = 
 
-        `SELECT t.city
+        `SELECT t.city name
         FROM THEATRES t,MOVIETHEATRES mt
         WHERE t.t_id = mt.T_ID 
         AND mt.m_id = :m_id 
