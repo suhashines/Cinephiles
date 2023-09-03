@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Box, Typography } from '@mui/material';
 
-export default function RowRadioButtonsGroup({isSeatSelected, setIsSeatSelected}) {
+export default function RowRadioButtonsGroup({isSeatSelected, setIsSeatSelected, setCategory}) {
   return (
     <FormControl>
       <FormLabel id="demo-row-radio-buttons-group-label">
@@ -30,7 +30,7 @@ export default function RowRadioButtonsGroup({isSeatSelected, setIsSeatSelected}
         // marginRight={1}
         // marginLeft={0}
         bgcolor={"#edeef0"}
-        alignContent={"left"}
+        aligncontents={"left"}
         width={"100%"}
         height={"80%"}
         // textAlign={"center"}
@@ -41,7 +41,9 @@ export default function RowRadioButtonsGroup({isSeatSelected, setIsSeatSelected}
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
-            onChange={() => setIsSeatSelected(true)}
+            onChange={(event) => {setIsSeatSelected(true);
+                            setCategory(event.target.value)
+                            }}
         >
             <FormControlLabel 
                 value="regular" 

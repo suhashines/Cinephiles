@@ -199,6 +199,47 @@ export const getMovieShowtimes = async(t_id, id, date) => {
     return data;
 }
 
+export const getGalleriesAndShowTimes = async(t_id, m_id, date) => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre/showtimes/?t_id=${t_id}&m_id=${m_id}&date=${date}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getSeats = async(g_id, show_id, category) => {
+    let res;
+
+    try{
+         res = await axios.get(`/booking/galleries?g_id=${g_id}&show_id=${show_id}&category=${category}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+
 export const getCitiesAndTheatres = async() => {
     let res;
 
@@ -240,85 +281,7 @@ export const getAllCities = async() => {
     return data;
 }
 
-// export const getTheatreByCity = async(city) => {
-//     let res;
 
-//     try{
-//          res = await axios.get(`/theatre/find?city=${city}`)
-//     }catch(err){
-//         console.log(err);
-//     }
-
-//     console.log(res.data) ;
-
-//     if(!res.data.success){
-//         return console.log(res.data.message);
-//     }
-
-//     const data = res.data ;
-
-//     return data;
-// }
-
-// export const getMovieShowtimes = async(id) => {
-//     let res;
-
-//     try{
-//          res = await axios.get(`/showtime/movie/${id}`)
-//     }catch(err){
-//         console.log(err);
-//     }
-
-//     console.log(res.data) ;
-
-//     if(!res.data.success){
-//         return console.log(res.data.message);
-//     }
-
-//     const data = res.data ;
-
-//     return data;
-// }
-
-// export const getGalleries = async(data) => {
-//     let res;
-
-//     try{
-//          res = await axios.post(`/gallery`,data)
-//     }catch(err){
-//         console.log(err);
-//     }
-
-//     console.log(res.data) ;
-
-//     if(!res.data.success){
-//         return console.log(res.data.message);
-//     }
-
-//     const data = res.data ;
-
-//     return data;
-// }
-
-// export const getGallerySeats = async(data) => {
-//     let res;
-
-//     try{
-//          res = await axios.post(`/gallery/seats`,data)
-//     }catch(err){
-//         console.log(err);
-//     }
-
-//     console.log(res.data) ;
-
-//     if(!res.data.success){
-//         return console.log(res.data.message);
-//     }
-
-//     const data = res.data ;
-
-//     return data;
-// }
 
 
 

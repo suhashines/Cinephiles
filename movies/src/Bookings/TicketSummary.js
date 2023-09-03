@@ -80,7 +80,7 @@ const TicketSummary = (props) => {
                 </Typography>
                 
                 <Typography>
-                    Duration - {props.movie?.DURATION} minutes
+                    Duration - {props.movie?.DURATION} mins
                 </Typography>
                 
             </Box>
@@ -88,7 +88,7 @@ const TicketSummary = (props) => {
 
         <Box
             // justifyContent={"center"}
-            // alignContent={"center"}
+            // aligncontents={"center"}
             height={"40%"}
             width={"90%"}
             margin={"auto"}
@@ -130,7 +130,7 @@ const TicketSummary = (props) => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>Hall 1</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.selectedGallery}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -150,7 +150,7 @@ const TicketSummary = (props) => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>7:30 pm</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.time}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -170,7 +170,7 @@ const TicketSummary = (props) => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>Premium</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.category}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -192,7 +192,7 @@ const TicketSummary = (props) => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>2</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.quantity}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -212,7 +212,7 @@ const TicketSummary = (props) => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>F5,F6</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.selectedSeats}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -232,7 +232,7 @@ const TicketSummary = (props) => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>900 TK BDT</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.cost} TK BDT</Typography>
                 </Box>
             </Box>
         </Box>

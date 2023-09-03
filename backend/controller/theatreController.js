@@ -222,7 +222,7 @@ async function getMovieGalleries(req,res){
 
     console.log(galleries);
 
-    console.log(galleries[0].TIMES[0].SHOWTIMES);
+    // console.log(galleries[0].TIMES[0].SHOWTIMES);
 
     res.json({galleries});
  

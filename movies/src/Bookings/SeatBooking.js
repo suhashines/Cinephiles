@@ -1,12 +1,14 @@
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 
-const SeatBooking = () => {
+const SeatBooking = (props) => {
     const seatArray = [['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11'],
                       ['B1', 'B2', 'B3', 'B4', 'B5'],
                       ['C1', 'C2', 'C3', 'C4', 'C5'],
                       ['D1', 'D2', 'D3', 'D4', 'D5'],
                       ['E1', 'E2', 'E3', 'E4', 'E5']];
+    let count = 0;
+
   return (
     <Box
         display={"flex"}
@@ -21,23 +23,25 @@ const SeatBooking = () => {
         // bgcolor={'white'}
     >
         {
-            seatArray.map((row) => (
-                <Box
-                    display={"flex"}
-                    flexDirection={"row"}
-                    flexWrap={"wrap"}
-                    height={"20%"}
-                    width={"100%"}
-                    // margin={"auto"}
-                    // marginLeft={1}
-                    // justifyContent={"center"}
-                    // padding={1}
-                    // bgcolor={'white'}
-                >{                                                
-                row.map((index) => (
+            // seatArray.map((row) => (
+            //     <Box
+            //         key = {row}
+            //         display={"flex"}
+            //         flexDirection={"row"}
+            //         flexWrap={"wrap"}
+            //         height={"20%"}
+            //         width={"100%"}
+            //         // margin={"auto"}
+            //         // marginLeft={1}
+            //         // justifyContent={"center"}
+            //         // padding={1}
+            //         // bgcolor={'white'}
+            //     >{                                                
+                props.seats.allSeats.map((seat, index) => (
                     <Box
-                        width={`${90 / row.length}%`}
-                        // width={'20%'}
+                        key={index}
+                        // width={`${90 / props.seats.allSeats.length}%`}
+                        width={'10%'}
                         margin={"auto"}
                         // marginRight={1}
                         // marginLeft={1}
@@ -49,8 +53,8 @@ const SeatBooking = () => {
                             style={{ 
                                 backgroundColor: 'white',
                                 borderColor: 'black',
-                                color:"black",
-                                // fontSize:"15px",
+                                color: (seat.AVAILABLE==1 && seat.CATEGORY==props.category)? "black" : "white",
+                                // fontsize:"10px",
                                 fontFamily: 'Sans-serif',
                                 // fontWeight: 'bold',
                                 // borderRadius: '5px',
@@ -63,7 +67,7 @@ const SeatBooking = () => {
                             <Typography
                                 variant={'p'}
                                 fontSize={'10px'}
-                                color={'black'}
+                                color={(seat.AVAILABLE==1 && seat.CATEGORY==props.category)? "black" : "white"}
                                 fontFamily={'Sans-serif'}
                                 margin={'auto'}
                                 // width={'50%'}
@@ -71,13 +75,13 @@ const SeatBooking = () => {
                                 // marginTop={4}
                                 fontWeight={'bold'}
                             >
-                                {index}
+                                {seat.S_ID}
                             </Typography>                                
                         </Button>
                     </Box>
                 ))
-                        }</Box>
-            ))
+            //             }</Box>
+            // ))
         }
     </Box>
   )          

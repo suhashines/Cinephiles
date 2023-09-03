@@ -5,7 +5,8 @@ import RowRadioButtonsGroup from './SeatCategory';
 import SeatBooking from './SeatBooking';
 import TicketSummary from './TicketSummary';
 import { useParams } from 'react-router-dom';
-import { getAllCities, getCitiesAndTheatres, getCitiesByMovieId, getMovieById, getMovieShowdates, getMovieShowtimes, getTheatresByCity } from '../api-helpers/api-helpers';
+import { getCitiesByMovieId, getGalleriesAndShowTimes, getMovieById, getMovieShowdates, getMovieShowtimes, getSeats, getTheatresByCity } from '../api-helpers/api-helpers';
+// import { getGalleries } from '../../../backend/controller/bookingController';
 // import { getTheatreByCity } from '../../../backend/controller/theatreController';
 
 const BuyTicket = () => {
@@ -13,16 +14,32 @@ const BuyTicket = () => {
 
     const [cities, setCities] = useState([]);
     const [city, setCity] = useState('City');
-    
+
     const [locations, setLocations] = useState([]);
     const [location, setLocation] = useState('Location');
     const [theatre, setTheatre] = useState(0);
+
     const [showDate, setShowDate] = useState([]);
     const [selectedDate, setSelectedDate] = useState();
     const [date, setDate] = useState('--');
+
     const [showTime, setShowTime] = useState([]);
     const [time, setTime] = useState('--');
     const [selectedTime, setSelectedTime] = useState();
+
+    const [galleries, setGalleries] = useState([]);
+    const [gallery, setGallery] = useState(0);
+    const [selectedGallery, setSelectedGallery] = useState('--');
+
+    const [category, setCategory] = useState('--');
+    const [show, setShow] = useState(0);
+
+    const [seats, setSeats] = useState();
+    const [selectedSeats, setSelectedSeats] = useState('--');
+
+    const [quantity, setQuantity] = useState('--');
+    const [cost, setCost] = useState('--');
+
     const id = useParams().id;
     console.log(id);
 
@@ -56,7 +73,20 @@ const BuyTicket = () => {
         .catch((err) => console.log(err));
     },[id,theatre,selectedDate]);
 
+    useEffect(()=>{
+        getGalleriesAndShowTimes(theatre, id, selectedDate)
+        .then((res) => setGalleries(res.galleries))
+        .catch((err) => console.log(err));
+    },[id,theatre,selectedDate]);
+
+    useEffect(()=>{
+        getSeats(gallery, show, category)
+        .then((res) => setSeats(res))
+        .catch((err) => console.log(err));
+    },[gallery,show,category]);
+
   const dummyArray = [0, 1, 2, 3];
+  const [isLocationSelected, setIsLocationSelected] = useState(false);
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [isShowTimeSelected, setIsShowTimeSelected] = useState(false);
   const [isSeatSelected, setIsSeatSelected] = useState(false);
@@ -98,19 +128,13 @@ const BuyTicket = () => {
               selection = {location} 
               setSelection = {setLocation} 
               setTheatre={setTheatre}
+              setIsLocationSelected={setIsLocationSelected}
             />
-            {/* <Typography 
-              variant='h6'
-              color='#7c4699'
-              fontFamily={'Sans-serif'}
-              margin={'auto'}
-              marginLeft={1}
-              >
-              Shimanta Shambhar, Dhanmondi 2
-            </Typography> */}
             <hr></hr>
           </Box>
           
+          {isLocationSelected && (
+            <>
           <Box>
             <Box marginTop={2}>
               <Typography 
@@ -142,7 +166,7 @@ const BuyTicket = () => {
               // borderRadius={10}
               // bgcolor={"#edeef0"}
             >
-              {showDate.map((index) => (
+              {showDate && showDate.map((index) => (
                 <Button
                   key={index}
                   onClick={() => {setIsDateSelected(!isDateSelected)
@@ -172,7 +196,7 @@ const BuyTicket = () => {
                     // marginRight={1}
                     // marginLeft={0}
                     bgcolor={"#edeef0"}
-                    aligncontent={"left"}
+                    aligncontents={"left"}
                     width={"100%"}
                     height={"80%"}
                     // textAlign={"center"}
@@ -185,7 +209,7 @@ const BuyTicket = () => {
                     width={'100%'}  
                     padding={0.5} 
                     justifyContent={"left"}
-                    alignContent={'left'}
+                    aligncontents={'left'}
                     // margin={'auto'}
                     // marginLeft={0}
                   >
@@ -221,6 +245,8 @@ const BuyTicket = () => {
               ))}
             </Box>
           </Box>
+          </>
+          )}
 
           {isDateSelected && (
             <>
@@ -229,7 +255,7 @@ const BuyTicket = () => {
               display={"flex"}
               flexDirection={"column"}
               width={"100%"}
-              alignContent={"left"}
+              aligncontents={"left"}
               // borderRadius={4}
               // bgcolor={"white"}
             >
@@ -251,10 +277,10 @@ const BuyTicket = () => {
               height={'100%'}
               width={"95%"}
               justifyContent={"center"}
-              alignContent={"center"}
+              aligncontents={"center"}
               marginLeft={1}
             >
-              {dummyArray.map((item) => (
+              {galleries.map((item) => (
                 <Box
                   key={item}
                   display={"flex"}
@@ -284,7 +310,7 @@ const BuyTicket = () => {
                       fontFamily={'sans-serif'} 
                       fontWeight={'bold'}
                     >
-                      Hall 1
+                      Hall {item.NAME}
                     </Typography>
                   </Box>
 
@@ -298,7 +324,7 @@ const BuyTicket = () => {
                     marginRight={1}
                     // padding={1}
                   >
-                    {showTime.map((index) => (
+                    {item.TIMES.map((index) => (
                       <Box
                         key={index}
                         // display={"flex"}
@@ -306,7 +332,7 @@ const BuyTicket = () => {
                         // padding={1}
                         // margin={"auto"}
                         marginRight={1}
-                        alignContents={'right'}
+                        aligncontents={'right'}
                         bgcolor={"white"}
                         width={"18%"}
                         height={"90%"}
@@ -317,7 +343,13 @@ const BuyTicket = () => {
                       <Button
                         // disableRipple={true}
                         onClick={() => {setIsShowTimeSelected(!isShowTimeSelected);
-                                        setIsSeatSelected(false)}}
+                                        setIsSeatSelected(false)
+                                        setTime(index.SHOWTIMES)
+                                        setShow(item.SHOW_ID)
+                                        setSelectedTime(index.SHOWTIMES)
+                                        setGallery(item.G_ID)
+                                        setSelectedGallery(item.NAME)                                        
+                                }}
                         style={{
                           margin:'auto',
                           textAlign:'left',
@@ -335,11 +367,11 @@ const BuyTicket = () => {
                           padding={0.5} 
                           // margin={'auto'}
                           marginLeft={1}
-                          // alignContent={'center'}
+                          // aligncontents={'center'}
                           justifyContent={'center'}
                         >
                           <Typography fontFamily={'Sans-serif'}>
-                            {index.EXTRACTED_TIME}
+                            {index.SHOWTIMES}
                           </Typography>
                         </Box>
                       </Button>
@@ -364,6 +396,7 @@ const BuyTicket = () => {
                 <RowRadioButtonsGroup
                   isSeatSelected={isSeatSelected}
                   setIsSeatSelected={setIsSeatSelected}
+                  setCategory = {setCategory}
                 />
               </Box>
             </>
@@ -398,7 +431,7 @@ const BuyTicket = () => {
                   bgcolor={"#edeef0"}
                   borderRadius={2}
                 >
-                  <SeatBooking/>
+                  <SeatBooking seats={seats} category={category=='premium'? 'Premium' : 'Regular'}/>
                 </Box>
               </>
             )
@@ -426,7 +459,7 @@ const BuyTicket = () => {
               fontFamily={'Sans-serif'}
               margin={'auto'}
               marginLeft={1}
-              marginTop={1}
+              // marginTop={1}
               fontWeight={'bold'}
               >
               Ticket Summary
@@ -435,7 +468,16 @@ const BuyTicket = () => {
           <Box
             marginTop={2}
           >
-            <TicketSummary movie={movie[0]} date={date}/>
+            <TicketSummary 
+              movie={movie[0]} 
+              date={date} 
+              time={time} 
+              category={category}
+              selectedGallery={selectedGallery}
+              selectedSeats={selectedSeats}
+              quantity={quantity}
+              cost={cost}
+            />
           </Box>
           
         </Box>

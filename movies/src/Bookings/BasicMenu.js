@@ -57,10 +57,10 @@ export default function BasicMenu(props) {
                 key={city} 
                 onClick={() => {
                   setAnchorEl(null);
-                  if(props.variant==2) {props.setTheatre(city.T_ID); console.log(city.TID)} 
-                  props.variant==1 ? props.setSelection(city?.CITY) : props.setSelection(city?.NAME)
+                  if(props.variant==2) {props.setTheatre(city.T_ID); props.setIsLocationSelected(true);} 
+                  props.variant==1 ? props.setSelection(city?.NAME) : props.setSelection(city?.LOCATION)
                 }}>
-                  {props.variant == 1? city?.CITY : city?.NAME}
+                  {props.variant == 1? city?.NAME : city?.LOCATION}
               </MenuItem>
               )
           })
