@@ -6,14 +6,13 @@ const bookingController = require('../controller/bookingController');
 
 const vt = require('../utils');
 
-bookingRouter.route("/").post(vt.verifyToken,bookingController.addBooking);
+
 
 bookingRouter.route("/find/:id")
 .get(bookingController.getBookingById)
 .delete(bookingController.deleteBookingById);
 
 bookingRouter.route("/galleries")
-.post(bookingController.getGalleries)
 .get(bookingController.getGallerySeats)
 
 bookingRouter.route("/seats")

@@ -8,8 +8,13 @@ async function addBooking(req,res){
     
     //user is verified. Now he can confirm booking 
 
+    let seats = req.body.seats ;
 
-    let (seats,g_id,show_id) = req.body ;
+    let g_id = req.body.g_id ;
+
+    let show_id = req.body.show_id ;
+
+    console.log(seats,g_id,show_id);
 
     let u_id = req.access_id ;
 
@@ -18,13 +23,9 @@ async function addBooking(req,res){
 
     try{
         
-        sql = 'select * from bookings order by book_id desc' ;
+        sql = 'select book_id from bookings order by book_id desc' ;
 
         bookings = (await database.execute(sql,{})).rows ;
-
-        console.log("got the bookings table ",bookings);
-
-
     }catch(err){
         return console.log(err);
     }
@@ -41,21 +42,36 @@ async function addBooking(req,res){
 
     console.log("new booking id ",book_id);
 
+    let successful = [];
+    let failed = [] ;
+
 
     for(let i=0;i<seats.length;i++){
 
         let s_id = seats[i] ;
 
+        console.log(s_id);
+
         sql = 
         `INSERT INTO Bookings(book_id,show_id ,s_id, g_id, u_id,book_date)
-        values(:book_id,:show_id,:s_id,:g_id,:u_id,sysdate)`;
+        values(:book_id,:show_id,'${s_id}',:g_id,:u_id,sysdate)`;
 
-        binds = {book_id:book_id,show_id:show_id,s_id:s_id,u_id:u_id} ;
+        binds = {book_id:book_id,show_id:show_id,g_id:g_id,u_id:u_id} ;
 
         (await database.execute(sql,binds)) ;
-    }
 
-    return res.json({success:true,message:"booked successfully"});
+        let check = (await database.execute('select book_id from bookings where book_id=:book_id',{book_id:book_id})).rows;
+
+        if(check.length==0){
+            failed.push(s_id);
+        }else{
+            successful.push(s_id);
+        }
+
+        book_id = book_id + 1 ;
+}
+
+    return res.json({successful:successful,failed:failed});
 }
 
 
@@ -160,7 +176,7 @@ async function getGallerySeats(req,res){
         WHERE b.g_id=s.g_id AND b.show_id=:show_id AND b.s_id = s.s_id) available  
         FROM seats s
         WHERE g_id = :g_id
-        -- ORDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
+        ORDER BY SUBSTR(s_id, 1, 1), TO_NUMBER(SUBSTR(s_id, 2)) `
 
      result = (await database.execute(sql,{g_id:g_id,show_id:show_id})).rows ;
 
@@ -174,8 +190,6 @@ async function getGallerySeats(req,res){
 
      const allSeats = result ;
 
-
-     // now I fetch the unbooked seats 
 
 
      return res.json({
@@ -216,16 +230,10 @@ async function total(req,res){
 }
 
 
-async function confirmBooking(req,res){
-
-
-}
-
 
 module.exports =
  {addBooking,
 getBookingById,
 deleteBookingById,
-getGalleries,
 getGallerySeats,
 total};
