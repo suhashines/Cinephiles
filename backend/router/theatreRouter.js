@@ -16,7 +16,7 @@ theatreRouter.route("/current/:id")
 .get(theatreController.getCurrentMovies)
 
 theatreRouter.route("/showtimes")
-.get(theatreController.getMovieShowtimes);
+.get(theatreController.getMovieGalleries);
 
 theatreRouter.route("/upcoming/:id")
 .get(theatreController.getComingSoonMovies);
