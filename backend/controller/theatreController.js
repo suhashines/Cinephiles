@@ -159,10 +159,82 @@ async function getMovieShowtimes(req,res){
 }
 
 
+
+async function getMovieGalleries(req,res){
+
+    const {t_id,m_id,date} = req.query ;
+ 
+   
+ 
+    if(!date){
+     console.log("no date given");
+ 
+     // now I have to process only t_id and m_id 
+ 
+     let sql,dates ;
+ 
+     sql= 
+     `SELECT to_char(DATE_TIME,'DD-MON-YY') extracted_date 
+     FROM SHOWTIMES s,MOVIETHEATRES mt 
+     WHERE s.MT_ID = mt.MT_ID AND mt.m_id = :m_id AND mt.T_ID = :t_id AND s.DATE_TIME <= SYSDATE +14`;
+ 
+     dates = (await database.execute(sql,{t_id:t_id,m_id:m_id})).rows ;
+ 
+     return res.json({dates});
+ 
+    }
+ 
+    console.log("date was given ,type",typeof(date),date);
+ 
+    // hence I've to process t_id,m_id and date 
+ 
+    let sql,galleries ;
+ 
+    sql = 
+    
+    `SELECT s.g_id,(SELECT name FROM galleries g WHERE g.G_ID=s.G_ID)name,s.SHOW_ID 
+    FROM SHOWTIMES s,MOVIETHEATRES mt 
+    WHERE s.MT_ID = mt.MT_ID AND 
+    mt.m_id = :m_id AND 
+    mt.T_ID = :t_id AND 
+    TO_CHAR(s.DATE_TIME,'DD-MON-YY') = '${date}'  ` ;
+ 
+    galleries = (await database.execute(sql,{t_id:t_id,m_id:m_id})).rows;
+
+    for(let i=0;i<galleries.length;i++){
+
+        let g_id = galleries[i].G_ID ;
+        let show_id = galleries[i].SHOW_ID;
+        let time;
+
+        sql = 
+        `
+        select to_char(date_time,'HH12:MI AM') showtimes
+        from showtimes s
+        where s.show_id = :show_id and s.g_id=:g_id 
+        and to_char(s.date_time,'DD-MON-YY') = '${date}'
+        `
+
+        time = (await database.execute(sql,{show_id:show_id,g_id:g_id})).rows;
+
+        galleries[i].TIMES = time ;
+    }
+
+    console.log(galleries);
+
+    console.log(galleries[0].TIMES[0].SHOWTIMES);
+
+    res.json({galleries});
+ 
+ 
+ }
+ 
+
 module.exports = 
 {getAllCities,
 getTheatreByCity,
 getTheatreMovies,
 getCurrentMovies,
 getComingSoonMovies,
-getMovieShowtimes};
+getMovieShowtimes,
+getMovieGalleries};
