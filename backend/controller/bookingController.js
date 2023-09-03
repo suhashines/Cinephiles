@@ -3,12 +3,6 @@ const database = require('../database/database');
 
 const jwt = require('jsonwebtoken');
 
-
-async function checkBooking(req,res,next){
-
-
-}
-
 async function addBooking(req,res){
     
     
@@ -29,13 +23,9 @@ async function addBooking(req,res){
 
     try{
         
-        sql = 'select * from bookings order by book_id desc' ;
+        sql = 'select book_id from bookings order by book_id desc' ;
 
         bookings = (await database.execute(sql,{})).rows ;
-
-        console.log("got the bookings table ",bookings);
-
-
     }catch(err){
         return console.log(err);
     }
@@ -52,6 +42,9 @@ async function addBooking(req,res){
 
     console.log("new booking id ",book_id);
 
+    let successful = [];
+    let failed = [] ;
+
 
     for(let i=0;i<seats.length;i++){
 
@@ -63,16 +56,22 @@ async function addBooking(req,res){
         `INSERT INTO Bookings(book_id,show_id ,s_id, g_id, u_id,book_date)
         values(:book_id,:show_id,'${s_id}',:g_id,:u_id,sysdate)`;
 
-        console.log("before database execution");
-
         binds = {book_id:book_id,show_id:show_id,g_id:g_id,u_id:u_id} ;
 
         (await database.execute(sql,binds)) ;
 
+        let check = (await database.execute('select book_id from bookings where book_id=:book_id',{book_id:book_id})).rows;
+
+        if(check.length==0){
+            failed.push(s_id);
+        }else{
+            successful.push(s_id);
+        }
+
         book_id = book_id + 1 ;
 }
 
-    return res.json({success:true,message:"booked successfully"});
+    return res.json({successful:successful,failed:failed});
 }
 
 
@@ -177,7 +176,7 @@ async function getGallerySeats(req,res){
         WHERE b.g_id=s.g_id AND b.show_id=:show_id AND b.s_id = s.s_id) available  
         FROM seats s
         WHERE g_id = :g_id
-        -- ORDER BY TO_NUMBER(REGEXP_SUBSTR(s_id, '\d+')),s_id `
+        ORDER BY SUBSTR(s_id, 1, 1), TO_NUMBER(SUBSTR(s_id, 2)) `
 
      result = (await database.execute(sql,{g_id:g_id,show_id:show_id})).rows ;
 
