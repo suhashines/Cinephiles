@@ -159,6 +159,46 @@ export const getTheatresByCity = async(id, city) => {
     return data;
 }
 
+export const getMovieShowdates = async(id, t_id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre/showtimes?t_id=${t_id}&m_id=${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getMovieShowtimes = async(t_id, id, date) => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre/showtimes?t_id=${t_id}&m_id=${id}&date=${date}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
 export const getCitiesAndTheatres = async() => {
     let res;
 

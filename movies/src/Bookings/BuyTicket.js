@@ -5,15 +5,24 @@ import RowRadioButtonsGroup from './SeatCategory';
 import SeatBooking from './SeatBooking';
 import TicketSummary from './TicketSummary';
 import { useParams } from 'react-router-dom';
-import { getAllCities, getCitiesAndTheatres, getCitiesByMovieId, getMovieById, getTheatresByCity } from '../api-helpers/api-helpers';
+import { getAllCities, getCitiesAndTheatres, getCitiesByMovieId, getMovieById, getMovieShowdates, getMovieShowtimes, getTheatresByCity } from '../api-helpers/api-helpers';
 // import { getTheatreByCity } from '../../../backend/controller/theatreController';
 
 const BuyTicket = () => {
     const [movie, setMovie] = useState([]);
+
     const [cities, setCities] = useState([]);
     const [city, setCity] = useState('City');
+    
     const [locations, setLocations] = useState([]);
     const [location, setLocation] = useState('Location');
+    const [theatre, setTheatre] = useState(0);
+    const [showDate, setShowDate] = useState([]);
+    const [selectedDate, setSelectedDate] = useState();
+    const [date, setDate] = useState('--');
+    const [showTime, setShowTime] = useState([]);
+    const [time, setTime] = useState('--');
+    const [selectedTime, setSelectedTime] = useState();
     const id = useParams().id;
     console.log(id);
 
@@ -32,6 +41,20 @@ const BuyTicket = () => {
         .then((res) => setLocations(res.theatres))
         .catch((err) => console.log(err));
     },[id,city]);
+
+    useEffect(()=>{
+        getMovieShowdates(id,theatre)
+        .then((res) => setShowDate(res.dates))
+        .catch((err) => console.log(err));
+    },[id,theatre]);
+    console.log(showDate);
+    console.log(theatre);
+
+    useEffect(()=>{
+        getMovieShowtimes(theatre,id,selectedDate)
+        .then((res) => setShowTime(res.showtimes))
+        .catch((err) => console.log(err));
+    },[id,theatre,selectedDate]);
 
   const dummyArray = [0, 1, 2, 3];
   const [isDateSelected, setIsDateSelected] = useState(false);
@@ -63,8 +86,19 @@ const BuyTicket = () => {
             // bgcolor={"#e8ebed"}
         >
           <Box>
-            <BasicMenu option = {cities} selection = {city} setSelection = {setCity}/>
-            <BasicMenu option = {locations} selection = {location} setSelection = {setLocation}/>
+            <BasicMenu 
+              variant={1} 
+              option = {cities} 
+              selection = {city} 
+              setSelection = {setCity}
+            />
+            <BasicMenu 
+              variant={2} 
+              option = {locations} 
+              selection = {location} 
+              setSelection = {setLocation} 
+              setTheatre={setTheatre}
+            />
             {/* <Typography 
               variant='h6'
               color='#7c4699'
@@ -108,12 +142,18 @@ const BuyTicket = () => {
               // borderRadius={10}
               // bgcolor={"#edeef0"}
             >
-              {dummyArray.map((index) => (
+              {showDate.map((index) => (
                 <Button
                   key={index}
                   onClick={() => {setIsDateSelected(!isDateSelected)
                                   setIsShowTimeSelected(false)
-                                  setIsSeatSelected(false)}}
+                                  setIsSeatSelected(false)
+                                  setSelectedDate(index.EXTRACTED_DATE)
+                                  console.log(index.EXTRACTED_DATE)
+                                  setDate(`${new Date(index.EXTRACTED_DATE).toDateString().split(" ")[2]}, ` +
+                                        `${new Date(index.EXTRACTED_DATE).toDateString().split(" ")[1]}, ` +
+                                        `${new Date(index.EXTRACTED_DATE).toDateString().split(" ")[3]}`)
+                          }}
                   disableRipple={true}
                   style={{
                     textAlign:'left',
@@ -132,7 +172,7 @@ const BuyTicket = () => {
                     // marginRight={1}
                     // marginLeft={0}
                     bgcolor={"#edeef0"}
-                    alignContent={"left"}
+                    aligncontent={"left"}
                     width={"100%"}
                     height={"80%"}
                     // textAlign={"center"}
@@ -155,7 +195,7 @@ const BuyTicket = () => {
                       justifyContent={"left"}
                       alignItems={"left"}  
                     >
-                      Thu
+                      {new Date(index.EXTRACTED_DATE).toDateString().split(" ")[0]}
                     </Typography>
                   </Box>
 
@@ -166,13 +206,13 @@ const BuyTicket = () => {
                     flexDirection={"row"}>
                     <Box width={'30%'} padding={0.5}>
                       <Typography variant='h5' fontFamily={'Sans-serif'}>
-                        31
+                        {new Date(index.EXTRACTED_DATE).toDateString().split(" ")[2]}
                       </Typography>
                     </Box>
 
                     <Box width={'70%'} padding={1}>
                       <Typography fontFamily={'Sans-serif'}>
-                        Aug
+                        {new Date(index.EXTRACTED_DATE).toDateString().split(" ")[1]}
                       </Typography>
                     </Box>
                   </Box>
@@ -216,6 +256,7 @@ const BuyTicket = () => {
             >
               {dummyArray.map((item) => (
                 <Box
+                  key={item}
                   display={"flex"}
                   flexDirection={"row"}
                   justifyContent={"center"}
@@ -257,8 +298,9 @@ const BuyTicket = () => {
                     marginRight={1}
                     // padding={1}
                   >
-                    {dummyArray.map((index) => (
+                    {showTime.map((index) => (
                       <Box
+                        key={index}
                         // display={"flex"}
                         // flexDirection={"row"}
                         // padding={1}
@@ -270,7 +312,6 @@ const BuyTicket = () => {
                         height={"90%"}
                         // textAlign={"center"}
                         borderRadius={2}
-                        key={index}
                         sx={{ "&:hover": { boxShadow: 10 } }}
                     >
                       <Button
@@ -298,7 +339,7 @@ const BuyTicket = () => {
                           justifyContent={'center'}
                         >
                           <Typography fontFamily={'Sans-serif'}>
-                            7:30 PM
+                            {index.EXTRACTED_TIME}
                           </Typography>
                         </Box>
                       </Button>
@@ -394,7 +435,7 @@ const BuyTicket = () => {
           <Box
             marginTop={2}
           >
-            <TicketSummary movie={movie[0]}/>
+            <TicketSummary movie={movie[0]} date={date}/>
           </Box>
           
         </Box>

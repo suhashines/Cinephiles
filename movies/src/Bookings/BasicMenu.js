@@ -27,7 +27,7 @@ export default function BasicMenu(props) {
         onClick={handleClick}
         style={{ backgroundColor: 'white',
                 borderColor: '#900c3f',
-                color:"#e3e4e6",
+                color: "#e3e4e6",
                 fontSize:"18px",
                 fontFamily: 'Sans-serif',
                 // fontWeight: 'bold',
@@ -38,8 +38,8 @@ export default function BasicMenu(props) {
                 transition: 'none',
             }}
       >
-        <span style={{ color:'black', fontWeight:'bold' }}>{props.selection}</span>
-        <ArrowDropDownIcon style={{color:'black'}}/>        
+        <span style={{ color: props.variant==1 ? 'black' : '#7c4699', fontWeight:'bold' }}>{props.selection}</span>
+        <ArrowDropDownIcon style={{color: props.variant==1 ? 'black' : '#7c4699'}}/>        
       </Button>
       <Menu
         id="basic-menu"
@@ -53,7 +53,15 @@ export default function BasicMenu(props) {
         {
           props.option && props.option.map((city) => {
               return(
-              <MenuItem key={city} onClick={() => {setAnchorEl(null); props.setSelection(city?.CITY)}}>{city?.CITY}</MenuItem>
+              <MenuItem 
+                key={city} 
+                onClick={() => {
+                  setAnchorEl(null);
+                  if(props.variant==2) {props.setTheatre(city.T_ID); console.log(city.TID)} 
+                  props.variant==1 ? props.setSelection(city?.CITY) : props.setSelection(city?.NAME)
+                }}>
+                  {props.variant == 1? city?.CITY : city?.NAME}
+              </MenuItem>
               )
           })
         }

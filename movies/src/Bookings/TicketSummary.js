@@ -110,7 +110,7 @@ const TicketSummary = (props) => {
                         justifyContent={"right"}
                         width={"100%"}
                     >
-                        <Typography textAlign={"right"} marginRight={1}>31 Aug, 2023</Typography>
+                        <Typography textAlign={"right"} marginRight={1}>{props.date}</Typography>
                     </Box>                
                 </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
