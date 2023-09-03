@@ -184,8 +184,6 @@ async function getMovieGalleries(req,res){
  
     }
  
-    console.log("date was given ,type",typeof(date),date);
- 
     // hence I've to process t_id,m_id and date 
  
     let sql,galleries ;

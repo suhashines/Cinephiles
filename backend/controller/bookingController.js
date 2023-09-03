@@ -3,13 +3,24 @@ const database = require('../database/database');
 
 const jwt = require('jsonwebtoken');
 
+
+async function checkBooking(req,res,next){
+
+
+}
+
 async function addBooking(req,res){
     
     
     //user is verified. Now he can confirm booking 
 
+    let seats = req.body.seats ;
 
-    let (seats,g_id,show_id) = req.body ;
+    let g_id = req.body.g_id ;
+
+    let show_id = req.body.show_id ;
+
+    console.log(seats,g_id,show_id);
 
     let u_id = req.access_id ;
 
@@ -46,14 +57,20 @@ async function addBooking(req,res){
 
         let s_id = seats[i] ;
 
+        console.log(s_id);
+
         sql = 
         `INSERT INTO Bookings(book_id,show_id ,s_id, g_id, u_id,book_date)
-        values(:book_id,:show_id,:s_id,:g_id,:u_id,sysdate)`;
+        values(:book_id,:show_id,'${s_id}',:g_id,:u_id,sysdate)`;
 
-        binds = {book_id:book_id,show_id:show_id,s_id:s_id,u_id:u_id} ;
+        console.log("before database execution");
+
+        binds = {book_id:book_id,show_id:show_id,g_id:g_id,u_id:u_id} ;
 
         (await database.execute(sql,binds)) ;
-    }
+
+        book_id = book_id + 1 ;
+}
 
     return res.json({success:true,message:"booked successfully"});
 }
@@ -175,8 +192,6 @@ async function getGallerySeats(req,res){
      const allSeats = result ;
 
 
-     // now I fetch the unbooked seats 
-
 
      return res.json({
     rows : rows ,
@@ -216,16 +231,10 @@ async function total(req,res){
 }
 
 
-async function confirmBooking(req,res){
-
-
-}
-
 
 module.exports =
  {addBooking,
 getBookingById,
 deleteBookingById,
-getGalleries,
 getGallerySeats,
 total};
