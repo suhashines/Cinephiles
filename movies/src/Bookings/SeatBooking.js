@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
 const SeatBooking = (props) => {
     const seatArray = [['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11'],
@@ -7,7 +7,25 @@ const SeatBooking = (props) => {
                       ['C1', 'C2', 'C3', 'C4', 'C5'],
                       ['D1', 'D2', 'D3', 'D4', 'D5'],
                       ['E1', 'E2', 'E3', 'E4', 'E5']];
-    let count = 0;
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [prevNames, setPrevNames] = useState([]); // Array to store green button names
+    const [buttonColors, setButtonColors] = useState([]);
+
+    // Function to toggle button color and update the array
+    const toggleButtonColor = (seatId) => {
+        setButtonColors((prevColors) => ({
+        ...prevColors,
+        [seatId]: prevColors[seatId] === 'green' ? 'white' : 'green',
+        }));
+
+        props.setGreenButtonNames(() => {
+        if (props.greenButtonNames.includes(seatId)) {
+            return props.greenButtonNames.filter((name) => name !== seatId);
+        } else {
+            return [...props.greenButtonNames, seatId];
+        }        
+        });
+    };
 
   return (
     <Box
@@ -50,8 +68,14 @@ const SeatBooking = (props) => {
                     >
                         <Button
                             variant="outlined"
+                            onClick={() => {
+                                if (seat.AVAILABLE === 1 && seat.CATEGORY === props.category) {
+                                  toggleButtonColor(seat.S_ID);                       
+                                }
+                                
+                            }}
                             style={{ 
-                                backgroundColor: 'white',
+                                backgroundColor: buttonColors[seat.S_ID] || 'white',
                                 borderColor: 'black',
                                 color: (seat.AVAILABLE==1 && seat.CATEGORY==props.category)? "black" : "white",
                                 // fontsize:"10px",

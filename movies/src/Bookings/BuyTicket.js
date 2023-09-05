@@ -5,7 +5,7 @@ import RowRadioButtonsGroup from './SeatCategory';
 import SeatBooking from './SeatBooking';
 import TicketSummary from './TicketSummary';
 import { useParams } from 'react-router-dom';
-import { getCitiesByMovieId, getGalleriesAndShowTimes, getMovieById, getMovieShowdates, getMovieShowtimes, getSeats, getTheatresByCity } from '../api-helpers/api-helpers';
+import { getCitiesByMovieId, getGalleriesAndShowTimes, getMovieById, getMovieShowdates, getMovieShowtimes, getSeatPrice, getSeats, getTheatresByCity } from '../api-helpers/api-helpers';
 // import { getGalleries } from '../../../backend/controller/bookingController';
 // import { getTheatreByCity } from '../../../backend/controller/theatreController';
 
@@ -37,11 +37,22 @@ const BuyTicket = () => {
     const [seats, setSeats] = useState();
     const [selectedSeats, setSelectedSeats] = useState('--');
 
+    const [regular, setRegular] = useState(0);
+    const [premium, setPremium] = useState(0);
+
     const [quantity, setQuantity] = useState('--');
+    const [count, setCount] = useState(0);
     const [cost, setCost] = useState('--');
+    const [total, setTotal] = useState(0);
+
+    const [greenButtonNames, setGreenButtonNames] = useState([]); 
 
     const id = useParams().id;
     console.log(id);
+
+    useEffect(()=>{
+      setSelectedSeats(greenButtonNames.join(', '));
+    },[greenButtonNames]);
 
     useEffect(()=>{
         getMovieById(id)
@@ -58,6 +69,18 @@ const BuyTicket = () => {
         .then((res) => setLocations(res.theatres))
         .catch((err) => console.log(err));
     },[id,city]);
+
+    useEffect(()=>{
+        getSeatPrice(gallery)
+        .then((res) => {
+          setRegular(res.regular);
+          setPremium(res.premium);
+          console.log(gallery);
+          console.log(res.regular);
+          console.log(res.premium);
+        })
+        .catch((err) => console.log(err));
+    },[gallery])
 
     useEffect(()=>{
         getMovieShowdates(id,theatre)
@@ -173,7 +196,7 @@ const BuyTicket = () => {
                                   setIsShowTimeSelected(false)
                                   setIsSeatSelected(false)
                                   setSelectedDate(index.EXTRACTED_DATE)
-                                  console.log(index.EXTRACTED_DATE)
+                                  
                                   setDate(`${new Date(index.EXTRACTED_DATE).toDateString().split(" ")[2]}, ` +
                                         `${new Date(index.EXTRACTED_DATE).toDateString().split(" ")[1]}, ` +
                                         `${new Date(index.EXTRACTED_DATE).toDateString().split(" ")[3]}`)
@@ -397,6 +420,8 @@ const BuyTicket = () => {
                   isSeatSelected={isSeatSelected}
                   setIsSeatSelected={setIsSeatSelected}
                   setCategory = {setCategory}
+                  regular = {regular}
+                  premium = {premium}
                 />
               </Box>
             </>
@@ -431,7 +456,13 @@ const BuyTicket = () => {
                   bgcolor={"#edeef0"}
                   borderRadius={2}
                 >
-                  <SeatBooking seats={seats} category={category=='premium'? 'Premium' : 'Regular'}/>
+                  <SeatBooking 
+                    seats={seats} 
+                    category={category=='premium'? 'Premium' : 'Regular'}
+                    greenButtonNames={greenButtonNames}
+                    setGreenButtonNames={setGreenButtonNames}
+                    setSelectedSeats={setSelectedSeats}
+                  />
                 </Box>
               </>
             )
@@ -477,6 +508,7 @@ const BuyTicket = () => {
               selectedSeats={selectedSeats}
               quantity={quantity}
               cost={cost}
+              greenButtonNames={greenButtonNames}
             />
           </Box>
           

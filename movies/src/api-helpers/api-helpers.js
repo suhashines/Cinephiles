@@ -219,6 +219,26 @@ export const getGalleriesAndShowTimes = async(t_id, m_id, date) => {
     return data;
 }
 
+export const getSeatPrice = async(t_id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/booking/galleries/${t_id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
 export const getSeats = async(g_id, show_id, category) => {
     let res;
 
