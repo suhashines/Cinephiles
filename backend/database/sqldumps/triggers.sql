@@ -49,3 +49,31 @@ BEGIN
     AND s_id IS NULL;
 	
 END;
+
+
+--trigger for movieTheatres that generate mt_id 
+
+
+CREATE OR REPLACE TRIGGER pk_movie_theatre
+BEFORE INSERT ON movieTheatres
+FOR EACH ROW 
+
+DECLARE 
+
+id NUMBER ;
+
+BEGIN 
+	
+	
+	SELECT mt_id+1 INTO id
+	FROM MOVIETHEATRES mt 
+	ORDER BY  mt_id DESC 
+	FETCH FIRST 1 ROW ONLY ;
+
+	:NEW.mt_id := id ;
+	
+	
+END;
+
+--for showtime id generation
+

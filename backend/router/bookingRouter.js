@@ -15,6 +15,9 @@ bookingRouter.route("/find/:id")
 bookingRouter.route("/galleries")
 .get(bookingController.getGallerySeats)
 
+bookingRouter.route("/galleries/:id")
+.get(bookingController.getPrice)
+
 bookingRouter.route("/seats")
 .post(bookingController.total);
 
