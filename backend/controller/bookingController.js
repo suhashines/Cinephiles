@@ -131,6 +131,38 @@ async function deleteBookingById(req,res){
 }
 
 
+async function getPrice(req,res){
+
+    let reg,pre ;
+
+    let g_id = req.params.id ;
+
+    sql = 
+    `select DISTINCT price
+    from seats where 
+    g_id=:g_id
+    and 
+    category='Regular' ` ;
+
+    reg = (await database.execute(sql,{g_id:g_id})).rows[0].PRICE ;
+
+
+    sql = 
+    `
+    select DISTINCT price
+    from seats where 
+    g_id=:g_id
+    and 
+    category='Premium' `
+
+    pre = (await database.execute(sql,{g_id:g_id})).rows[0].PRICE ;
+
+
+
+    res.json({regular:reg,premium:pre});
+}
+
+
 
 async function getGalleries(req,res){
 
@@ -236,4 +268,5 @@ module.exports =
 getBookingById,
 deleteBookingById,
 getGallerySeats,
+getPrice,
 total};
