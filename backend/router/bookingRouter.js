@@ -24,5 +24,8 @@ bookingRouter.route("/seats")
 bookingRouter.route("/confirm")
 .post(vt.verifyToken,bookingController.addBooking);
 
+bookingRouter.route("/all")
+.get(vt.verifyToken,bookingController.getAllBookings);
+
 
 module.exports = bookingRouter;
