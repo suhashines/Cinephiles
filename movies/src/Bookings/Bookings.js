@@ -32,7 +32,7 @@ const Bookings = () => {
         style={{position:"relative"}}
         justifyContent={"left"}
         alignItems={"left"}        
-        width={"65%"}
+        width={"98%"}
         height={"40%"}
         margin={"auto"}
         marginTop={0}
@@ -55,7 +55,8 @@ const Bookings = () => {
           src={movie[0]?.POSTER_URL} 
           alt={movie?.TITLE} 
           width={"30%"} 
-          height={"70%"}>
+          height={"70%"}
+        >
         </img>
         <img
           justifyContent={"center"}
@@ -63,7 +64,7 @@ const Bookings = () => {
           style={{position:"absolute", zIndex:1}} 
           src={movie[0]?.BACK_POSTER_URL} 
           alt={movie?.TITLE} 
-          width={"100%"} 
+          width={"70%"} 
           height={"100%"}>
         </img>
       </Box>
