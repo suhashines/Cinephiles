@@ -53,7 +53,7 @@ const Profile = () => {
                 width={"95%"}
                 height={"45%"}
                 margin={"auto"}
-                padding={1}
+                // padding={1}
                 boxShadow={2}
                 bgcolor={"#edeef0"}
             >
@@ -75,7 +75,9 @@ const Profile = () => {
                 >
                     {user?.EMAIL}
                 </Box>
-                <Box padding={1}>
+                <Box 
+                    padding={1}
+                >
                     <Button
                         variant="outlined"
                         color="primary"
@@ -99,7 +101,7 @@ const Profile = () => {
                 width={"95%"}
                 height={"10%"}
                 margin={"auto"}
-                padding={1}
+                // padding={1}
                 // boxShadow={2}
                 bgcolor={"#d2d3d4"}
             >
@@ -116,37 +118,37 @@ const Profile = () => {
                 width={"95%"}
                 height={"45%"}
                 margin={"auto"}
-                padding={1}
+                // padding={1}
                 // boxShadow={2}
                 bgcolor={"#edeef0"}
             >
-                <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
+                <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
                     <Button onClick={()=>setValue(0)} style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
-                        <HomeIcon style={{color:'#7c4699'}}/>
+                        <HomeIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
                         <span style={{ paddingLeft: '8px' }}>Home</span>
                     </Button>
                 </Box>
-                <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
+                <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
                     <Button onClick={()=>setValue(1)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
-                        <PersonIcon style={{color:'#7c4699'}}/>
+                        <PersonIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
                         <span style={{ paddingLeft: '8px' }}>Profile</span>
                     </Button>
                 </Box>
-                <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
+                <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
                     <Button onClick={()=>setValue(2)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
-                        <LockOpenIcon style={{color:'#7c4699'}}/>
+                        <LockOpenIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
                         <span style={{ paddingLeft: '8px' }}>Change Password</span>
                     </Button>
                 </Box>
-                <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
+                <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
                     <Button onClick={()=>setValue(3)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
-                        <ConfirmationNumberIcon style={{color:'#7c4699'}}/>
+                        <ConfirmationNumberIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
                         <span style={{ paddingLeft: '8px' }}>Tickets</span>
                     </Button>
                 </Box>
-                <Box height={'20%'} sx={{ "&:hover": { boxShadow: 10 } }}>
+                <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
                     <Button onClick={()=>setValue(4)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
-                        <ExitToAppIcon style={{color:'#7c4699'}}/>
+                        <ExitToAppIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
                         <span style={{ paddingLeft: '8px' }}>Signout</span>
                     </Button>
                 </Box>
