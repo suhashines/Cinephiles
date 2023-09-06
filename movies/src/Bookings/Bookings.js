@@ -55,7 +55,7 @@ const Bookings = () => {
           src={movie[0]?.POSTER_URL} 
           alt={movie?.TITLE} 
           width={"30%"} 
-          height={"80%"}>
+          height={"70%"}>
         </img>
         <img
           justifyContent={"center"}
