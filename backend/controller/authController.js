@@ -46,16 +46,29 @@ async function loginUser(req,res){
   
        // remember to create a jwt token for the user
 
-        const token = jwt.sign({id:user.U_ID},process.env.secretKey,{
-          expiresIn:"1d"
-      })
+      //   const token = jwt.sign({id:user.U_ID},process.env.secretKey,{
+      //     expiresIn:"1d"
+      // })
 
-       res.cookie('access_token',token,{httpOnly:true}) ;
+   //    const oneDay = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+    //    const expirationDate = new Date(Date.now() + oneDay);
+
+    // // Set the cookie with the calculated expiration date
+    // res.cookie('access_token', token, {
+    //   domain: 'localhost',
+    //   path: '/',
+    //   expires: expirationDate,
+    //   // Other options...
+    // });
+
+      const token = user.U_ID ;
+
+      console.log("got the user token",token);
 
        res.json({
           success: true,
           message: "Login Successful",
-          userToken: token
+          token: token
         });
 
         console.log('response has been sent'); 
