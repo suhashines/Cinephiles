@@ -40,6 +40,20 @@ export const sendUserAuthRequest = async (data, signup) => {
     return resData;
 };
 
+export const sendUserSignOutRequest = async () => {
+    const res = await axios
+    .get(`/user/signout`)
+    .catch((err) => console.log(err));
+    
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const resData =  res.data;
+    console.log(resData.success);
+    return resData;
+}
+
 export const sendAdminAuthRequest = async(data, signup) => {
     const res = await axios
     .post(`/manager/${signup ? "signup" : "login"}`, {
@@ -284,6 +298,31 @@ export const getTotalCost = async(seat, id) => {
     return data;
 }
 
+export const confirmBooking = async(seat, id, s_id) => {
+    let res;
+
+    try{
+         res = await axios
+         .post(`/booking/confirm`, 
+         {
+             seats: seat,
+             g_id: id,
+             show_id: s_id,
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const response = res.data ;
+    console.log(response);
+    return response;
+}
 
 export const getCitiesAndTheatres = async() => {
     let res;
