@@ -7,6 +7,7 @@ import ChairIcon from '@mui/icons-material/Chair';
 import TimesOneMobiledataIcon from '@mui/icons-material/TimesOneMobiledata';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { confirmBooking } from '../api-helpers/api-helpers';
 
 const TicketSummary = (props) => {
     const [value, setValue] = useState(0);
@@ -244,6 +245,9 @@ const TicketSummary = (props) => {
             justifyContent={"center"}
         >
             <Button
+                onClick={()=>{
+                    confirmBooking(props.greenButtonNames.map((value) => String(value)), props.gallery, props.show)
+                }}
                 variant="outlined"
                 color="primary"
                 sx={{margin:"auto", color:"#7c4699", bgcolor:"#edeef0", fontSize:"12px", borderColor:"#7c4699", padding: 2, width: '100%',

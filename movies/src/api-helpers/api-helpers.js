@@ -301,27 +301,31 @@ export const getTotalCost = async(seat, id) => {
 export const confirmBooking = async(seat, id, s_id) => {
     let res;
 
+    console.log(seat);
+    console.log(id);
+    console.log(s_id);
+
     try{
          res = await axios
-         .post(`/booking/confirm`, 
+         .post("/booking/confirm", 
          {
              seats: seat,
              g_id: id,
-             show_id: s_id,
+             show_id: s_id
          })
     }catch(err){
         console.log(err);
     }
 
-    console.log(res.data) ;
+    // console.log(res.data) ;
 
     // if(!res.data.success){
     //     return console.log(res.data.message);
     // }
 
-    const response = res.data ;
-    console.log(response);
-    return response;
+    // const response = res.data ;
+    // // console.log(response);
+    // return response;
 }
 
 export const getCitiesAndTheatres = async() => {
