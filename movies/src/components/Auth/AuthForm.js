@@ -1,39 +1,76 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Box, Button, Dialog, FormLabel, IconButton, TextField, Typography} from "@mui/material";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {useNavigate} from "react-router-dom";
 
 const labelStyle = {mt:1, mb:1}
 
-const AuthForm = ({onSubmit, isAdmin, setValue, prevValue}) => {
+const AuthForm = ({onSubmit, 
+                    setValue, 
+                    prevValue, 
+                    isAdmin, 
+                    setIsAdmin, 
+                    isAdminLoggedIn, 
+                    isUserLoggedIn,
+                    message,
+                    success,
+                    setMessage,
+                    setSuccess}) => {
+
+    useEffect(()=>{
+        setMessage(message);
+        setSuccess(success);
+    },[message, success])
+                        
     const navigate = useNavigate();
     const [isSignup, setIsSignup] = useState(false)
+    const [user, setUser] = useState(isUserLoggedIn)
+    const [admin, setAdmin] = useState(isAdminLoggedIn)
     const [inputs, setInputs] = useState({
         name:"",
         email:"",
         password:"",
         confirmPassword:""
     })
+
+    useEffect(()=>{
+        setAdmin(isAdminLoggedIn);
+        setUser(isUserLoggedIn);
+    },[isAdminLoggedIn, isUserLoggedIn])
+
     const handleChange = (e) => {
         setInputs((prevState)=>({
             ...prevState,
             [e.target.name]:e.target.value
         }))
     }
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(isSignup){
-            console.log("signup")
-        }else{
-            console.log("login")
-        }
-        // onSubmit({inputs, signup : isAdmin ? false : isSignup});
-        onSubmit({inputs, signup : isSignup});
-    }
-    const handleClose = () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if(!isUserLoggedIn && !isAdminLoggedIn){        
+            const loginSuccess = await onSubmit({ inputs, signup: isSignup });
+            console.log("loginSuccess", loginSuccess);
+            if (loginSuccess && !isSignup) {
+                console.log("loginSuccess", loginSuccess);            
+                handleClose(); // Close the dialog on successful login
+            }
+        } else{setMessage("Already Logged In")}
+        // setSuccess(await onSubmit({ inputs, signup: isSignup }));
+        // if (success) {
+        //     handleClose(); // Close the dialog on successful login
+        // }
+    };
+
+    const handleClose = async () => {        
         navigate(-1);
         setValue(prevValue);
+        setMessage("");                                     
     }
+    const handleAction = () => {
+        if(admin || user){
+            handleClose();
+        }
+    }
+
   return (
     <Dialog PaperProps={{style:{borderRadius:20}}} open={true}>
         <Box sx={{ml:"auto", padding:1}}>
@@ -99,19 +136,31 @@ const AuthForm = ({onSubmit, isAdmin, setValue, prevValue}) => {
                 )}
                 
                 <Button
-                    onClick={()=>handleClose()} 
+                    // onClick={()=>handleAction()} 
                     sx={{mt:2, borderRadius:10, bgcolor:"#2b2d42", color:"white"}} 
                     type='submit'
                     variant={"contained"} 
                     fullWidth>
                         {isSignup ? "Signup" : "Login"}
-                </Button>                
+                </Button>
+
+                <Typography variant="h6" color={'red'} textAlign={"center"}>
+                    {message}
+                </Typography>
+
                 <Button
-                    onClick={()=>setIsSignup(!isSignup)} 
+                    onClick={()=>{setIsSignup(!isSignup);
+                                    setMessage("");}} 
                     sx={{mt:2, borderRadius:10}} fullWidth>
                         Switch To {isSignup ? "Login" : "Signup"}
                 </Button>
                 
+                <Button
+                    onClick={()=>{setIsAdmin(!isAdmin);
+                                    setMessage("");}} 
+                    sx={{mt:2, borderRadius:10}} fullWidth>
+                        {!isSignup ? "Login" : "Signup"} as {isAdmin ? "User" : "Manager"}
+                </Button>
                 
             </Box>
         </form>
