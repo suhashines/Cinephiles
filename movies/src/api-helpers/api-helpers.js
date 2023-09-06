@@ -329,6 +329,37 @@ export const confirmBooking = async(seat, id, s_id, tk) => {
     return response;
 }
 
+export const changePassword = async(inputs) => {
+
+    let res;
+
+    console.log(inputs);
+
+    try{
+         res = await axios
+         .post(`/user/changePassword/${inputs.u_id}`, 
+         {
+             u_id: inputs.u_id,
+             oldPassword: inputs.oldPassword,
+             newPassword: inputs.newPassword,
+             confirmPassword: inputs.confirmPassword
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const response = res.data;
+    console.log(response);
+    return response;
+
+}
+
 export const getCitiesAndTheatres = async() => {
     let res;
 

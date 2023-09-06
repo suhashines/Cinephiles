@@ -196,7 +196,7 @@ const BuyTicket = () => {
               {showDate && showDate.map((index) => (
                 <Button
                   key={index}
-                  onClick={() => {setIsDateSelected(!isDateSelected)
+                  onClick={() => {setIsDateSelected(true)
                                   setIsShowTimeSelected(false)
                                   setIsSeatSelected(false)
                                   setSelectedDate(index.EXTRACTED_DATE)
@@ -369,7 +369,7 @@ const BuyTicket = () => {
                     >
                       <Button
                         // disableRipple={true}
-                        onClick={() => {setIsShowTimeSelected(!isShowTimeSelected);
+                        onClick={() => {setIsShowTimeSelected(true);
                                         setIsSeatSelected(false)
                                         setTime(index.SHOWTIMES)
                                         setShow(item.SHOW_ID)

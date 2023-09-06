@@ -54,8 +54,8 @@ function App() {
 
           <Route path="/" element={<HomePage 
                                       setValue={setValue} 
-                                      view={view} s
-                                      etView={setView}
+                                      view={view}
+                                      setView={setView}
                                     />}/>
 
           <Route path="/movies" element={<Movies/>}/>
