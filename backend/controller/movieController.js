@@ -248,6 +248,89 @@ async function editReview(req,res){
 
 }
 
+async function deleteReview(req,res){
+
+    const m_id = req.params.id ;
+
+    const {rev_id} = req.body ;
+
+    console.log(rev_id);
+
+    let sql =
+    ` delete from reviews where rev_id = ${rev_id} and m_id = ${m_id} `
+
+     try{
+
+        await database.execute(sql,{}) ;
+
+     }catch(err){
+        console.log(err);
+     }
+    
+
+    res.json({message:"deleted"});
+}
+
+
+async function addRating(req,res){
+
+    let m_id = req.params.id ;
+
+    const {rating,u_id} = req.body ;
+
+    let sql;
+
+    sql = 
+    `
+    select * from ratings where m_id=:m_id and u_id=:u_id
+    
+    `
+
+    let result = (await database.execute(sql,{m_id:m_id,u_id:u_id})).rows;
+
+    console.log(result);
+
+    if(result.length==0){
+
+        sql =
+        `
+        insert into ratings(rating,u_id)
+        values(:rating,:u_id)
+        
+        `
+    
+        await database.execute(sql,{rating:rating,u_id:u_id});
+    
+        return res.json({message:"rating added"});
+    }
+
+    let r_id = result[0].R_ID ;
+
+    sql =
+    `
+    update ratings
+    set rating=:rating
+    where r_id = :r_id
+    
+    `
+
+    await database.execute(sql,{rating:rating,r_id:r_id});
+
+    res.json({message:"rating edited"});
+}
+
+
+async function getRating(req,res){
+
+    let m_id = req.params.id;
+
+    let sql = `select avg(rating) rating from ratings where m_id=:m_id` ;
+
+    let result = (await database.execute(sql,{m_id:m_id})).rows;
+
+    res.json({rating:result[0].RATING});
+}
+
 
 
 async function getCitiesAndTheatres(req,res){
@@ -310,4 +393,7 @@ comingSoon,
 getCitiesAndTheatres,
 getMovieReviews,
 addMovieReview,
-editReview};
+editReview,
+deleteReview,
+addRating,
+getRating};

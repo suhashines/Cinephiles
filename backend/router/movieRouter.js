@@ -4,13 +4,9 @@ const movieRouter = express.Router();
 
 const movieController = require('../controller/movieController');
 
-const verify = require('../utils');
-
-const directorController = require('../controller/directorController');
-
 
 movieRouter.route("/")
-.post(verify.verifyToken,movieController.addMovie);
+.post(movieController.addMovie);
 
 
 movieRouter.route("/")
@@ -31,6 +27,12 @@ movieRouter.route("/find")
 movieRouter.route("/review/:id")
 .get(movieController.getMovieReviews)
 .post(movieController.addMovieReview)
-.patch(movieController.editReview);
+.patch(movieController.editReview)
+.delete(movieController.deleteReview);
+
+
+movieRouter.route("/rating/:id")
+.get(movieController.getRating)
+.post(movieController.addRating);
 
 module.exports = movieRouter;
