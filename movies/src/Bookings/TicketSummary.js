@@ -192,7 +192,7 @@ const TicketSummary = (props) => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>{props.quantity}</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.count}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -204,7 +204,7 @@ const TicketSummary = (props) => {
                     height={'60%'}
                 >
                     <WeekendIcon style={{color:'#7c4699'}}/>
-                    <span style={{ paddingLeft: '8px' }}>Selected Seat</span>
+                    <span style={{ paddingLeft: '8px' }}>Selected Seats</span>
                     </Box>
                     <Box
                     display={"flex"}
@@ -232,7 +232,7 @@ const TicketSummary = (props) => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>{props.cost} TK BDT</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.total} TK BDT</Typography>
                 </Box>
             </Box>
         </Box>

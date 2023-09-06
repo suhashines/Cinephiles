@@ -18,11 +18,20 @@ const SeatBooking = (props) => {
         [seatId]: prevColors[seatId] === 'green' ? 'white' : 'green',
         }));
 
-        props.setGreenButtonNames(() => {
+    props.setGreenButtonNames(() => {
         if (props.greenButtonNames.includes(seatId)) {
             return props.greenButtonNames.filter((name) => name !== seatId);
         } else {
             return [...props.greenButtonNames, seatId];
+        }        
+        });
+
+    props.setCount(() => {
+        if (props.greenButtonNames.includes(seatId)) {
+            if(props.count > 0) return props.count - 1;
+            else return 0;
+        } else {
+            return props.count + 1;
         }        
         });
     };
@@ -32,10 +41,12 @@ const SeatBooking = (props) => {
         display={"flex"}
         flexDirection={"row"}
         flexWrap={"wrap"}
-        height={"80%"}
+        // height={"80%"}
+        height={"auto"}
         width={"90%"}
         margin={"auto"}
-        marginTop={8}
+        marginTop={6}
+        
         // justifyContent={"center"}
         // padding={1}
         // bgcolor={'white'}
@@ -58,12 +69,13 @@ const SeatBooking = (props) => {
                 props.seats.allSeats.map((seat, index) => (
                     <Box
                         key={index}
-                        // width={`${90 / props.seats.allSeats.length}%`}
-                        width={'10%'}
+                        width={`${1800 / props.seats.allSeats.length}%`}
+                        // width={'8%'}
                         margin={"auto"}
                         // marginRight={1}
                         // marginLeft={1}
                         padding={0.2}
+                        sx={{ "&:hover": { boxShadow: 5 } }}
                         // justifyContent={"center"}
                     >
                         <Button

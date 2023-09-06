@@ -5,7 +5,7 @@ import RowRadioButtonsGroup from './SeatCategory';
 import SeatBooking from './SeatBooking';
 import TicketSummary from './TicketSummary';
 import { useParams } from 'react-router-dom';
-import { getCitiesByMovieId, getGalleriesAndShowTimes, getMovieById, getMovieShowdates, getMovieShowtimes, getSeatPrice, getSeats, getTheatresByCity } from '../api-helpers/api-helpers';
+import { getCitiesByMovieId, getGalleriesAndShowTimes, getMovieById, getMovieShowdates, getMovieShowtimes, getSeatPrice, getSeats, getTheatresByCity, getTotalCost } from '../api-helpers/api-helpers';
 // import { getGalleries } from '../../../backend/controller/bookingController';
 // import { getTheatreByCity } from '../../../backend/controller/theatreController';
 
@@ -52,7 +52,14 @@ const BuyTicket = () => {
 
     useEffect(()=>{
       setSelectedSeats(greenButtonNames.join(', '));
+      console.log(selectedSeats);
     },[greenButtonNames]);
+
+    useEffect(()=>{
+      getTotalCost(greenButtonNames.map((value) => String(value)), gallery)
+      .then((res) => setTotal(res.total))
+      .catch((err) => console.log(err));
+    },[greenButtonNames, gallery]);
 
     useEffect(()=>{
         getMovieById(id)
@@ -75,9 +82,6 @@ const BuyTicket = () => {
         .then((res) => {
           setRegular(res.regular);
           setPremium(res.premium);
-          console.log(gallery);
-          console.log(res.regular);
-          console.log(res.premium);
         })
         .catch((err) => console.log(err));
     },[gallery])
@@ -119,7 +123,7 @@ const BuyTicket = () => {
         flexDirection={"row"}
         // justifyContent={"center"}
         // alignItems={"center"}        
-        width={"70vw"}
+        width={"80vw"}
         height={"200vh"}
         margin={"auto"}
         marginTop={4}
@@ -204,7 +208,7 @@ const BuyTicket = () => {
                   disableRipple={true}
                   style={{
                     textAlign:'left',
-                    width:'21%', 
+                    width:'18%', 
                     fontFamily:'Sans-serif', 
                     fontWeight:'bold',  
                     color:'black',
@@ -389,11 +393,14 @@ const BuyTicket = () => {
                           width={'100%'}  
                           padding={0.5} 
                           // margin={'auto'}
-                          marginLeft={1}
+                          // marginLeft={1}
                           // aligncontents={'center'}
                           justifyContent={'center'}
                         >
-                          <Typography fontFamily={'Sans-serif'}>
+                          <Typography 
+                            fontFamily={'Sans-serif'}
+                            textAlign={'center'}  
+                          >
                             {index.SHOWTIMES}
                           </Typography>
                         </Box>
@@ -450,9 +457,10 @@ const BuyTicket = () => {
                 <Box
                   width={"95%"}
                   height={"40%"}
-                  margin={"auto"}
+                  // margin={"auto"}
+                  marginTop={2}
                   // marginTop={2}
-                  // marginLeft={1}
+                  marginLeft={1}
                   bgcolor={"#edeef0"}
                   borderRadius={2}
                 >
@@ -462,6 +470,8 @@ const BuyTicket = () => {
                     greenButtonNames={greenButtonNames}
                     setGreenButtonNames={setGreenButtonNames}
                     setSelectedSeats={setSelectedSeats}
+                    count = {count}
+                    setCount={setCount}
                   />
                 </Box>
               </>
@@ -509,6 +519,8 @@ const BuyTicket = () => {
               quantity={quantity}
               cost={cost}
               greenButtonNames={greenButtonNames}
+              count = {count}
+              total={total}
             />
           </Box>
           

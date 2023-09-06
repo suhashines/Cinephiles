@@ -46,7 +46,7 @@ export default function RowRadioButtonsGroup({isSeatSelected, setIsSeatSelected,
                             }}
         >
             <FormControlLabel 
-                value="Regular" 
+                value="regular" 
                 control={<Radio />} 
                 label={
                     <Box
@@ -87,7 +87,7 @@ export default function RowRadioButtonsGroup({isSeatSelected, setIsSeatSelected,
                 } 
             />
             <FormControlLabel 
-                value="Premium" 
+                value="premium" 
                 control={<Radio />} 
                 label={
                     <Box

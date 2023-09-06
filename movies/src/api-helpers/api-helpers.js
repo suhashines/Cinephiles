@@ -27,14 +27,14 @@ export const sendUserAuthRequest = async (data, signup) => {
     .post(`/user/${signup ? "signup" : "login"}`,{
         email: data.email,
         password: data.password,
-        confirmPassword: data.confirmPassword,
+        confirmPassword: signup? data.confirmPassword : "",
         name: signup ? data.name : "",
     })
     .catch((err) => console.log(err));
     
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
 
     const resData =  res.data;
     return resData;
@@ -45,7 +45,7 @@ export const sendAdminAuthRequest = async(data, signup) => {
     .post(`/manager/${signup ? "signup" : "login"}`, {
         email: data.email,
         password: data.password,
-        confirmPassword: data.confirmPassword,
+        confirmPassword: signup? data.confirmPassword : "",
         name: signup ? data.name : "",
     })
     .catch((err) => console.log(err));
@@ -79,25 +79,24 @@ export const getMovieById = async(id) => {
     return data;
 }
 
-export const getUserDetails = async(id) => {
-    let res;
+export const getUserDetails = async () => {
 
-    try{
-         res = await axios.get(`/user/details`)
-    }catch(err){
-        console.log(err);
+    try {
+      const response = await axios.get(`/user/details`);
+      console.log(response.data);
+      const res = response.data.result; // Access the response data directly
+  
+      console.log(res); // Log the response data
+  
+      return res; // Return the data object
+    } 
+    
+    catch (err) {
+      console.log(err);
+      throw err; // Re-throw the error if needed
     }
 
-    console.log(res.result) ;
-
-    if(!res.result.success){
-        return console.log(res.result.message);
-    }
-
-    const data = res.result ;
-
-    return data;
-}
+  }
 
 export const getCurrent = async() => {
     let res;
@@ -244,6 +243,31 @@ export const getSeats = async(g_id, show_id, category) => {
 
     try{
          res = await axios.get(`/booking/galleries?g_id=${g_id}&show_id=${show_id}&category=${category}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getTotalCost = async(seat, id) => {
+    let res;
+
+    try{
+         res = await axios
+         .post(`/booking/seats`, 
+         {
+             seats: seat,
+             g_id: id,
+         })
     }catch(err){
         console.log(err);
     }
