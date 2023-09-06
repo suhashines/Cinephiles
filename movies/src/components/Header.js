@@ -76,20 +76,20 @@ const Header = (props) => {
                     <Tab 
                         value={2} 
                         LinkComponent={Link}
-                        to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : isUserLoggedIn? `/profile` : "/manager/{id}"} 
-                        label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Profile"} 
-                        // to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : "/"} 
-                        // label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Signout"}
+                        // to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : isUserLoggedIn? `/profile` : "/manager/{id}"} 
+                        // label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Profile"} 
+                        to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : "/"} 
+                        label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Signout"}
                         
-                        // onClick={() => {
-                        //     if(isAdminLoggedIn) logout(true);
-                        //     else if(isUserLoggedIn) logout(false);
-                        //     props.setMessage("");
-                        //     if(isAdminLoggedIn || isUserLoggedIn){
-                        //         props.setValue(0);                                
-                        //     }
+                        onClick={() => {
+                            if(isAdminLoggedIn) dispatch(adminActions.logout());
+                            else if(isUserLoggedIn) dispatch(userActions.logout());
+                            props.setMessage("");
+                            if(isAdminLoggedIn || isUserLoggedIn){
+                                props.setValue(0);                                
+                            }
                             
-                        // }}
+                        }}
                     />
                     {/* {!isAdminLoggedIn && !isUserLoggedIn && (
                         <>
