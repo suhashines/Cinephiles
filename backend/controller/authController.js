@@ -50,7 +50,11 @@ async function loginUser(req,res){
           expiresIn:"1d"
       })
 
-       res.cookie('access_token',token,{httpOnly:true}) ;
+       res.cookie('access_token',token,
+       {httpOnly:true,
+        domain:'localhost',
+        path:'/'
+      }) ;
 
        res.json({
           success: true,

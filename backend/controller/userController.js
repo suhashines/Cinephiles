@@ -138,6 +138,8 @@ async function getUserDetails(req,res){
 
 async function getAllBookingOfUser(req,res){
 
+    console.log("verification has been done, now I'm trying to get all bookings of user");
+
     let user_id = req.params.id ;
 
     console.log('fetching all bookings of user ',user_id);

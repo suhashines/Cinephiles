@@ -22,8 +22,6 @@ userRouter.route("/bookings/:id").get(userController.getAllBookingOfUser);
 userRouter.route("/details")
 .get(vt.verifyToken,userController.getUserDetails);
 
-// userRouter.route("/details")
-// .get(userController.getUserDetails);
 
 userRouter.route("/signout")
 .get(userController.signOut);
