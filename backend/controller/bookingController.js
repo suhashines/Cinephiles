@@ -14,9 +14,9 @@ async function addBooking(req,res){
 
     let show_id = req.body.show_id ;
 
-    console.log(seats,g_id,show_id);
+    let u_id = req.body.token ;
 
-    let u_id = req.access_id ;
+    console.log(seats,g_id,show_id);
 
     let sql,bookings;
 
@@ -261,7 +261,7 @@ async function total(req,res){
 
 async function getAllBookings(req,res){
 
-    let u_id = req.access_id;
+    let u_id = req.query.token ;
 
     let movies,sql ;
 

@@ -22,10 +22,10 @@ bookingRouter.route("/seats")
 .post(bookingController.total);
 
 bookingRouter.route("/confirm")
-.post(vt.verifyToken,bookingController.addBooking);
+.post(bookingController.addBooking);
 
-bookingRouter.route("/all")
-.get(vt.verifyToken,bookingController.getAllBookings);
+bookingRouter.route("/all")  // booking/all?token
+.get(bookingController.getAllBookings);
 
 
 module.exports = bookingRouter;
