@@ -78,6 +78,9 @@ async function addBooking(req,res){
 
 
 
+
+
+
 async function getBookingById(req,res){
 
     let booking_id = req.params.id ;
@@ -108,17 +111,17 @@ sql = 'SELECT (SELECT name FROM users u WHERE u.user_id=b.user_id) user_name , (
 async function deleteBookingById(req,res){
 
 
-    let booking_id = req.params.id ;
+    let book_id = req.params.id ;
 
-    console.log('req for deleting booking_id ',booking_id);
+    console.log('req for deleting booking_id ',book_id);
 
     let sql ;
 
     try{
 
-        sql = 'DELETE FROM BOOKINGS b WHERE booking_id =:booking_id ';
+        sql = 'DELETE FROM BOOKINGS b WHERE book_id =:book_id ';
 
-        const output = await database.execute(sql,{booking_id:booking_id}).rowsAffected;
+        const output = await database.execute(sql,{book_id:book_id}).rowsAffected;
 
         console.log(output," rows affected");
 
@@ -127,7 +130,7 @@ async function deleteBookingById(req,res){
     }
 
 
-    return res.json({message:"movie deleted successfully"});
+    return res.json({success:true,message:"booking canceled successfully"});
 }
 
 
@@ -262,6 +265,57 @@ async function total(req,res){
 }
 
 
+async function getAllBookings(req,res){
+
+    let u_id = req.access_id;
+
+    let movies,sql ;
+
+   sql =
+     `SELECT DISTINCT m.title,m.m_id
+    FROM bookings b,showtimes s,MOVIETHEATRES mt,movies m
+    WHERE b.show_id = s.SHOW_ID AND 
+    s.mt_id=mt.mt_id 
+    AND mt.m_id = m.m_id AND 
+    b.u_id = :u_id ` 
+
+    movies = (await database.execute(sql,{u_id:u_id})).rows ;
+
+    for(let i=0;i<movies.length;i++){
+
+        let m_id = movies[i].M_ID ;
+
+        let history ;
+
+        sql = 
+        `
+        
+            SELECT s_id,
+            (SELECT category FROM seats st WHERE st.s_id=b.s_id AND b.g_id=st.g_id) category,
+            (SELECT price FROM seats st WHERE st.s_id=b.s_id AND b.g_id=st.g_id) price,
+            to_char(b.BOOK_DATE,'DD-MON-YY') showtime ,
+            b.BOOK_ID 
+            FROM bookings b,showtimes s,MOVIETHEATRES mt,movies m
+            WHERE b.show_id = s.SHOW_ID AND 
+            s.mt_id=mt.mt_id AND 
+            mt.m_id = m.m_id AND 
+            b.u_id = :u_id 
+            AND m.m_id = :m_id
+                    
+        
+        ` 
+
+        history = (await database.execute(sql,{m_id:m_id,u_id:u_id})).rows ;
+
+        movies[i].details = history ;
+    }
+
+
+    res.json({movies});
+
+
+
+}
 
 module.exports =
  {addBooking,
@@ -269,4 +323,5 @@ getBookingById,
 deleteBookingById,
 getGallerySeats,
 getPrice,
-total};
+total,
+getAllBookings};
