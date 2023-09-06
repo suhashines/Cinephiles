@@ -31,8 +31,8 @@ async function addMovie(req,res){
 
     try{
 
-        sql = 'insert into movies(movie_id,title,description,release_date,poster_url,admin_id) values(:movie_id,:title,:description,:release_date,:poster_url,:admin_id) ' ;
-        binds = {movie_id:newId,title:movie.title,description:movie.description,release_date:movie.release_date,poster_url:movie.poster_url,admin_id:req.access_id} ;
+        sql = 'insert into movies(movie_id,title,description,release_date,poster_url,admin_id) values(:movie_id,:title,:description,:release_date,:poster_url,:back_poster_url,:admin_id) ' ;
+        binds = {movie_id:newId,title:movie.title,description:movie.description,release_date:movie.release_date,poster_url:movie.poster_url,back_poster_url:movie.back_poster_url,admin_id:req.access_id} ;
 
         let output = (await database.execute(sql,binds)).rowsAffected;
 
@@ -85,7 +85,7 @@ async function getAllMovies(req,res){
 
     const sql =
     ` SELECT m_id,title,getAllActors(m_id) actors ,
-    release_date,duration,poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC fetch first 100 rows only`
+    release_date,duration,poster_url,back_poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC fetch first 100 rows only`
 
     console.log('req recieved for fetching all movies');
 

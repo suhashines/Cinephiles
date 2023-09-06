@@ -521,6 +521,8 @@ const BuyTicket = () => {
               greenButtonNames={greenButtonNames}
               count = {count}
               total={total}
+              gallery={gallery}
+              show={show}
             />
           </Box>
           

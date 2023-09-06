@@ -17,7 +17,7 @@ const Profile = () => {
     // const id = useParams().id;
     
     useEffect(() => {
-        getUserDetails()
+        getUserDetails(localStorage.getItem('userId'))
         .then((data) => {setUser(data);})
         .catch((err) => {console.log(err);});
       }, []);
