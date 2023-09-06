@@ -8,6 +8,8 @@ async function addBooking(req,res){
     
     //user is verified. Now he can confirm booking 
 
+    console.log("user is trying to confirm booking");
+
     let seats = req.body.seats ;
 
     let g_id = req.body.g_id ;
@@ -261,7 +263,7 @@ async function total(req,res){
 
 async function getAllBookings(req,res){
 
-    let u_id = req.query.token ;
+    let u_id = req.query.token;
 
     let movies,sql ;
 
