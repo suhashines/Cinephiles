@@ -3,7 +3,7 @@ const database = require('../database/database');
 
 const jwt = require('jsonwebtoken');
 
-async function addBooking(req,res){
+async function addBooking(req,res){ 
     
     
     //user is verified. Now he can confirm booking 
@@ -57,7 +57,7 @@ async function addBooking(req,res){
         values(:book_id,:show_id,'${s_id}',:g_id,:u_id,sysdate)`;
 
         binds = {book_id:book_id,show_id:show_id,g_id:g_id,u_id:u_id} ;
-
+ 
         (await database.execute(sql,binds)) ;
 
         let check = (await database.execute('select book_id from bookings where book_id=:book_id',{book_id:book_id})).rows;
@@ -73,12 +73,6 @@ async function addBooking(req,res){
 
     return res.json({successful:successful,failed:failed});
 }
-
-
-
-
-
-
 
 
 async function getBookingById(req,res){
@@ -301,9 +295,7 @@ async function getAllBookings(req,res){
             mt.m_id = m.m_id AND 
             b.u_id = :u_id 
             AND m.m_id = :m_id
-                    
-        
-        ` 
+            order by showtime desc ` 
 
         history = (await database.execute(sql,{m_id:m_id,u_id:u_id})).rows ;
 
