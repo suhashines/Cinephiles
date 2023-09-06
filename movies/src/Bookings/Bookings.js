@@ -18,32 +18,61 @@ const Bookings = () => {
   return (    
     <Box
         display={"flex"}
-        flexDirection={"column"}
+        flexDirection={"row"}
         justifyContent={"center"}
         alignItems={"center"}        
-        width={"65vw"}
-        height={"75vh"}
+        width={"100vw"}
+        height={"165vh"}
         margin={"auto"}
-        marginTop={4}
+        // marginTop={4}
     >
       <Box
-        display={"flex"}
-        flexDirection={"column"}
+        // display={"flex"}
+        // flexDirection={"column"}
+        style={{position:"relative"}}
         justifyContent={"left"}
         alignItems={"left"}        
-        width={"45%"}
-        height={"100%"}
+        width={"98%"}
+        height={"40%"}
         margin={"auto"}
+        marginTop={0}
         // padding={1}
         // borderRadius={10}
       >
-        <img src={movie[0]?.POSTER_URL} alt={movie?.TITLE} width={"100%"} height={"100%"}></img>
+        <img
+          margin={"auto"}
+          // marginTop={10}
+          // marginLeft={4}
+          style={{
+            position:"absolute",
+            left:"8%",
+            top:"55%", 
+            zIndex:2,
+            border:"solid",
+            borderColor:"white",
+            borderWidth:2
+        }} 
+          src={movie[0]?.POSTER_URL} 
+          alt={movie?.TITLE} 
+          width={"30%"} 
+          height={"70%"}
+        >
+        </img>
+        <img
+          justifyContent={"center"}
+          margin={"auto"}
+          style={{position:"absolute", zIndex:1}} 
+          src={movie[0]?.BACK_POSTER_URL} 
+          alt={movie?.TITLE} 
+          width={"70%"} 
+          height={"100%"}>
+        </img>
       </Box>
-      <Box>
+      {/* <Box>
         <Typography variant='h4'>
           {movie[0]?.TITLE}
         </Typography>
-      </Box>
+      </Box> */}
     </Box>
   )
 }

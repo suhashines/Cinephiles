@@ -39,7 +39,7 @@ const Auth = (props) => {
   
       if (res.success && !data.signup) {
         dispatch(userActions.login());
-        localStorage.setItem('userId', res.userToken);
+        localStorage.setItem('userId', res.token);
       }
   
       console.log("res.success", res.success);
