@@ -80,6 +80,7 @@ const Profile = () => {
                     padding={1}
                 >
                     <Button
+                        onClick={()=>setValue(4)}
                         variant="outlined"
                         color="primary"
                         sx={{margin:"auto", color:"#7c4699", bgcolor:"#edeef0", fontSize:"12px", borderColor:"#7c4699",
@@ -178,7 +179,7 @@ const Profile = () => {
             {/* {value === 2 && <><BasicInfo/></>}
             {value === 3 && <><BasicInfo/></>}
             {value === 4 && <><BasicInfo/></>} */}
-            {/* {(value == 4) && <><EditProfile/></>} */}
+            {(value == 4) && <><EditProfile user={user}/></>}
         </Box>
     </Box>
   )

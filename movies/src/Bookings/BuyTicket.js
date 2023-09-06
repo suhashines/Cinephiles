@@ -193,9 +193,9 @@ const BuyTicket = () => {
               // borderRadius={10}
               // bgcolor={"#edeef0"}
             >
-              {showDate && showDate.map((index) => (
+              {showDate && showDate.map((index, item) => (
                 <Button
-                  key={index}
+                  key={item}
                   onClick={() => {setIsDateSelected(true)
                                   setIsShowTimeSelected(false)
                                   setIsSeatSelected(false)
@@ -228,7 +228,7 @@ const BuyTicket = () => {
                     height={"80%"}
                     // textAlign={"center"}
                     borderRadius={2}
-                    key={index}
+                    // key={index}
                     sx={{ "&:hover": { boxShadow: 10 } }}
                 >
                   <Box 
@@ -307,9 +307,9 @@ const BuyTicket = () => {
               aligncontents={"center"}
               marginLeft={1}
             >
-              {galleries.map((item) => (
+              {galleries.map((item, index) => (
                 <Box
-                  key={item}
+                  key={index}
                   display={"flex"}
                   flexDirection={"row"}
                   justifyContent={"center"}
@@ -351,9 +351,9 @@ const BuyTicket = () => {
                     marginRight={1}
                     // padding={1}
                   >
-                    {item.TIMES.map((index) => (
+                    {item.TIMES.map((index, hash) => (
                       <Box
-                        key={index}
+                        key={hash}
                         // display={"flex"}
                         // flexDirection={"row"}
                         // padding={1}

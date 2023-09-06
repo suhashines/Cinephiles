@@ -320,9 +320,9 @@ export const confirmBooking = async(seat, id, s_id, tk) => {
 
     console.log(res.data) ;
 
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
 
     const response = res.data ;
     console.log(response);
@@ -363,12 +363,14 @@ export const changePassword = async(inputs) => {
 export const editProfile = async(inputs) => {
     let res;
 
+    console.log(inputs);
+
     try{
         res = await axios
         .patch(`/user/details/${inputs.u_id}`,{
             name: inputs.name,
             email: inputs.email,
-            gender: inputs.mobile,
+            gender: inputs.gender,
             mobile: inputs.mobile        
         })
     }catch(err){
