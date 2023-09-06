@@ -174,7 +174,7 @@ async function getMovieGalleries(req,res){
      let sql,dates ;
  
      sql= 
-     `SELECT to_char(DATE_TIME,'DD-MON-YY') extracted_date 
+     `SELECT distinct to_char(DATE_TIME,'DD-MON-YY') extracted_date 
      FROM SHOWTIMES s,MOVIETHEATRES mt 
      WHERE s.MT_ID = mt.MT_ID AND mt.m_id = :m_id AND mt.T_ID = :t_id AND s.DATE_TIME <= SYSDATE +14`;
  

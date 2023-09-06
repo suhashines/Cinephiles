@@ -31,7 +31,7 @@ BEGIN
   RETURN genre_names;
 EXCEPTION
   WHEN NO_DATA_FOUND THEN
-    RETURN NULL;
+    RETURN 'not available';
 END;
 
 

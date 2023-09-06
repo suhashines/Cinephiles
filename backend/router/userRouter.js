@@ -18,7 +18,8 @@ userRouter.route("/signup").post(userController.signupUser) ;
   
 
 userRouter.route("/details/:id")
-.get(userController.getUserDetails);
+.get(userController.getUserDetails)
+.patch(userController.editDetails);
 
 
 userRouter.route("/signout")

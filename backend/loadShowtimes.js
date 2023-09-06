@@ -47,4 +47,56 @@ async function load(){
 }
 
 
-load();
+async function loadShowtimes(){
+
+  let sql,movieTheatres ;
+
+  sql = `select * from movieTheatres` ;
+
+  movieTheatres = (await db.execute(sql,{})).rows ;
+
+  console.log(movieTheatres);
+
+
+  for(let i=0;i<movieTheatres.length;i++){
+
+    let mt_id = movieTheatres[i].MT_ID ;
+
+    console.log(mt_id);
+
+    let t_id = movieTheatres[i].T_ID ;
+
+    console.log(t_id);
+
+    sql = `select g_id from galleries where t_id=:t_id` ;
+
+    let galleries = (await db.execute(sql,{t_id:t_id})).rows;
+
+    console.log(galleries);
+
+    for(let g=0;g<galleries.length;g++){
+
+        let g_id = galleries[g].G_ID ;
+
+        console.log(g_id);
+
+        for(let k=0;k<3;k++){
+
+          sql =`insert into showtimes(mt_id,g_id) values(${mt_id},${g_id})`
+
+          (await db.execute(sql,{}));
+        } 
+    }
+
+    
+  }
+
+}
+
+
+async function updateShowtimes(req,res){
+
+}
+
+
+loadShowtimes();

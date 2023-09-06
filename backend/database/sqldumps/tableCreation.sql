@@ -318,3 +318,7 @@ ALTER TABLE THEATRES
 ADD CONSTRAINT location_constraint unique(building,road,city);
 
 ----------------more updates at theatres.sql ------------------
+
+
+----I'm separating ratings and reviews table
+

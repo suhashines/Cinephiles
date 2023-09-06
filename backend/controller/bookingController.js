@@ -189,7 +189,7 @@ async function getGalleries(req,res){
 }
 
 
-async function getGallerySeats(req,res){
+async function getGallerySeats(req,res){ 
 
     const {g_id,show_id} = req.query ;
 

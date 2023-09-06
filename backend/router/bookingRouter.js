@@ -21,7 +21,7 @@ bookingRouter.route("/galleries/:id")
 bookingRouter.route("/seats")
 .post(bookingController.total);
 
-bookingRouter.route("/confirm")
+bookingRouter.route("/confirm") 
 .post(bookingController.addBooking);
 
 bookingRouter.route("/all")  // booking/all?token
