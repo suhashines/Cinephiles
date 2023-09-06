@@ -1,4 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { sendUserSignOutRequest } from '../api-helpers/api-helpers';
 
 const userSlice = createSlice({
     name: 'user',
@@ -9,6 +10,7 @@ const userSlice = createSlice({
         },
         logout(state) {
             localStorage.removeItem('userId');
+            sendUserSignOutRequest();
             state.isLoggedIn = false;
         },
     },
