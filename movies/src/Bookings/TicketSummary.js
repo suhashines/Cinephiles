@@ -8,7 +8,7 @@ import TimesOneMobiledataIcon from '@mui/icons-material/TimesOneMobiledata';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
-const TicketSummary = () => {
+const TicketSummary = (props) => {
     const [value, setValue] = useState(0);
   return (
     <Box
@@ -43,7 +43,8 @@ const TicketSummary = () => {
                 // borderRadius={10}
             >
                 <img 
-                    src={'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2022/07/barbie-2748009.jpg?tf=384x'} 
+                    // src={'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2022/07/barbie-2748009.jpg?tf=384x'} 
+                    src = {props.movie?.POSTER_URL}
                     alt={'Logo'} 
                     height={'100%'} 
                     width={'80%'}
@@ -75,11 +76,11 @@ const TicketSummary = () => {
                     // marginTop={4}
                     fontWeight={'bold'}
                 >
-                    Barbie
+                    {props.movie?.TITLE}
                 </Typography>
                 
                 <Typography>
-                    Duration - 1h 48m
+                    Duration - {props.movie?.DURATION} mins
                 </Typography>
                 
             </Box>
@@ -87,7 +88,7 @@ const TicketSummary = () => {
 
         <Box
             // justifyContent={"center"}
-            // alignContent={"center"}
+            // aligncontents={"center"}
             height={"40%"}
             width={"90%"}
             margin={"auto"}
@@ -109,7 +110,7 @@ const TicketSummary = () => {
                         justifyContent={"right"}
                         width={"100%"}
                     >
-                        <Typography textAlign={"right"} marginRight={1}>31 Aug, 2023</Typography>
+                        <Typography textAlign={"right"} marginRight={1}>{props.date}</Typography>
                     </Box>                
                 </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -129,7 +130,7 @@ const TicketSummary = () => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>Hall 1</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.selectedGallery}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -149,7 +150,7 @@ const TicketSummary = () => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>7:30 pm</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.time}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -169,7 +170,7 @@ const TicketSummary = () => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>Premium</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.category}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -191,7 +192,7 @@ const TicketSummary = () => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>2</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.count}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -203,7 +204,7 @@ const TicketSummary = () => {
                     height={'60%'}
                 >
                     <WeekendIcon style={{color:'#7c4699'}}/>
-                    <span style={{ paddingLeft: '8px' }}>Selected Seat</span>
+                    <span style={{ paddingLeft: '8px' }}>Selected Seats</span>
                     </Box>
                     <Box
                     display={"flex"}
@@ -211,7 +212,7 @@ const TicketSummary = () => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>F5,F6</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.selectedSeats}</Typography>
                 </Box>
             </Box>
             <Box display={"flex"} flexDirection={"row"} width={'100%'} height={'20%'}>
@@ -231,7 +232,7 @@ const TicketSummary = () => {
                     justifyContent={"right"}
                     width={"100%"}
                 >
-                    <Typography textAlign={"right"} marginRight={1}>900 TK BDT</Typography>
+                    <Typography textAlign={"right"} marginRight={1}>{props.total} TK BDT</Typography>
                 </Box>
             </Box>
         </Box>

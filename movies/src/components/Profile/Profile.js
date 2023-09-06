@@ -13,13 +13,16 @@ import { useParams } from 'react-router-dom';
 
 const Profile = () => {
     const [value, setValue] = useState(0);
-    const [user, setUser] = useState();
-    const id = useParams().id;
-    useEffect(()=>{
-        getUserDetails(id)
-        .then((res)=>setUser(res.result))
-        .catch((err)=>console.log(err))
-    },[])
+    const [user, setUser] = useState(null);
+    // const id = useParams().id;
+    
+    useEffect(() => {
+        getUserDetails()
+        .then((data) => {setUser(data);})
+        .catch((err) => {console.log(err);});
+      }, []);
+    console.log(user);
+
   return (
     <Box
         display={"flex"}
@@ -64,13 +67,13 @@ const Profile = () => {
                     padding={0.5}
                 >
                     <Typography fontWeight={'bold'}>
-                        user
+                        {user?.NAME}
                     </Typography>                    
                 </Box>
                 <Box
                     padding={0.5}
                 >
-                    user@gmail.com
+                    {user?.EMAIL}
                 </Box>
                 <Box padding={1}>
                     <Button

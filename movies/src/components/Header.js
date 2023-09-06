@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import MovieIcon from '@mui/icons-material/Movie';
 import { AppBar, Autocomplete, Button, Tab, Tabs, TextField, Toolbar } from '@mui/material'
 import { Box } from '@mui/system';
-import { getAllMovies } from '../api-helpers/api-helpers';
+import { getAllMovies, getUserDetails } from '../api-helpers/api-helpers';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminActions, userActions } from '../store';
@@ -11,7 +11,8 @@ import { adminActions, userActions } from '../store';
 const Header = (props) => {
     const dispatch = useDispatch();
     const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
-    const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);   
+    const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
     useEffect(()=>{
         getAllMovies()
         .then((data)=>setMovies(data.result))  //  previously it was data.movies
@@ -72,7 +73,25 @@ const Header = (props) => {
                 onChange={(e,val)=>handleTabChange(val)}>
                     <Tab value={0} LinkComponent={Link} to={"/"} label="Home"/>
                     <Tab value={1} LinkComponent={Link} to={"/showtimes"} label="ShowTimes"/>
-                    {!isAdminLoggedIn && !isUserLoggedIn && (
+                    <Tab 
+                        value={2} 
+                        LinkComponent={Link}
+                        to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : isUserLoggedIn? `/profile` : "/manager/{id}"} 
+                        label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Profile"} 
+                        // to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : "/"} 
+                        // label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Signout"}
+                        
+                        // onClick={() => {
+                        //     if(isAdminLoggedIn) logout(true);
+                        //     else if(isUserLoggedIn) logout(false);
+                        //     props.setMessage("");
+                        //     if(isAdminLoggedIn || isUserLoggedIn){
+                        //         props.setValue(0);                                
+                        //     }
+                            
+                        // }}
+                    />
+                    {/* {!isAdminLoggedIn && !isUserLoggedIn && (
                         <>
                             <Tab value={2} LinkComponent={Link} to={"/admin"} label="Manager"/>
                             <Tab value={3} LinkComponent={Link} to ={"/auth"} label="User"/>
@@ -90,7 +109,7 @@ const Header = (props) => {
                             <Tab value={3} LinkComponent={Link} to={"/manager"} label="Profile"/>
                             <Tab value={4} onClick={() => logout(true)} LinkComponent={Link} to={"/"} label="Signout"/>
                         </>
-                    )}                    
+                    )}                     */}
                 </Tabs>
             </Box>
         </Toolbar>

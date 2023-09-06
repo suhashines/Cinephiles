@@ -15,7 +15,11 @@ import BuyTicket from "./Bookings/BuyTicket";
 function App() {
   const [value,setValue] = useState(0);
   const [prevValue, setPrevValue] = useState(0);
-  const [view, setView] = useState(false)
+  const [view, setView] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
 
   const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -36,17 +40,59 @@ function App() {
 
   return (
     <div>
-      <Header value={value} setValue={setValue} prevValue={prevValue} setPrevValue={setPrevValue} setView={setView}/>
+      <Header 
+        value={value} 
+        setValue={setValue} 
+        prevValue={prevValue} 
+        setPrevValue={setPrevValue} 
+        setView={setView}
+        message={message}
+        setMessage={setMessage}
+      />
       <section>
         <Routes>
-          <Route path="/" element={<HomePage setValue={setValue} view={view} setView={setView}/>}/>
+
+          <Route path="/" element={<HomePage 
+                                      setValue={setValue} 
+                                      view={view} s
+                                      etView={setView}
+                                    />}/>
+
           <Route path="/movies" element={<Movies/>}/>
-          <Route path="/admin" element={<Admin setValue={setValue} prevValue={prevValue}/>}/>
-          <Route path="/auth" element={<Auth setValue={setValue} prevValue={prevValue}/>}/>
+
+          <Route path="/admin" element={<Admin 
+                                          setValue={setValue} 
+                                          prevValue={prevValue} 
+                                          isAdmin={isAdmin} 
+                                          setIsAdmin={setIsAdmin}
+                                          isAdminLoggedIn={isAdminLoggedIn}
+                                          isUserLoggedIn={isUserLoggedIn}
+                                          success={success}
+                                          message={message}
+                                          setSuccess={setSuccess}
+                                          setMessage={setMessage}
+                                        />}/>
+          <Route path="/auth" element={<Auth 
+                                          setValue={setValue} 
+                                          prevValue={prevValue} 
+                                          isAdmin={isAdmin} 
+                                          setIsAdmin={setIsAdmin}
+                                          isAdminLoggedIn={isAdminLoggedIn}
+                                          isUserLoggedIn={isUserLoggedIn}
+                                          success={success}
+                                          message={message}
+                                          setSuccess={setSuccess}
+                                          setMessage={setMessage}
+                                      />}/>
+
           <Route path="/showtimes" element={<ShowTimes/>}/>
+
           <Route path="/bookings/:id" element={<Bookings/>}/>
-          <Route path="/profile/:id" element={<Profile/>}/>
-          <Route path="/buyticket" element={<BuyTicket/>}/>
+
+          <Route path="/profile" element={<Profile/>}/>
+
+          <Route path="/buyticket/:id" element={<BuyTicket/>}/>
+
         </Routes>
       </section>
     </div>

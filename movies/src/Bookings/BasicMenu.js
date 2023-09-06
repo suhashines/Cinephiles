@@ -5,9 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
-export default function BasicMenu() {
+export default function BasicMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [city, setCity] = React.useState('City');
+  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,7 +26,7 @@ export default function BasicMenu() {
         onClick={handleClick}
         style={{ backgroundColor: 'white',
                 borderColor: '#900c3f',
-                color:"#e3e4e6",
+                color: "#e3e4e6",
                 fontSize:"18px",
                 fontFamily: 'Sans-serif',
                 // fontWeight: 'bold',
@@ -37,8 +37,8 @@ export default function BasicMenu() {
                 transition: 'none',
             }}
       >
-        <span style={{ color:'black', fontWeight:'bold' }}>{city}</span>
-        <ArrowDropDownIcon style={{color:'black'}}/>        
+        <span style={{ color: props.variant==1 ? 'black' : '#7c4699', fontWeight:'bold' }}>{props.selection}</span>
+        <ArrowDropDownIcon style={{color: props.variant==1 ? 'black' : '#7c4699'}}/>        
       </Button>
       <Menu
         id="basic-menu"
@@ -49,9 +49,24 @@ export default function BasicMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={() => {setAnchorEl(null); setCity('Dhaka')}}>Dhaka</MenuItem>
+        {
+          props.option && props.option.map((city) => {
+              return(
+              <MenuItem 
+                key={city} 
+                onClick={() => {
+                  setAnchorEl(null);
+                  if(props.variant==2) {props.setTheatre(city.T_ID); props.setIsLocationSelected(true);} 
+                  props.variant==1 ? props.setSelection(city?.NAME) : props.setSelection(city?.LOCATION)
+                }}>
+                  {props.variant == 1? city?.NAME : city?.LOCATION}
+              </MenuItem>
+              )
+          })
+        }
+        {/* <MenuItem onClick={() => {setAnchorEl(null); setCity('Dhaka')}}>Dhaka</MenuItem>
         <MenuItem onClick={handleClose}>Chattogram</MenuItem>
-        <MenuItem onClick={handleClose}>Khulna</MenuItem>
+        <MenuItem onClick={handleClose}>Khulna</MenuItem> */}
       </Menu>
     </div>
   );
