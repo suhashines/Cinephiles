@@ -31,5 +31,6 @@ movieRouter.route("/find")
 movieRouter.route("/review/:id")
 .get(movieController.getMovieReviews)
 .post(movieController.addMovieReview)
+.patch(movieController.editReview);
 
 module.exports = movieRouter;

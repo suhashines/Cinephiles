@@ -216,6 +216,35 @@ async function addMovieReview(req,res){
 
     const m_id = req.params.id ;
 
+    const {review,u_id}=req.body ;
+
+    let sql =
+    ` insert into reviews(review,u_id,m_id)
+        values(:review,:u_id,:m_id)
+    
+    `
+
+    await database.execute(sql,{review:review,u_id:u_id,m_id:m_id}) ;
+
+    res.json({message:"posted"});
+
+}
+
+
+async function editReview(req,res){
+
+    const m_id = req.params.id ;
+
+    const {rev_id,review}=req.body ;
+
+    let sql =
+    ` update reviews
+    set review = '${review}' 
+    where rev_id = :rev_id `
+
+    await database.execute(sql,{rev_id:rev_id}) ;
+
+    res.json({message:"edited"});
 
 }
 
@@ -280,4 +309,5 @@ getCurrent,
 comingSoon,
 getCitiesAndTheatres,
 getMovieReviews,
-addMovieReview};
+addMovieReview,
+editReview};
