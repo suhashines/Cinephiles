@@ -29,6 +29,7 @@ movieRouter.route("/find")
 .get(movieController.getCitiesAndTheatres) ;
 
 movieRouter.route("/review/:id")
-.get(movieController.getMovieReviews);
+.get(movieController.getMovieReviews)
+.post(movieController.addMovieReview)
 
 module.exports = movieRouter;

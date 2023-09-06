@@ -212,6 +212,14 @@ async function getMovieReviews(req,res){
 }
 
 
+async function addMovieReview(req,res){
+
+    const m_id = req.params.id ;
+
+
+}
+
+
 
 async function getCitiesAndTheatres(req,res){
 
@@ -271,4 +279,5 @@ getMovieById,
 getCurrent,
 comingSoon,
 getCitiesAndTheatres,
-getMovieReviews};
+getMovieReviews,
+addMovieReview};

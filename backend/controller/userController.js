@@ -231,11 +231,11 @@ async function editDetails(req,res){
     sql = 
     `
     update users u 
-    set name=:name,email = :email, gender = :gender,mobile = :mobile
+    set name='${name}',email = '${email}', gender = '${gender}',mobile = '${mobile}'
     where u.u_id = :user_id
      ` 
 
-    await database.execute(sql,{name:name,email:email,gender:gender,mobile:mobile});
+    await database.execute(sql,{user_id:user_id});
 
     res.json({success:true,message:"Edited"});
 
