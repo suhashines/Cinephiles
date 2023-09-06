@@ -127,7 +127,7 @@ async function getUserDetails(req,res){
     let sql,result ;
 
     try{
-      sql = `select u_id,name,email from users where u_id=:u_id` ;
+      sql = `select * from users where u_id=:u_id` ;
 
       result = (await database.execute(sql,{u_id:req.params.id})).rows;
     }catch(err){

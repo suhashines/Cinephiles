@@ -36,6 +36,8 @@ const Auth = (props) => {
   
       props.setSuccess(res.success);
       props.setMessage(res.message);
+
+      console.log(res.token);
   
       if (res.success && !data.signup) {
         dispatch(userActions.login());

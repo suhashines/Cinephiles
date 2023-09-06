@@ -18,7 +18,7 @@ async function addBooking(req,res){
 
     let u_id = req.body.token ;
 
-    console.log(seats,g_id,show_id);
+    console.log(seats,g_id,show_id,"user id",u_id);
 
     let sql,bookings;
 

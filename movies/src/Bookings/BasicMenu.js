@@ -50,10 +50,10 @@ export default function BasicMenu(props) {
         }}
       >
         {
-          props.option && props.option.map((city) => {
+          props.option && props.option.map((city,index) => {
               return(
               <MenuItem 
-                key={city} 
+                key={index} 
                 onClick={() => {
                   setAnchorEl(null);
                   if(props.variant==2) {props.setTheatre(city.T_ID); props.setIsLocationSelected(true);} 

@@ -121,8 +121,9 @@ async function getMovieById(req,res){
         sql = 
         `
         SELECT m_id,title,RELEASE_DATE ,DURATION ,SYNOPSIS ,POSTER_URL ,BACK_POSTER_URL ,
-        getallactors(m_id) actor ,getmoviedirector(m_id) director,getmoviegenres(m_id) genre
-        FROM movies
+        getallactors(m_id) actor ,getmoviedirector(m_id) director,getmoviegenres(m_id) genre,
+        (select avg(rating)from ratings r where r.m_id=m.m_id) rating
+        FROM movies m
         where m_id = :movie_id `
 
         movie = (await database.execute(sql,{movie_id:movie_id})).rows ;
@@ -194,6 +195,24 @@ async function comingSoon(req,res){
 
 
 
+async function getMovieReviews(req,res){
+
+    const m_id = req.params.id ;
+
+    sql = 
+    `
+    SELECT rev_id,review,(SELECT name FROM users u WHERE u.U_ID=r.u_id)name
+    FROM REVIEWS r 
+    WHERE m_id=:m_id
+    `
+
+    const reviews = (await database.execute(sql,{m_id:m_id})).rows;
+
+    res.json(reviews);
+}
+
+
+
 async function getCitiesAndTheatres(req,res){
 
 
@@ -251,4 +270,5 @@ getAllMovies,
 getMovieById,
 getCurrent,
 comingSoon,
-getCitiesAndTheatres};
+getCitiesAndTheatres,
+getMovieReviews};

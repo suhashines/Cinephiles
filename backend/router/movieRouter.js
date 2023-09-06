@@ -28,4 +28,7 @@ movieRouter.route("/date/current")
 movieRouter.route("/find")
 .get(movieController.getCitiesAndTheatres) ;
 
+movieRouter.route("/review/:id")
+.get(movieController.getMovieReviews);
+
 module.exports = movieRouter;
