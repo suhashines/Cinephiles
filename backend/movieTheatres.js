@@ -32,38 +32,35 @@ async function load(){
 
     for(let i=0;i<m;i++){
 
-       let m_id = movies[i].M_ID ;
+        let m_id = movies[i].M_ID ;
 
-       let random = getRandomInt(0,n-1) ;
+      //  let random = getRandomInt(0,n-1) ;
 
-       let random2 = getRandomInt(0,n-1) ;
+      //  let random2 = getRandomInt(0,n-1) ;
 
-       let sql , mt_id ;
+      //  let sql , mt_id ;
 
-       try{
 
-        mt_id = i ;
+      for(let j=0;j<4;j++){
 
-        sql = `insert into movieTheatres(mt_id,m_id,t_id) values(:mt_id,:m_id,:t_id)` ;
+        let index = getRandomInt(0,theatres.length-1);
+         
+        let t_id = theatres[index].T_ID ;
 
-        
-         let t_id = theatres[random].T_ID ;
+        try{
 
-        (await db.execute(sql,{mt_id:mt_id,m_id:m_id,t_id:t_id}));
+          sql = `insert into movieTheatres(m_id,t_id) values(:m_id,:t_id)` ;
+  
+        //let's keep it simple, a particular movie is shown in four theatres
 
-        
-          t_id = theatres[random2].T_ID ;
+        (await db.execute(sql,{m_id:m_id,t_id:t_id}));
 
-          mt_id = i+1 ;
+        }catch(err){
+          console.log(err);
+         }
+      }
 
-        (await db.execute(sql,{mt_id:mt_id,m_id:m_id,t_id:t_id}));
-
-       }catch(err){
-        console.log(err);
        }
-    }
-
-}
-
+  }
 
 load();

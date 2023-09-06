@@ -118,10 +118,14 @@ async function getMovieById(req,res){
     let sql,movie ;
 
     try{
-        sql = 'select * from movies where m_id=:movie_id';
-        binds={movie_id} ;
+        sql = 
+        `
+        SELECT m_id,title,RELEASE_DATE ,DURATION ,SYNOPSIS ,POSTER_URL ,BACK_POSTER_URL ,
+        getallactors(m_id) actor ,getmoviedirector(m_id) director,getmoviegenres(m_id) genre
+        FROM movies
+        where m_id = :movie_id `
 
-        movie = (await database.execute(sql,binds)).rows ;
+        movie = (await database.execute(sql,{movie_id:movie_id})).rows ;
 
     }catch(err){
         console.log(err); 
@@ -201,7 +205,7 @@ async function getCitiesAndTheatres(req,res){
 
         let sql = 
 
-        `SELECT t.city name
+        `SELECT distinct t.city name
         FROM THEATRES t,MOVIETHEATRES mt
         WHERE t.t_id = mt.T_ID 
         AND mt.m_id = :m_id 
@@ -224,7 +228,7 @@ async function getCitiesAndTheatres(req,res){
     let sql = 
 
     `
-    SELECT t.t_id,(name||' '||building || ','||road||','||city) location 
+    SELECT t.t_id,(name||','||building || ','||road||','||city) location 
     FROM THEATRES t,MOVIETHEATRES mt
     WHERE t.t_id = mt.T_ID AND lower(t.city)=lower(:city)
     AND mt.m_id = :m_id 

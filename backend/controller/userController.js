@@ -203,4 +203,44 @@ async function changePassword(req,res){
 }
 
 
-module.exports={getAllUsers,signupUser,getUserDetails,signOut,changePassword} ;
+async function editDetails(req,res){
+
+    const user_id = req.params.id ;
+
+    console.log("got the user id",user_id);
+
+    console.log(req.body);
+
+    const {name,email,gender,mobile} = req.body;
+
+    let sql,result ;
+
+    sql = 
+    `select * 
+    from users u 
+    where u.u_id <> ${user_id} and email = '${email}' ` ;
+
+    result = (await database.execute(sql,{})).rows;
+
+    console.log(result);
+
+    if(result.length!=0){
+      return res.json({success:false,message:"This email already exists"}) ;
+    }
+
+    sql = 
+    `
+    update users u 
+    set name=:name,email = :email, gender = :gender,mobile = :mobile
+    where u.u_id = :user_id
+     ` 
+
+    await database.execute(sql,{name:name,email:email,gender:gender,mobile:mobile});
+
+    res.json({success:true,message:"Edited"});
+
+}
+
+
+module.exports=
+{getAllUsers,signupUser,getUserDetails,signOut,changePassword,editDetails} ;
