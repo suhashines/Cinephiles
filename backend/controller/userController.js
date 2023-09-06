@@ -33,7 +33,7 @@ async function signupUser(req,res){
     console.log(data);
 
     if (!data.name || !data.email || !data.password || !data.confirmPassword) {
-        return res.status(400).json({ success:false, message: 'All fields are required.' });
+        return res.json({ success:false, message: 'All fields are required.' });
       }  //here return means now we're going to exit from the function as well
 
     let sql,result ;
@@ -120,14 +120,16 @@ async function signupUser(req,res){
 
 async function getUserDetails(req,res){
 
-    console.log("got access_id : ",req.access_id) ;
+    console.log("got access_id : ",req.params.id) ;
+
+    let u_id = req.params.id;
 
     let sql,result ;
 
     try{
       sql = `select u_id,name,email from users where u_id=:u_id` ;
 
-      result = (await database.execute(sql,{u_id:req.access_id})).rows;
+      result = (await database.execute(sql,{u_id:req.params.id})).rows;
     }catch(err){
       console.log(err);
     }
@@ -136,26 +138,6 @@ async function getUserDetails(req,res){
 }
 
 
-async function getAllBookingOfUser(req,res){
-
-    let user_id = req.params.id ;
-
-    console.log('fetching all bookings of user ',user_id);
-
-    let allBookings ;
-
-    try{
-      const sql = 'select * from bookings where user_id=:user_id' ;
-      const binds = {user_id:user_id};
-
-      allBookings = (await database.execute(sql,binds)).rows ;
-
-    }catch(err){
-      return res.json({message:"unable to get all bookings"});
-    }
-
-    return res.json({allBookings});
-}
 
 
 async function signOut(req,res){
@@ -221,4 +203,4 @@ async function changePassword(req,res){
 }
 
 
-module.exports={getAllUsers,signupUser,getAllBookingOfUser,getUserDetails,signOut,changePassword} ;
+module.exports={getAllUsers,signupUser,getUserDetails,signOut,changePassword} ;

@@ -15,21 +15,17 @@ userRouter.route("/")
 userRouter.route("/login").post(authController.loginUser);
 
 userRouter.route("/signup").post(userController.signupUser) ;
+  
 
+userRouter.route("/details/:id")
+.get(userController.getUserDetails);
 
-userRouter.route("/bookings/:id").get(userController.getAllBookingOfUser);    
-
-userRouter.route("/details")
-.get(vt.verifyToken,userController.getUserDetails);
-
-// userRouter.route("/details")
-// .get(userController.getUserDetails);
 
 userRouter.route("/signout")
 .get(userController.signOut);
 
 
-userRouter.route("/changePassword")
+userRouter.route("/changePassword/:id")
 .post(userController.changePassword);
 
 

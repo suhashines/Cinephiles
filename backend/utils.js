@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken');
 
 function verifyToken(req,res,next){
 
+
+    console.log("I'm inside token verification");
+
     console.log(req.cookies);
 
     const extractedToken = req.cookies.access_token ;  
