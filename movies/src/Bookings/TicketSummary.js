@@ -246,7 +246,7 @@ const TicketSummary = (props) => {
         >
             <Button
                 onClick={()=>{
-                    confirmBooking(props.greenButtonNames.map((value) => String(value)), props.gallery, props.show)
+                    confirmBooking(props.greenButtonNames.map((value) => String(value)), props.gallery, props.show, localStorage.getItem('userId'))
                 }}
                 variant="outlined"
                 color="primary"

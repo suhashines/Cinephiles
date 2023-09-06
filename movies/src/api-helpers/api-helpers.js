@@ -93,10 +93,10 @@ export const getMovieById = async(id) => {
     return data;
 }
 
-export const getUserDetails = async () => {
+export const getUserDetails = async (id) => {
 
     try {
-      const response = await axios.get(`/user/details`); //halts at this line
+      const response = await axios.get(`/user/details/${id}`); //halts at this line
 
       console.log(response.data);
       const res = response.data.result; // Access the response data directly
@@ -298,7 +298,7 @@ export const getTotalCost = async(seat, id) => {
     return data;
 }
 
-export const confirmBooking = async(seat, id, s_id) => {
+export const confirmBooking = async(seat, id, s_id, tk) => {
     let res;
 
     console.log(seat);
@@ -309,23 +309,24 @@ export const confirmBooking = async(seat, id, s_id) => {
          res = await axios
          .post("/booking/confirm", 
          {
-             seats: seat,
-             g_id: id,
-             show_id: s_id
+            seats: seat,
+            g_id: id,
+            show_id: s_id,
+            token: tk
          })
     }catch(err){
         console.log(err);
     }
 
-    // console.log(res.data) ;
+    console.log(res.data) ;
 
-    // if(!res.data.success){
-    //     return console.log(res.data.message);
-    // }
+    if(!res.data.success){
+        return console.log(res.data.message);
+    }
 
-    // const response = res.data ;
-    // // console.log(response);
-    // return response;
+    const response = res.data ;
+    console.log(response);
+    return response;
 }
 
 export const getCitiesAndTheatres = async() => {
