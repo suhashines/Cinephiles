@@ -10,6 +10,7 @@ import BasicInfo from './BasicInfo';
 import ChangePass from './ChangePass';
 import { getUserDetails } from '../../api-helpers/api-helpers';
 import { useParams } from 'react-router-dom';
+import EditProfile from './EditProfile';
 
 const Profile = () => {
     const [value, setValue] = useState(0);
@@ -29,7 +30,7 @@ const Profile = () => {
         flexDirection={"row"}
         justifyContent={"center"}
         alignItems={"center"}        
-        width={"65%"}
+        width={"85%"}
         height={"70vh"}
         margin={"auto"}
         marginTop={4}   
@@ -39,7 +40,7 @@ const Profile = () => {
             flexDirection={"column"}
             justifyContent={"center"}
             alignItems={"center"}        
-            width={"30%"}
+            width={"20%"}
             height={"100%"}
             margin={"auto"}
             marginRight={1}
@@ -161,7 +162,7 @@ const Profile = () => {
             flexDirection={"column"}
             justifyContent={"left"}
             alignItems={"left"}        
-            width={"50%"}
+            width={"65%"}
             height={"90%"}
             margin={"auto"}
             marginLeft={1}
@@ -177,6 +178,7 @@ const Profile = () => {
             {/* {value === 2 && <><BasicInfo/></>}
             {value === 3 && <><BasicInfo/></>}
             {value === 4 && <><BasicInfo/></>} */}
+            {/* {(value == 4) && <><EditProfile/></>} */}
         </Box>
     </Box>
   )

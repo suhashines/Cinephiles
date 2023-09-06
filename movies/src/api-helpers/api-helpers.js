@@ -360,6 +360,27 @@ export const changePassword = async(inputs) => {
 
 }
 
+export const editProfile = async(inputs) => {
+    let res;
+
+    try{
+        res = await axios
+        .patch(`/user/details/${inputs.u_id}`,{
+            name: inputs.name,
+            email: inputs.email,
+            gender: inputs.mobile,
+            mobile: inputs.mobile        
+        })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
 export const getCitiesAndTheatres = async() => {
     let res;
 
@@ -371,9 +392,9 @@ export const getCitiesAndTheatres = async() => {
 
     console.log(res.data) ;
 
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
 
     const data = res.data ;
 
