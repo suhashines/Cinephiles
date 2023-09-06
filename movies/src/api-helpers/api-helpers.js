@@ -82,7 +82,8 @@ export const getMovieById = async(id) => {
 export const getUserDetails = async () => {
 
     try {
-      const response = await axios.get(`/user/details`);
+      const response = await axios.get(`/user/details`); //halts at this line
+
       console.log(response.data);
       const res = response.data.result; // Access the response data directly
   
