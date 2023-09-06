@@ -50,7 +50,7 @@ export default function BasicMenu(props) {
         }}
       >
         {
-          props.option && props.option.map((city, index) => {
+          props.option && props.option.map((city,index) => {
               return(
               <MenuItem 
                 key={index} 

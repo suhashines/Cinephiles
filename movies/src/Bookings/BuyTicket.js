@@ -193,7 +193,7 @@ const BuyTicket = () => {
               // borderRadius={10}
               // bgcolor={"#edeef0"}
             >
-              {showDate && showDate.map((index, item) => (
+              {showDate && showDate.map((index,item) => (
                 <Button
                   key={item}
                   onClick={() => {setIsDateSelected(true)
@@ -307,7 +307,7 @@ const BuyTicket = () => {
               aligncontents={"center"}
               marginLeft={1}
             >
-              {galleries.map((item, index) => (
+              {galleries.map((item,index) => (
                 <Box
                   key={index}
                   display={"flex"}
@@ -351,7 +351,7 @@ const BuyTicket = () => {
                     marginRight={1}
                     // padding={1}
                   >
-                    {item.TIMES.map((index, hash) => (
+                    {item.TIMES.map((index,hash) => (
                       <Box
                         key={hash}
                         // display={"flex"}
