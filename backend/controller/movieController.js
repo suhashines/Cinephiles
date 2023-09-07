@@ -3,51 +3,244 @@ const database = require('../database/database');
 const jwt = require('jsonwebtoken');
 
 
-async function addMovie(req,res){
+async function addDirector(req,res,next){
 
-    console.log("got my access_id :",req.access_id);
+    const name = req.body.name ;
 
-    let movie = req.body ;
+    const country = req.body.country ;
+
+    const dob = req.body.dob; 
+
+    console.log("trying to add director,name ",name);
+
+    let sql,result ;
+
+        sql = 
+        `select d_id 
+        from directors 
+        where lower(name) = lower('${name}')` ;
+
+        result = (await database.execute(sql,{})).rows ;
+
+    let d_id ;
+
+    if(result.length!=0){
+
+        console.log('hence the director already exists, no need to add him')
+        d_id = result[0].D_ID;
+
+        req.d_id = d_id ;
+
+        next();
+    }else{
+
+        //this is a new director ,  I need to add him 
+
+        console.log('new director found');
+
+        sql = 
+        `
+        SELECT d_id 
+        FROM DIRECTORS
+        ORDER BY D_ID DESC
+        
+        `
+
+        result = (await database.execute(sql,{})).rows ;
+
+        d_id = result[0].D_ID+1 ;
+
+        req.d_id = d_id ;
+
+        console.log("new director with id ",d_id);
 
 
-    console.log("movie received: ",movie);
+        sql =
+        `
+        INSERT INTO DIRECTORS(D_ID,NAME,COUNTRY,DOB) 
+        VALUES(${d_id},'${name}','${country}',to_date('${dob}','DD-MON-YY'))
+        
+        `
 
-        let sql ;
+        await database.execute(sql,{});
+
+        console.log("director is added, forwarding to movie");
+
+        next();
 
 
-        const result = (await database.execute('select * from movies where title=:title and release_date=:release_date',{title:movie.title,release_date:movie.release_date})).rows;
-
-        if(result.length!=0){
-            res.json({success:false,message:"Movie already exists"});
-        }
-
-        const movies = (await database.execute('select * from movies order by movie_id desc',{})).rows;
-
-        console.log(movies);
-
-        const newId = movies[0].M_ID + 1 ;
-
-        console.log(newId);
-
-    try{
-
-        sql = 'insert into movies(movie_id,title,description,release_date,poster_url,admin_id) values(:movie_id,:title,:description,:release_date,:poster_url,:back_poster_url,:admin_id) ' ;
-        binds = {movie_id:newId,title:movie.title,description:movie.description,release_date:movie.release_date,poster_url:movie.poster_url,back_poster_url:movie.back_poster_url,admin_id:req.access_id} ;
-
-        let output = (await database.execute(sql,binds)).rowsAffected;
-
-        console.log(output," row affected");
-
-    }catch(err){
-
-         console.log(err) ;
-
-         return res.json({success:false,message:"database error"}) ;
     }
 
+}
 
-    return res.json({"success":true, "message":"movie added successfully"}) ;
 
+async function addMovie(req,res,next){
+
+    //before anything first I retrive director_id 
+
+    const d_id = req.d_id ;
+
+    console.log('d_id found: ',d_id);
+ 
+    const ad_id = req.body.manager_id ;
+
+    const title = req.body.title ;
+
+    const release_date = req.body.release_date;
+
+
+    let sql,result ;
+
+
+        sql =
+        `select m_id
+        from movies 
+        where title='${title}'
+        and release_date=to_date('${release_date}','DD-MON-YY')
+        `
+
+
+         result = (await database.execute(sql,{})).rows;
+
+        let m_id ;
+
+        if(result.length!=0){
+           
+            //this means movie already exists , hence I retrive the m_id
+
+            m_id = result[0].M_ID ;
+
+            console.log("movie already exists with id ",m_id);
+
+            req.movie = true ;
+
+            //
+
+            req.m_id = m_id ;
+
+            console.log("no need to insert anything,forwarding to genre");
+
+            next();
+
+        }else{
+
+            //now I've to insert information
+
+            result = (await database.execute('select m_id from movies order by m_id desc',{})).rows;
+    
+            m_id = result[0].M_ID + 1 ;
+
+            req.m_id = m_id ;
+
+            req.movie = false;
+
+            console.log("new movie with m_id ",m_id);
+
+            const duration = req.body.duration;
+
+            const synopsis = req.body.synopsis;
+
+            const poster_url = req.body.poster_url;
+
+            const back_poster_url = req.body.back_poster_url;
+
+            sql = 
+            `
+            insert into movies(m_id,title,release_date,duration,synopsis,poster_url,ad_id,d_id,back_poster_url)
+            values(${m_id},'${title}',to_date('${release_date}','DD-MON-YY'),${duration},'${synopsis}','${poster_url}',${ad_id},${d_id},'${back_poster_url}')
+            `
+
+            await database.execute(sql,{});
+
+            console.log("new movie added,forwarding to genre");
+
+            next();
+        }
+
+        
+}
+
+
+async function addGenres(req,res){
+
+    const genres = req.body.genres.split(',') ;
+
+    const m_id = req.m_id ;
+
+    console.log("got the genres array ",genres); 
+
+    for(let i=0;i<genres.length;i++){
+
+        let name = genres[i];
+
+        let sql,result,gn_id ;
+
+        sql = 
+        `select gn_id from genres
+        where lower(name) = lower('${name}') ` 
+
+        result = (await database.execute(sql,{})).rows;
+
+        if(result.length!=0){
+
+            console.log(name," genre already exists");
+
+            gn_id = result[0].GN_ID ;
+
+        }else{
+
+            console.log("wow new genre ");
+
+            sql = 
+            `
+            select gn_id
+            from genres
+            order by gn_id desc
+
+            `
+
+            result = (await database.execute(sql,{})).rows;
+
+            gn_id = result[0].GN_ID + 1;
+
+            console.log("new genre id ",gn_id);
+
+            sql = 
+            `
+            
+            insert into genres
+            values(${gn_id},'${name}')
+            
+            `
+
+            await database.execute(sql,{});
+        }
+
+
+        sql = 
+        `
+        select * from 
+        movieGenres 
+        where m_id = ${m_id} and gn_id = ${gn_id}
+        `
+
+        result = (await database.execute(sql,{})).rows;
+
+        if(result.length!=0){
+            continue;
+        }
+
+
+        sql =
+        `
+        insert into movieGenres
+        values(${m_id},${gn_id})
+        `
+
+        await database.execute(sql,{});
+    }
+
+    res.json({message:"Everything added successfully"});
 
 }
 
@@ -396,4 +589,6 @@ addMovieReview,
 editReview,
 deleteReview,
 addRating,
-getRating};
+getRating,
+addDirector,
+addGenres};

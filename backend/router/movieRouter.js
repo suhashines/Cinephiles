@@ -6,7 +6,7 @@ const movieController = require('../controller/movieController');
 
 
 movieRouter.route("/")
-.post(movieController.addMovie);
+.post(movieController.addDirector,movieController.addMovie,movieController.addGenres);
 
 
 movieRouter.route("/")

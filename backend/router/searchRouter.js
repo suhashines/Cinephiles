@@ -6,7 +6,7 @@ const searchController = require('../controller/searchController');
 
 
 searchRouter.route("/genre")
-.get(searchController.genre);
+.post(searchController.genre);
 
 
 searchRouter.route("/director")
@@ -18,11 +18,11 @@ searchRouter.route("/range")
 
 
 searchRouter.route("/title")
-.get(searchController.title);
+.post(searchController.title);
 
 
 
 searchRouter.route("/actor")
-.get(searchController.actor);
+.post(searchController.actor);
 
 module.exports = searchRouter;
