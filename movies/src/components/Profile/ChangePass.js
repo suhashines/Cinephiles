@@ -28,21 +28,21 @@ const ChangePass = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let changeSuccess;
-
         try{
+            let changeSuccess;
             changeSuccess = await changePassword(inputs);
             setMessage(changeSuccess.message);
+
+            if(changeSuccess.success){
+                setInputs({
+                    u_id:localStorage.getItem('userId'),
+                    oldPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                  });
+            }
         }catch(err){
             console.log(err);
-        }
-
-        if(changeSuccess.success){
-            setInputs({
-                oldPassword: '',
-                newPassword: '',
-                confirmPassword: '',
-              });
         }
         
         // console.log("Change", changeSuccess);

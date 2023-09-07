@@ -8,16 +8,29 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import BasicInfo from './BasicInfo';
 import ChangePass from './ChangePass';
-import { getUserDetails } from '../../api-helpers/api-helpers';
-import { useParams } from 'react-router-dom';
+import { getBookings, getUserDetails } from '../../api-helpers/api-helpers';
+import { Link, useParams } from 'react-router-dom';
 import EditProfile from './EditProfile';
+import StickyHeadTable from './BookingHistory';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../../store';
 
-const Profile = () => {
-    const [value, setValue] = useState(0);
+const Profile = (props) => {
+    
+    const [value, setValue] = useState(3);
     const [user, setUser] = useState(null);
+
+    const dispatch = useDispatch();
+    // const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+    const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const [uid, setUid] = useState(localStorage.getItem('userId'));
     // const id = useParams().id;
+
+    
     
     useEffect(() => {
+        // if(isUserLoggedIn)
+        if(uid) 
         getUserDetails(localStorage.getItem('userId'))
         .then((data) => {setUser(data);})
         .catch((err) => {console.log(err);});
@@ -35,7 +48,10 @@ const Profile = () => {
         margin={"auto"}
         marginTop={4}   
     >
-        <Box
+    {
+        isUserLoggedIn && (
+            <>
+            <Box
             display={"flex"}
             flexDirection={"column"}
             justifyContent={"center"}
@@ -76,7 +92,7 @@ const Profile = () => {
                 >
                     {user?.EMAIL}
                 </Box>
-                <Box 
+                {/* <Box 
                     padding={1}
                 >
                     <Button
@@ -91,7 +107,7 @@ const Profile = () => {
                     >
                         Edit Profile
                     </Button>
-                </Box>
+                </Box> */}
 
             </Box>
 
@@ -133,7 +149,7 @@ const Profile = () => {
                 <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
                     <Button onClick={()=>setValue(1)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <PersonIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
-                        <span style={{ paddingLeft: '8px' }}>Profile</span>
+                        <span style={{ paddingLeft: '8px' }}>Edit Profile</span>
                     </Button>
                 </Box>
                 <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
@@ -145,14 +161,16 @@ const Profile = () => {
                 <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
                     <Button onClick={()=>setValue(3)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <ConfirmationNumberIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
-                        <span style={{ paddingLeft: '8px' }}>Tickets</span>
+                        <span style={{ paddingLeft: '8px' }}>Booking History</span>
                     </Button>
                 </Box>
                 <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
-                    <Button onClick={()=>setValue(4)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
+                    <Link to={'/'}>
+                    <Button onClick={()=>{setValue(4); props.setTabValue(0); dispatch(userActions.logout())}}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <ExitToAppIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
                         <span style={{ paddingLeft: '8px' }}>Signout</span>
                     </Button>
+                    </Link>
                 </Box>
             </Box>
 
@@ -174,13 +192,23 @@ const Profile = () => {
             bgcolor={"#edeef0"}
             // sx={{ "&:hover": { boxShadow: 10 } }}
         >
-            {(value === 1) && <><BasicInfo/></>}
-            {(value === 2) && <><ChangePass/></>}
-            {/* {value === 2 && <><BasicInfo/></>}
-            {value === 3 && <><BasicInfo/></>}
-            {value === 4 && <><BasicInfo/></>} */}
-            {(value == 4) && <><EditProfile user={user}/></>}
+            {(value === 0) && <><BasicInfo user={user}/></>}
+            {(value == 1) && <><EditProfile user={user} setUser={setUser}/></>}
+            {(value === 2) && <><ChangePass/></>}            
+            {(value === 3) && 
+                <>
+                    <Typography variant="h6" marginBottom={3} textAlign={"center"} width={"100%"} fontWeight={'bold'}>
+                        Booking History
+                    </Typography>
+                    <StickyHeadTable setValue={setValue}/>
+                </>}
+            
+            
         </Box>
+        </>
+        )
+    }
+        
     </Box>
   )
 }

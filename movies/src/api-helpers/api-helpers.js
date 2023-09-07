@@ -22,6 +22,26 @@ export const getAllMovies = async() => {
     return data;
 };
 
+export const getCurrent = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/date/current`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
 export const sendUserAuthRequest = async (data, signup) => {
     const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`,{
@@ -113,25 +133,7 @@ export const getUserDetails = async (id) => {
 
   }
 
-export const getCurrent = async() => {
-    let res;
 
-    try{
-         res = await axios.get(`/movie/date/current`)
-    }catch(err){
-        console.log(err);
-    }
-
-    console.log(res.data) ;
-
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
-
-    const data = res.data ;
-
-    return data;
-}
 
 export const getCitiesByMovieId = async(id) => {
     let res;
@@ -329,6 +331,38 @@ export const confirmBooking = async(seat, id, s_id, tk) => {
     return response;
 }
 
+export const cancelBooking = async(id) => {
+    let res;
+
+    try{
+         res = await axios
+         .delete(`/booking/find/${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data ;
+    return response;
+}
+
+export const search = async(query) => {
+    let res;
+
+    try{
+         res = await axios
+         .get(`/movie/search?query=${query}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data ;
+    return response;
+}
+
 export const changePassword = async(inputs) => {
 
     let res;
@@ -380,6 +414,21 @@ export const editProfile = async(inputs) => {
     console.log(res.data) ;
 
     const response = res.data;
+    return response;
+}
+
+export const getBookings = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/booking/all?token=${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data.movies;
     return response;
 }
 

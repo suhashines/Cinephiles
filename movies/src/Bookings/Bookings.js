@@ -92,10 +92,10 @@ const Bookings = () => {
         <Box
           style={{
             position:"absolute",
-            left:"48%", 
-            top:"127%", 
+            left:"39%", 
+            top:"115%", 
             zIndex:3,
-            transform:"translate(-50%, -50%)"
+            // transform:"translate(0%, -50%)"
             // color:"white",
             
           }}

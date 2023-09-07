@@ -29,23 +29,25 @@ const EditProfile = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let editSuccess;
-
         try{
+            let editSuccess;
             editSuccess = await editProfile(inputs);
             setMessage(editSuccess.message);
+
+            if(editSuccess.success){
+                setInputs({
+                    u_id:localStorage.getItem('userId'),
+                    name:inputs.name,
+                    email:inputs.email,
+                    gender:inputs.gender,
+                    mobile:inputs.mobile
+                });
+            }
         }catch(err){
             console.log(err);
         }
 
-        if(editSuccess.success){
-            setInputs({
-                name:props.user.NAME,
-                email:props.user.EMAIL,
-                gender:props.user.GENDER,
-                mobile:props.user.MOBILE
-            });
-        }
+        
         
         // console.log("Change", changeSuccess);
     };

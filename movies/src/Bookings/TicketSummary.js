@@ -8,9 +8,21 @@ import TimesOneMobiledataIcon from '@mui/icons-material/TimesOneMobiledata';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { confirmBooking } from '../api-helpers/api-helpers';
+import { Link } from 'react-router-dom';
 
 const TicketSummary = (props) => {
     const [value, setValue] = useState(0);
+
+    const handleConfirmBooking = async () => {
+        try {
+          const response = await confirmBooking(props.greenButtonNames.map((value) => String(value)), props.gallery, props.show, localStorage.getItem('userId'));
+          props.setBooking(response); // Pass the response to the callback
+        } catch (error) {
+          console.error(error);
+          // Handle the error if needed
+        }
+      };
+
   return (
     <Box
         display={"flex"}
@@ -244,29 +256,32 @@ const TicketSummary = (props) => {
             marginTop={12}
             justifyContent={"center"}
         >
-            <Button
-                onClick={()=>{
-                    confirmBooking(props.greenButtonNames.map((value) => String(value)), props.gallery, props.show, localStorage.getItem('userId'))
-                }}
-                variant="outlined"
-                color="primary"
-                sx={{margin:"auto", color:"#7c4699", bgcolor:"#edeef0", fontSize:"12px", borderColor:"#7c4699", padding: 2, width: '100%',
-                '&:hover': {backgroundColor: '#7c4699', borderColor: '#900c3f', color:"#e3e4e6"}}}
-                // className={classes.button}
-                // startIcon={<EditIcon />}
-            >
-                <Typography
-                    variant={'p'}
-                    fontSize={'15px'}
-                    // color={'black'}
-                    fontFamily={'Sans-serif'}
-                    margin={'auto'}
-                    // width={'50%'}
-                    fontWeight={'bold'}
+            <Link to="/payment">
+                <Button
+                    onClick={()=>{
+                        handleConfirmBooking();
+                        // console.log("Summary", props.booking);                    
+                    }}
+                    variant="outlined"
+                    color="primary"
+                    sx={{margin:"auto", color:"#7c4699", bgcolor:"#edeef0", fontSize:"12px", borderColor:"#7c4699", padding: 2, width: '100%',
+                    '&:hover': {backgroundColor: '#7c4699', borderColor: '#900c3f', color:"#e3e4e6"}}}
+                    // className={classes.button}
+                    // startIcon={<EditIcon />}
                 >
-                    Purchase Ticket
-                </Typography>                
-            </Button> 
+                    <Typography
+                        variant={'p'}
+                        fontSize={'15px'}
+                        // color={'black'}
+                        fontFamily={'Sans-serif'}
+                        margin={'auto'}
+                        // width={'50%'}
+                        fontWeight={'bold'}
+                    >
+                        Purchase Ticket
+                    </Typography>                
+                </Button>
+            </Link> 
         </Box>
     </Box>
   )

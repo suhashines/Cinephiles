@@ -9,6 +9,25 @@ import { adminActions, userActions } from '../store';
 
 
 const Header = (props) => {
+    const [user, setUser] = useState(null);
+
+    // const dispatch = useDispatch();
+    // const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+    // const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const [uid, setUid] = useState(localStorage.getItem('userId'));
+    // const id = useParams().id;
+
+    
+    
+    useEffect(() => {
+        // if(isUserLoggedIn)
+        if(localStorage.getItem('userId')) 
+        getUserDetails(localStorage.getItem('userId'))
+        .then((data) => {setUser(data);})
+        .catch((err) => {console.log(err);});
+      }, [localStorage.getItem('userId')]);
+    console.log(user);
+
     const dispatch = useDispatch();
     const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
     const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -48,6 +67,11 @@ const Header = (props) => {
                             
             <Box width={"30%"} margin={"auto"}>
             <Autocomplete
+                onClick={() => {
+                    props.setValue(0);
+                    props.setView(false);
+                    
+                }}
                 freeSolo
                 disableClearable
                 options={movies && movies.map((option) => option.TITLE)}
@@ -78,16 +102,16 @@ const Header = (props) => {
                         LinkComponent={Link}
                         // to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : isUserLoggedIn? `/profile` : "/manager/{id}"} 
                         // label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Profile"} 
-                        to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : "/"} 
-                        label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Signout"}
+                        to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : "/profile"} 
+                        label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : `${user?.NAME}`}
                         
                         onClick={() => {
-                            if(isAdminLoggedIn) dispatch(adminActions.logout());
-                            else if(isUserLoggedIn) dispatch(userActions.logout());
+                            // if(isAdminLoggedIn) dispatch(adminActions.logout());
+                            // else if(isUserLoggedIn) dispatch(userActions.logout());
                             props.setMessage("");
-                            if(isAdminLoggedIn || isUserLoggedIn){
-                                props.setValue(0);                                
-                            }
+                            // if(isAdminLoggedIn || isUserLoggedIn){
+                            //     props.setValue(0);                                
+                            // }
                             
                         }}
                     />
