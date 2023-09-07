@@ -4,7 +4,12 @@ const theatreRouter = express.Router();
 const theatreController = require('../controller/theatreController');
 
 theatreRouter.route("/")
-.get(theatreController.getTheatreByCity);
+.get(theatreController.getTheatreByCity)
+.post(theatreController.addTheatre);
+
+theatreRouter.route("/gallery")
+.post(theatreController.addGallery,theatreController.addSeats)
+.patch(theatreController.addPremium);
 
 theatreRouter.route("/cities")
 .get(theatreController.getAllCities);

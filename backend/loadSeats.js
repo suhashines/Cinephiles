@@ -83,4 +83,4 @@ function generateLabels(row, col) {
     }
   }
 
-  load();
+ console.log(generateLabels(12,10));

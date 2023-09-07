@@ -226,6 +226,151 @@ async function getMovieGalleries(req,res){
  
  
  }
+
+
+ async function addTheatre(req,res){
+
+    const {name,manager_id,building,road,city,count} = req.body ;
+
+    let sql,result,t_id ;
+
+    sql = 
+    `
+    select t_id from theatres
+    order by t_id desc 
+    fetch first 1 row only
+    `
+
+
+    result = (await database.execute(sql,{})).rows ;
+
+    t_id = result[0].T_ID + 1 ;
+
+
+    sql = 
+    `
+    insert into theatres
+    values(${t_id},'${name}',${manager_id},'${building}','${road}','${city}')
+    `
+
+    await database.execute(sql,{}) ;
+
+    // theatre has been added, now I fetch gallery id
+
+    let galleries  = [];
+
+    sql = 
+    `
+    select g_id from galleries
+    order by g_id desc 
+    fetch first 1 row only
+    `
+
+    result = (await database.execute(sql,{})).rows ;
+
+    let g_id = result[0].G_ID + 1 ;
+
+    for(let i=0;i<count;i++){
+        galleries.push(g_id+i);
+    }
+
+    res.json({message:"Theatre Added",t_id:t_id,galleries:galleries}) ;
+
+ }
+
+
+ async function addGallery(req,res,next){
+
+    const {g_id,t_id,name,tiers,columns,price} = req.body ;
+
+    let sql =
+    `
+    insert into galleries
+    values(${g_id},${tiers},${t_id},'${name}',${columns})
+    
+    `
+
+    await database.execute(sql,{}) ;
+
+    console.log("gallery added ",g_id," moving to seats");
+
+    next();
+
+ }
+
+ async function addSeats(req,res){
+
+    const {g_id,t_id,name,tiers,columns,price} = req.body ;
+
+    let seats = generateSeats(tiers,columns);
+
+    console.log("got the seats ",seats);
+
+    for(let i=0;i<seats.length;i++){
+        let s_id = seats[i];
+
+        let sql = 
+        `
+        insert into seats
+        values('${s_id}','Regular',${price},${g_id})
+        
+        `
+
+        await database.execute(sql,{});
+    }
+
+    console.log("all the seats are added,aborting");
+
+    res.json({g_id:g_id,t_id:t_id,seats});
+
+ }
+
+
+ function generateSeats(row, col) {
+    const labels = [];
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  
+    for (let i = 0; i < row; i++) {
+      for (let j = 1; j <= col; j++) {
+
+        let cnt = Math.floor(Math.log(i)/Math.log(26));
+        let str='';
+
+        for(let k=0;k<cnt;k++){
+            str = str+alphabet[k];
+        }
+
+        let label = str + alphabet[Math.floor(i % 26)] + j;
+        labels.push(label);
+      }
+    }
+  
+    return labels;
+  }
+
+  async function addPremium(req,res){
+
+    const {g_id,seats,price} = req.body;
+
+    for(let i=0;i<seats.length;i++){
+
+        let s_id = seats[i];
+
+        console.log(s_id);
+
+        let sql =
+        `
+        update seats s
+        set s.price = ${price} , s.category = 'Premium'
+        where s.s_id = '${s_id}' and  s.g_id = ${g_id} `
+
+        await database.execute(sql,{});
+    }
+
+    res.json({message:"everything added successfully"});
+
+
+  }
  
 
 module.exports = 
@@ -235,4 +380,8 @@ getTheatreMovies,
 getCurrentMovies,
 getComingSoonMovies,
 getMovieShowtimes,
-getMovieGalleries};
+getMovieGalleries,
+addTheatre,
+addGallery,
+addSeats,
+addPremium};
