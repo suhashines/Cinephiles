@@ -29,6 +29,8 @@ const superRouter = require('./router/superAdminRouter');
 
 const theatreRouter = require('./router/theatreRouter');
 
+const searchRouter = require('./router/searchRouter');
+
 
 const port = 5000 ;       
 
@@ -47,6 +49,7 @@ app.use('/movie',movieRouter);
 app.use('/booking',bookingRouter); 
 app.use('/super',superRouter);
 app.use('/theatre',theatreRouter);
+app.use('/search',searchRouter);
 
 app.use("/",(req,res,next)=>{ 
 
