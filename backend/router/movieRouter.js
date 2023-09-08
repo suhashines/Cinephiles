@@ -3,6 +3,7 @@ const express = require('express');
 const movieRouter = express.Router();
 
 const movieController = require('../controller/movieController');
+const theatreRouter = require('./theatreRouter');
 
 
 movieRouter.route("/")
@@ -11,6 +12,10 @@ movieRouter.route("/")
 
 movieRouter.route("/")
 .get(movieController.getAllMovies);
+
+
+movieRouter.route("/top")
+.get(movieController.topMovie);
 
 movieRouter.route("/find/:id")
 .get(movieController.getMovieById);
