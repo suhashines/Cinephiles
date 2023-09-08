@@ -405,6 +405,69 @@ async function getMovieGalleries(req,res){
 
     res.json({theatre:theatre[0]});
   }
+
+  async function addMovie(req,res){
+
+    const{m_id,t_id} = req.body;
+
+    let sql,result,mt_id ;
+
+    sql=
+    `
+    select mt_id 
+    from movieTheatres
+    where m_id=${m_id} and t_id=${t_id}
+    `
+
+    result = (await database.execute(sql,{})).rows;
+
+    if(result.length!=0){
+
+        console.log("already added,aborting");
+
+         mt_id = result[0].MT_ID;
+    }else{
+
+        sql = `
+    select mt_id from movieTheatres
+    order by mt_id desc
+    fetch first 1 row only
+    
+    `
+
+    result = (await database.execute(sql,{})).rows;
+
+    mt_id = result[0].MT_ID + 1;
+
+    sql=
+    `
+    insert into movieTheatres
+    values(${mt_id},${m_id},${t_id})
+    `
+
+    await database.execute(sql,{});
+
+    }
+
+    let galleries;
+
+    sql=
+    `
+    select * from galleries
+    where t_id=${t_id}
+    `
+
+    galleries = (await database.execute(sql,{})).rows;
+
+    res.json({message:"Movie Added to theatre",mt_id:mt_id,galleries});
+
+  }
+
+  async function deleteTheatre(req,res){
+
+
+
+  }
  
 
 module.exports = 
@@ -420,4 +483,6 @@ addGallery,
 addSeats,
 addPremium,
 editTheatre,
-getTheatreDetails};
+getTheatreDetails,
+addMovie,
+deleteTheatre};

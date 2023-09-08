@@ -278,7 +278,7 @@ async function getAllMovies(req,res){
 
     const sql =
     ` SELECT m_id,title,getAllActors(m_id) actors ,
-    release_date,duration,poster_url,back_poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC fetch first 100 rows only`
+    release_date,duration,poster_url,back_poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC`
 
     console.log('req recieved for fetching all movies');
 
@@ -314,7 +314,7 @@ async function getMovieById(req,res){
         sql = 
         `
         SELECT m_id,title,RELEASE_DATE ,DURATION ,SYNOPSIS ,POSTER_URL ,BACK_POSTER_URL ,
-        getallactors(m_id) actor ,getmoviedirector(m_id) director,getmoviegenres(m_id) genre,
+        getallactors(m_id) actor ,getmoviedirector(d_id) director,getmoviegenres(m_id) genre,
         (select avg(rating)from ratings r where r.m_id=m.m_id) rating
         FROM movies m
         where m_id = :movie_id `
@@ -577,6 +577,48 @@ async function getCitiesAndTheatres(req,res){
 }
 
 
+async function topMovie(req,res){
+
+    let sql,result,earning,total_booking ;
+
+    sql=
+    `
+    CREATE OR REPLACE VIEW top_movie
+	as
+    SELECT mt.m_id,sum(s.PRICE) earning,count(*) total_booking
+	FROM bookings b,SHOWTIMES sh,MOVIETHEATRES mt,seats s
+	WHERE b.SHOW_ID = sh.SHOW_ID
+	AND sh.MT_ID = mt.MT_ID
+	AND b.S_ID = s.S_ID 
+	AND sh.G_ID = s.G_ID 
+	GROUP BY mt.m_id
+	ORDER BY earning DESC
+	FETCH FIRST 1 ROW only
+    `
+
+    await database.execute(sql,{});
+
+    result = (await database.execute('select * from top_movie',{})).rows;
+
+    let m_id = result[0].M_ID ;
+    earning = result[0].EARNING;
+    total_booking = result[0].TOTAL_BOOKING;
+
+    sql = 
+    `select * from 
+     movies
+     where m_id=${m_id} `
+
+    result = (await database.execute(sql,{})).rows;
+
+    res.json({
+        movie:result,
+        earning:earning,
+        total_booking:total_booking
+    })
+}
+
+
 module.exports = 
 {addMovie,
 getAllMovies,
@@ -591,4 +633,5 @@ deleteReview,
 addRating,
 getRating,
 addDirector,
-addGenres};
+addGenres,
+topMovie}; 

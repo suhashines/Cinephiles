@@ -6,7 +6,11 @@ const theatreController = require('../controller/theatreController');
 theatreRouter.route("/")
 .get(theatreController.getTheatreByCity)
 .post(theatreController.addTheatre)
-.patch(theatreController.editTheatre);
+.patch(theatreController.editTheatre)
+.delete(theatreController.deleteTheatre);
+
+theatreRouter.route("/add-movie")
+.post(theatreController.addMovie)
 
 theatreRouter.route("/gallery")
 .post(theatreController.addGallery,theatreController.addSeats)
