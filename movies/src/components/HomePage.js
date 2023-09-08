@@ -61,7 +61,7 @@ const HomePage = ({setValue, setView, view}) => {
     const handleUpcomingSearch = (e) => {
       e.preventDefault();
       search(UpcomingInputs.filter, UpcomingInputs.query)
-      .then((data)=>setMovies(data.upcoming))
+      .then((data)=>setUpcoming(data.upcoming))
       .catch((err)=>console.log(err))
     }
 
