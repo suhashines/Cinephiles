@@ -30,7 +30,7 @@ const HomePage = ({setValue, setView, view}) => {
     .catch((err)=>console.log(err))
 
     getTop()
-    .then((data)=>{setTop(data.movie);
+    .then((data)=>{setTop(data.movie[0]);
                     setEarning(data.earning);
                     setBooking(data.booking);
                   })
@@ -178,21 +178,21 @@ const HomePage = ({setValue, setView, view}) => {
                   width={"80%"}>
                   {
                     item==0? 
-                      movies && movies.slice(0,4).map((movie,index)=>(
+                      movies && movies.slice(0,4).map((movie,hash)=>(
                         <MovieItem id={movie.M_ID} 
                         title={movie.TITLE} 
                         posterurl={movie.POSTER_URL} 
                         releaseDate={movie.RELEASE_DATE} 
-                        key={index}
+                        key={hash}
                         />
                     ))
                       :item==1?
-                        upcoming && upcoming.slice(0,4).map((movie,index)=>(
+                        upcoming && upcoming.slice(0,4).map((movie,hash)=>(
                           <MovieItem id={movie.M_ID} 
                           title={movie.TITLE} 
                           posterurl={movie.POSTER_URL} 
                           releaseDate={movie.RELEASE_DATE} 
-                          key={index}
+                          key={hash}
                           />
                         ))
                         :item==2 && (
@@ -200,7 +200,6 @@ const HomePage = ({setValue, setView, view}) => {
                           title={top?.TITLE} 
                           posterurl={top?.POSTER_URL} 
                           releaseDate={top?.RELEASE_DATE} 
-                          key={index}
                           />
                         )
                   }
@@ -225,11 +224,12 @@ const HomePage = ({setValue, setView, view}) => {
                   
                 </Box>
                 <Box display={"flex"} padding={5} margin={"auto"}>
-                  <Button 
-                  variant={"outlined"}
-                  onClick={()=>setView(!view)} 
-                  sx={{margin:"auto", color:"#2b2d42"}}>
-                    { view ? "View Less" : "View More" }
+                  <Button
+                    // key={index} 
+                    variant={"outlined"}
+                    onClick={()=>setView(!view)} 
+                    sx={{margin:"auto", color:"#2b2d42"}}>
+                      { view ? "View Less" : "View More" }
                   </Button>
                 </Box>
               
