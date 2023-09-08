@@ -1,8 +1,11 @@
 import { Button, Card, CardActions, CardContent, Typography } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 const MovieItems = ({title,releaseDate,posterurl,id}) => {
+  const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   return (
     <Card sx={{ 
         width:280, 
@@ -32,7 +35,10 @@ const MovieItems = ({title,releaseDate,posterurl,id}) => {
       </CardContent>
       <CardActions>
         <Button LinkComponent={Link} to={`/bookings/${id}`} sx={{margin:"auto"}} size="small">Details</Button>
-        <Button LinkComponent={Link} to={`/buyticket/${id}`} sx={{margin:"auto"}} size="small">Book</Button>
+        {isUserLoggedIn && (<>
+          <Button LinkComponent={Link} to={`/buyticket/${id}`} sx={{margin:"auto"}} size="small">Book</Button>
+        </>)}
+        
       </CardActions>
     </Card>
   )

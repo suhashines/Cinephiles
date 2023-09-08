@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-const BasicInfo = () => {
+const BasicInfo = ({user}) => {
   return (
     <Box
         display={"flex"}
@@ -33,7 +33,7 @@ const BasicInfo = () => {
                 Name
             </Typography>
             <Typography>
-                User
+                {user?.NAME}
             </Typography>
         </Box>
         <Box
@@ -44,7 +44,7 @@ const BasicInfo = () => {
                 Email
             </Typography>
             <Typography>
-                user@gmail.com
+                {user?.EMAIL}
             </Typography>
         </Box>
         <Box
@@ -52,10 +52,10 @@ const BasicInfo = () => {
             height={'15%'}
         >
             <Typography fontWeight={'bold'}>
-                Phone
+                Mobile
             </Typography>
             <Typography>
-                01234567890
+                {user?.MOBILE}
             </Typography>
         </Box>
         <Box
@@ -66,7 +66,18 @@ const BasicInfo = () => {
                 Gender
             </Typography>
             <Typography>
-                Male
+                {user?.GENDER}
+            </Typography>
+        </Box>
+        <Box
+            padding={1}
+            height={'20%'}
+        >
+            <Typography fontWeight={'bold'}>
+                Member Since
+            </Typography>
+            <Typography>
+                {user?.MEMBER_SINCE}
             </Typography>
         </Box>
     </Box>

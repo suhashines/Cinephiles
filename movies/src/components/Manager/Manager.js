@@ -15,27 +15,27 @@ import StickyHeadTable from './BookingHistory';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../store';
 
-const Profile = (props) => {
+const Manager = (props) => {
     
     const [value, setValue] = useState(3);
     const [user, setUser] = useState(null);
 
     const dispatch = useDispatch();
-    // const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
-    const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
-    const [uid, setUid] = useState(localStorage.getItem('userId'));
+    const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+    // const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const [mid, setMid] = useState(localStorage.getItem('AdminId'));
     // const id = useParams().id;
 
     
     
-    useEffect(() => {
-        // if(isUserLoggedIn)
-        if(uid) 
-        getUserDetails(localStorage.getItem('userId'))
-        .then((data) => {setUser(data);})
-        .catch((err) => {console.log(err);});
-      }, []);
-    console.log(user);
+    // useEffect(() => {
+    //     // if(isUserLoggedIn)
+    //     if(uid) 
+    //     getUserDetails(localStorage.getItem('userId'))
+    //     .then((data) => {setUser(data);})
+    //     .catch((err) => {console.log(err);});
+    //   }, []);
+    // console.log(user);
 
   return (
     <Box
@@ -105,7 +105,7 @@ const Profile = (props) => {
                         // className={classes.button}
                         // startIcon={<EditIcon />}
                     >
-                        Edit Profile
+                        Edit Manager
                     </Button>
                 </Box> */}
 
@@ -124,7 +124,7 @@ const Profile = (props) => {
                 bgcolor={"#d2d3d4"}
             >
                 <Typography variant="h6" textAlign={"center"} width={"100%"} fontWeight={'bold'}>
-                    Profile Menu
+                    Manager Menu
                 </Typography>
             </Box>
 
@@ -149,7 +149,7 @@ const Profile = (props) => {
                 <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
                     <Button onClick={()=>setValue(1)}  style={{color:'black', width: '100%', height: '100%', justifyContent: 'left'}}>
                         <PersonIcon style={{color:'#7c4699', paddingLeft: '8px'}}/>
-                        <span style={{ paddingLeft: '8px' }}>Edit Profile</span>
+                        <span style={{ paddingLeft: '8px' }}>Edit Manager</span>
                     </Button>
                 </Box>
                 <Box height={'20%'} width={'100%'} sx={{ "&:hover": { boxShadow: 10 } }}>
@@ -213,4 +213,4 @@ const Profile = (props) => {
   )
 }
 
-export default Profile
+export default Manager

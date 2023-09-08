@@ -1,15 +1,16 @@
-import { Box, Button, FormLabel, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { changePassword } from '../../api-helpers/api-helpers'
+import { editProfile, getUserDetails } from '../../api-helpers/api-helpers';
+import { Box, Button, FormLabel, TextField, Typography } from '@mui/material';
 
-const ChangePass = () => {
+const EditProfile = (props) => {
     const labelStyle = {mt:1, mb:1}
 
     const [inputs, setInputs] = useState({
         u_id:localStorage.getItem('userId'),
-        oldPassword:"",
-        newPassword:"",
-        confirmPassword:""
+        name:props.user.NAME,
+        email:props.user.EMAIL,
+        gender:props.user.GENDER,
+        mobile:props.user.MOBILE
     })
 
     const [message, setMessage] = useState("");
@@ -21,29 +22,32 @@ const ChangePass = () => {
         }))
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setMessage(message);
-    },[message])
+    }, [message]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try{
-            let changeSuccess;
-            changeSuccess = await changePassword(inputs);
-            setMessage(changeSuccess.message);
+            let editSuccess;
+            editSuccess = await editProfile(inputs);
+            setMessage(editSuccess.message);
 
-            if(changeSuccess.success){
+            if(editSuccess.success){
                 setInputs({
                     u_id:localStorage.getItem('userId'),
-                    oldPassword: '',
-                    newPassword: '',
-                    confirmPassword: '',
-                  });
+                    name:inputs.name,
+                    email:inputs.email,
+                    gender:inputs.gender,
+                    mobile:inputs.mobile
+                });
             }
         }catch(err){
             console.log(err);
         }
+
+        
         
         // console.log("Change", changeSuccess);
     };
@@ -58,42 +62,59 @@ const ChangePass = () => {
             width={'100%'}
             // height={'100%'}
             margin={"auto"}
-            marginTop={10}
+            // marginTop={10}
             // padding={6}
             >
-            <FormLabel sx={{labelStyle}}>Old Password</FormLabel>
+            <FormLabel sx={{labelStyle}}>Name</FormLabel>
             <TextField
-                value={inputs.oldPassword}
+                value={inputs.name}
                 onChange={handleChange}
                 sx={{bgcolor:'white', width:'60%'}}
                 variants={"standard"} 
                 margin={"normal"}  
-                type={"password"} 
-                name="oldPassword"
+                type={"text"} 
+                name="name"
             />
-            <FormLabel sx={labelStyle}>New Password</FormLabel>
+            <FormLabel sx={labelStyle}>Email</FormLabel>
             <TextField
-                value={inputs.newPassword}
+                value={inputs.email}
                 onChange={handleChange}
                 sx={{bgcolor:'white', width:'60%'}} 
                 variants={"standard"} 
                 margin={"normal"}  
-                type={"password"} 
-                name="newPassword"
+                type={"email"} 
+                name="email"
             />
-            <FormLabel sx={labelStyle}>Confirm Password</FormLabel>
+            <FormLabel sx={labelStyle}>Gender</FormLabel>
+            <select
+                id="gender"
+                name="gender"
+                value={inputs.gender}
+                onChange={handleChange}
+                style={{
+                    width:'60%',
+                    height: 60,
+                    paddingLeft: 8,
+                    fontSize: 16,
+                }}
+            >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <FormLabel sx={labelStyle}>Mobile</FormLabel>
             <TextField
-                value={inputs.confirmPassword}
+                value={inputs.mobile}
                 onChange={handleChange}
                 sx={{bgcolor:'white', width:'60%'}} 
                 variants={"standard"} 
                 margin={"normal"}  
-                type={"password"} 
-                name="confirmPassword"
+                type={"text"} 
+                name="mobile"
             />
             
             <Button 
-                sx={{mt:2, borderRadius:10, bgcolor:"#2b2d42", color:"white", marginTop:3,
+                sx={{mt:2, borderRadius:10, bgcolor:"#2b2d42", color:"white", marginTop:4,
                 '&:hover': {backgroundColor: '#7c4699', borderColor: '#7c4699', color:"#e3e4e6"}}} 
                 type='submit'
                 variant={"contained"}
@@ -111,4 +132,4 @@ const ChangePass = () => {
   )
 }
 
-export default ChangePass
+export default EditProfile
