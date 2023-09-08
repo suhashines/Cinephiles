@@ -37,8 +37,7 @@ const Admin = (props) => {
   
       if (res.success && !data.signup) {
         dispatch(adminActions.login());
-        localStorage.setItem('adminId', res.id);
-        localStorage.setItem('adminToken', res.token);
+        localStorage.setItem('adminId', res.token);
       }
   
       console.log("res.success", res.success);

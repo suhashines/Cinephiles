@@ -25,7 +25,6 @@ const adminSlice = createSlice({
         },
         logout(state) {
             localStorage.removeItem('adminId');
-            localStorage.removeItem('adminToken');
             state.isLoggedIn = false;
         },
     },
