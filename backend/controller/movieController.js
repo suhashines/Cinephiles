@@ -346,7 +346,7 @@ async function getCurrent(req,res){
 
     console.log("all the current movies ",movies.length);
 
-    res.json({movies:movies});
+    res.json({movies:movies}); 
 
 }
 

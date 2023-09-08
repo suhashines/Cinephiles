@@ -15,9 +15,11 @@ async function getAllCities(req,res){
 
 async function getTheatreByCity(req,res){
 
-    sql = `select * from theatres where lower(city)=lower(:city)` ;
+    const city = req.query.city ;
 
-    result = (await database.execute(sql,{city:req.query.city})).rows ;
+    sql = `select t_id,(name||','||building||','||road||','||city) location from theatres where lower(city)=lower('${city}')` ;
+
+    result = (await database.execute(sql,{})).rows ;
 
     res.json({result});
 }

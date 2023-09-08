@@ -95,15 +95,12 @@ async function loginAdmin(req,res){
 
     console.log("req received for admin Login"); 
 
-    // res.cookie("access_token",0,{httpOnly:true});
-
     let sql,result ;
   
     const data = req.body;
   
     console.log("data received from frontend", data); 
   
-    // let user = await userModel.findOne({ email: data.email });
 
     sql = 'SELECT * FROM ADMINS WHERE EMAIL = :email' ;
 
@@ -122,6 +119,8 @@ async function loginAdmin(req,res){
 
       let admin = result[0] ;
 
+      let token = admin.AD_ID;
+
       console.log(admin.PASSWORD);
 
       //the function returns a result which is either true or false
@@ -131,27 +130,12 @@ async function loginAdmin(req,res){
       if (isCorrectPassword) {
 
         console.log("password matched,authenticated");
-  
-  
-        const token = jwt.sign({id:admin.AD_ID},process.env.secretKey,{
-            expiresIn:"1d"
-        })
-
-
-        console.log('cookie is made');
-
-        res.cookie("access_token",token,
-        {
-          httpOnly:true
-        });
-
     
 
        res.json({
           success: true,
           message: "Login Successful",
-          token,
-          id: admin.AD_ID
+          token:token
         });
 
         console.log('response has been sent'); 
