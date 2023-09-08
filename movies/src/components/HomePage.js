@@ -32,7 +32,7 @@ const HomePage = ({setValue, setView, view}) => {
     getTop()
     .then((data)=>{setTop(data.movie[0]);
                     setEarning(data.earning);
-                    setBooking(data.booking);
+                    setBooking(data.total_booking);
                   })
     .catch((err)=>console.log(err))
   },[])
@@ -196,11 +196,26 @@ const HomePage = ({setValue, setView, view}) => {
                           />
                         ))
                         :item==2 && (
-                          <MovieItem id={top?.M_ID} 
-                          title={top?.TITLE} 
-                          posterurl={top?.POSTER_URL} 
-                          releaseDate={top?.RELEASE_DATE} 
-                          />
+                          <Box
+                            display={"flex"}
+                            flexDirection={"column"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            width={"100%"}
+                          >
+                            <MovieItem id={top?.M_ID} 
+                              title={top?.TITLE} 
+                              posterurl={top?.POSTER_URL} 
+                              releaseDate={top?.RELEASE_DATE} 
+                            />
+                            <br></br>
+                            <Typography variant="h6" align="center">
+                              Earning: {earning}
+                            </Typography>
+                            <Typography variant="h6" align="center">
+                              Booking: {booking}
+                            </Typography>
+                          </Box>
                         )
                   }
                     {/* {view? 
@@ -224,13 +239,18 @@ const HomePage = ({setValue, setView, view}) => {
                   
                 </Box>
                 <Box display={"flex"} padding={5} margin={"auto"}>
-                  <Button
-                    // key={index} 
-                    variant={"outlined"}
-                    onClick={()=>setView(!view)} 
-                    sx={{margin:"auto", color:"#2b2d42"}}>
-                      { view ? "View Less" : "View More" }
-                  </Button>
+                  {
+                    item==0 || item==1 && (
+                      <Button
+                        // key={index} 
+                        variant={"outlined"}
+                        onClick={()=>setView(!view)} 
+                        sx={{margin:"auto", color:"#2b2d42"}}>
+                          { view ? "View Less" : "View More" }
+                      </Button>
+                    )
+                  }
+                  
                 </Box>
               
                 </>
