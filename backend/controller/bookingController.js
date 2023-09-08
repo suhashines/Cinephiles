@@ -290,7 +290,7 @@ async function getAllBookings(req,res){
             (SELECT category FROM seats st WHERE st.s_id=b.s_id AND b.g_id=st.g_id) category,
             (SELECT price FROM seats st WHERE st.s_id=b.s_id AND b.g_id=st.g_id) price,
             to_char(b.BOOK_DATE,'DD-MON-YY') showtime ,
-            b.BOOK_ID 
+            b.BOOK_ID, EXTRACT(DAY FROM (s.date_time-SYSDATE)) difference
             FROM bookings b,showtimes s,MOVIETHEATRES mt,movies m
             WHERE b.show_id = s.SHOW_ID AND 
             s.mt_id=mt.mt_id AND 
