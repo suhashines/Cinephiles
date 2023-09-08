@@ -42,6 +42,46 @@ export const getCurrent = async() => {
     return data;
 }
 
+export const getUpcoming = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/date/upcoming`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getTop = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/top`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
 export const sendUserAuthRequest = async (data, signup) => {
     const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`,{
@@ -347,12 +387,14 @@ export const cancelBooking = async(id) => {
     return response;
 }
 
-export const search = async(query) => {
+export const search = async(filter, query) => {
     let res;
 
     try{
          res = await axios
-         .get(`/movie/search?query=${query}`)
+         .post(`/search/${filter}`,{
+            [filter]: query
+         })
     }catch(err){
         console.log(err);
     }

@@ -12,11 +12,11 @@ const Payment = (props) => {
 
     return (
         <Dialog PaperProps={{style:{borderRadius:20, padding:30}}} open={true}>
-            <Box sx={{ml:"auto", padding:1}}>
+            {/* <Box sx={{ml:"auto", padding:1}}>
                 <IconButton onClick={handleClose}>
                     <CloseRoundedIcon/>
                 </IconButton>
-            </Box>
+            </Box> */}
             <Typography variant="h4" textAlign={"center"}>
                 Booking Summary
             </Typography>
@@ -27,9 +27,13 @@ const Payment = (props) => {
                 Successfully Booked: {props.booking?.successful?.join(", ")}
                 {console.log(props.booking)}
             </Typography>
-            <Typography variant="h6" textAlign={"center"}>
-                Failed to Book: {props.booking?.failed?.join(", ")}
-            </Typography>
+            {
+                props.booking?.failed?.length !== 0 && (
+                    <Typography variant="h6" textAlign={"center"}>
+                        Failed to Book: {props.booking?.failed?.join(", ")}
+                    </Typography>
+                )
+            }            
             <Typography variant="h4" textAlign={"center"}>
                 <br></br>
             </Typography>
