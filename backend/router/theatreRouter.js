@@ -5,7 +5,8 @@ const theatreController = require('../controller/theatreController');
 
 theatreRouter.route("/")
 .get(theatreController.getTheatreByCity)
-.post(theatreController.addTheatre);
+.post(theatreController.addTheatre)
+.patch(theatreController.editTheatre);
 
 theatreRouter.route("/gallery")
 .post(theatreController.addGallery,theatreController.addSeats)
@@ -25,6 +26,9 @@ theatreRouter.route("/showtimes")
 
 theatreRouter.route("/upcoming/:id")
 .get(theatreController.getComingSoonMovies);
+
+theatreRouter.route("/details/:id")
+.get(theatreController.getTheatreDetails);
 
 
 module.exports = theatreRouter;

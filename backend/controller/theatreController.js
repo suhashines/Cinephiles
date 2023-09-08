@@ -72,6 +72,7 @@ async function getCurrentMovies(req,res){
 
 async function getComingSoonMovies(req,res){
 
+
     
     let t_id = req.params.id ;
 
@@ -232,7 +233,7 @@ async function getMovieGalleries(req,res){
 
     const {name,manager_id,building,road,city,count} = req.body ;
 
-    let sql,result,t_id ;
+    let sql,result,t_id ; 
 
     sql = 
     `
@@ -371,6 +372,39 @@ async function getMovieGalleries(req,res){
 
 
   }
+
+  async function editTheatre(req,res){
+
+    const {name,building,road,city,t_id} = req.body;
+
+    sql =
+    `
+    update theatres
+    set name = '${name}',building='${building}',road = '${road}',city='${city}'
+    where t_id = ${t_id}` 
+
+    await database.execute(sql,{}) ;
+
+
+    res.json({message:"Edited"});
+  }
+
+  async function getTheatreDetails(req,res){
+
+    let t_id = req.params.id ;
+
+    let theatre ;
+
+    sql=
+    `
+    select * from theatres
+    where t_id = ${t_id}
+    `
+
+    theatre = (await database.execute(sql,{})).rows;
+
+    res.json({theatre:theatre[0]});
+  }
  
 
 module.exports = 
@@ -384,4 +418,6 @@ getMovieGalleries,
 addTheatre,
 addGallery,
 addSeats,
-addPremium};
+addPremium,
+editTheatre,
+getTheatreDetails};
