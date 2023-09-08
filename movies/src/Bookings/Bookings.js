@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getMovieById } from '../api-helpers/api-helpers';
 import { Box, Button, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const Bookings = () => {
     const [movie, setMovie] = useState([]);
@@ -14,6 +15,8 @@ const Bookings = () => {
         .catch((err) => console.log(err));
     },[id]);
     console.log(movie[0]);
+
+    const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   return (    
     <Box
@@ -92,10 +95,10 @@ const Bookings = () => {
         <Box
           style={{
             position:"absolute",
-            left:"48%", 
-            top:"127%", 
+            left:"39%", 
+            top:"115%", 
             zIndex:3,
-            transform:"translate(-50%, -50%)"
+            // transform:"translate(0%, -50%)"
             // color:"white",
             
           }}
@@ -142,7 +145,9 @@ const Bookings = () => {
           >
           <b>Duration:</b> {movie[0]?.DURATION} minutes
           </Typography>
-          <Button 
+          {localStorage.getItem("userId") && (
+            <>
+            <Button 
               variant={"outlined"} 
               sx={{
                 position:"absolute",
@@ -158,9 +163,10 @@ const Bookings = () => {
                   backgroundColor: '#900c3f', 
                   borderColor: '#900c3f', 
                   color:"#e3e4e6"}}}                
-          >
-              Book
-          </Button>
+            >
+                Book
+            </Button>
+          </>)}          
         </Box>
       </Box>
       {/* <Box>

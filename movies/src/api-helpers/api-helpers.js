@@ -22,6 +22,66 @@ export const getAllMovies = async() => {
     return data;
 };
 
+export const getCurrent = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/date/current`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getUpcoming = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/date/upcoming`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
+export const getTop = async() => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/top`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
+
+    const data = res.data ;
+
+    return data;
+}
+
 export const sendUserAuthRequest = async (data, signup) => {
     const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`,{
@@ -113,25 +173,7 @@ export const getUserDetails = async (id) => {
 
   }
 
-export const getCurrent = async() => {
-    let res;
 
-    try{
-         res = await axios.get(`/movie/date/current`)
-    }catch(err){
-        console.log(err);
-    }
-
-    console.log(res.data) ;
-
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
-
-    const data = res.data ;
-
-    return data;
-}
 
 export const getCitiesByMovieId = async(id) => {
     let res;
@@ -320,12 +362,46 @@ export const confirmBooking = async(seat, id, s_id, tk) => {
 
     console.log(res.data) ;
 
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
 
     const response = res.data ;
     console.log(response);
+    return response;
+}
+
+export const cancelBooking = async(id) => {
+    let res;
+
+    try{
+         res = await axios
+         .delete(`/booking/find/${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data ;
+    return response;
+}
+
+export const search = async(filter, query) => {
+    let res;
+
+    try{
+         res = await axios
+         .post(`/search/${filter}`,{
+            [filter]: query
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data ;
     return response;
 }
 
@@ -360,6 +436,44 @@ export const changePassword = async(inputs) => {
 
 }
 
+export const editProfile = async(inputs) => {
+    let res;
+
+    console.log(inputs);
+
+    try{
+        res = await axios
+        .patch(`/user/details/${inputs.u_id}`,{
+            name: inputs.name,
+            email: inputs.email,
+            gender: inputs.gender,
+            mobile: inputs.mobile        
+        })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const getBookings = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/booking/all?token=${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data.movies;
+    return response;
+}
+
 export const getCitiesAndTheatres = async() => {
     let res;
 
@@ -371,9 +485,9 @@ export const getCitiesAndTheatres = async() => {
 
     console.log(res.data) ;
 
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
 
     const data = res.data ;
 

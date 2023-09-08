@@ -11,6 +11,7 @@ import { adminActions, userActions } from "./store";
 import Bookings from "./Bookings/Bookings";
 import Profile from "./components/Profile/Profile";
 import BuyTicket from "./Bookings/BuyTicket";
+import Payment from "./Bookings/Payment";
 
 function App() {
   const [value,setValue] = useState(0);
@@ -20,6 +21,10 @@ function App() {
 
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
+
+  const [booking, setBooking] = useState(null);
+
+  const [bookingResponse, setBookingResponse] = useState(null);
 
   const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -89,9 +94,17 @@ function App() {
 
           <Route path="/bookings/:id" element={<Bookings/>}/>
 
-          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/profile" element={<Profile setTabValue={setValue}/>}/>
 
-          <Route path="/buyticket/:id" element={<BuyTicket/>}/>
+          <Route path="/buyticket/:id" element={<BuyTicket
+                                                    booking={booking}
+                                                    setBooking={setBooking}
+                                                />}/>
+
+          <Route path="/payment" element={<Payment
+                                              booking={booking}
+                                              setBooking={setBooking}
+                                          />}/>
 
         </Routes>
       </section>

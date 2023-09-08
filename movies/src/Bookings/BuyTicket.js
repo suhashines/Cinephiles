@@ -9,7 +9,7 @@ import { getCitiesByMovieId, getGalleriesAndShowTimes, getMovieById, getMovieSho
 // import { getGalleries } from '../../../backend/controller/bookingController';
 // import { getTheatreByCity } from '../../../backend/controller/theatreController';
 
-const BuyTicket = () => {
+const BuyTicket = (props) => {
     const [movie, setMovie] = useState([]);
 
     const [cities, setCities] = useState([]);
@@ -523,6 +523,8 @@ const BuyTicket = () => {
               total={total}
               gallery={gallery}
               show={show}
+              booking={props.booking}
+              setBooking={props.setBooking}
             />
           </Box>
           
