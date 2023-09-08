@@ -37,8 +37,8 @@ const Admin = (props) => {
   
       if (res.success && !data.signup) {
         dispatch(adminActions.login());
-        localStorage.setItem('adminId', data.id);
-        localStorage.setItem('adminToken', res.adminToken);
+        localStorage.setItem('adminId', res.id);
+        localStorage.setItem('adminToken', res.token);
       }
   
       console.log("res.success", res.success);
@@ -52,7 +52,19 @@ const Admin = (props) => {
 
   return (
     <div>
-      <AuthForm setValue={props.setValue} prevValue={props.prevValue} onSubmit={getData}  isAdmin={props.isAdmin} setIsAdmin={props.setIsAdmin}/>
+      <AuthForm 
+        setValue={props.setValue} 
+        prevValue={props.prevValue} 
+        onSubmit={getData} 
+        isAdmin={props.isAdmin} 
+        setIsAdmin={props.setIsAdmin}
+        isAdminLoggedIn={props.isAdminLoggedIn}
+        isUserLoggedIn={props.isUserLoggedIn}
+        success={props.success}
+        message={props.message}
+        setMessage={props.setMessage}
+        setSuccess={props.setSuccess}
+      />
     </div>
   )
 }

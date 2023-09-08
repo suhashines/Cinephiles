@@ -474,6 +474,33 @@ export const getBookings = async(id) => {
     return response;
 }
 
+export const addMovie = async(inputs) => {
+    let res;
+
+    try{
+         res = await axios
+        .post(`/movie`,{
+            name: inputs.directorName,
+            country: inputs.country,
+            dob: inputs.dob,
+            manager_id: inputs.manager_id,
+            title: inputs.title,
+            release_date: inputs.releaseDate,
+            duration: inputs.duration,
+            synopsis: inputs.synopsis,
+            poster_url: inputs.posterUrl,
+            back_poster_url: inputs.backPosterUrl,
+            genres: inputs.genres
+        })
+    }catch(err){
+        console.log(err);
+    }
+
+    // console.log(res.data) ;
+
+    return res;
+}
+
 export const getCitiesAndTheatres = async() => {
     let res;
 

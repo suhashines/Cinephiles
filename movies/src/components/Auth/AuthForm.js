@@ -60,14 +60,16 @@ const AuthForm = ({onSubmit,
         // }
     };
 
-    const handleClose = async () => {        
-        navigate(-1);
-        setValue(prevValue);
+    const handleClose = async () => {
+        setIsAdmin(false);        
+        navigate("/");
+        setValue(0);
         setMessage("");                                     
     }
     const handleAction = () => {
         if(admin || user){
             handleClose();
+            
         }
     }
 
@@ -157,9 +159,11 @@ const AuthForm = ({onSubmit,
                 
                 <Button
                     onClick={()=>{setIsAdmin(!isAdmin);
-                                    setMessage("");}} 
+                                    setMessage("");
+                                    isAdmin? navigate("/auth"): navigate("/admin");
+                                }} 
                     sx={{mt:2, borderRadius:10}} fullWidth>
-                        {!isSignup ? "Login" : "Signup"} as {isAdmin ? "User" : "Manager"}
+                        Switch to {isAdmin ? "User" : "Manager"}
                 </Button>
                 
             </Box>

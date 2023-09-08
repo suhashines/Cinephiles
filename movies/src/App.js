@@ -12,6 +12,8 @@ import Bookings from "./Bookings/Bookings";
 import Profile from "./components/Profile/Profile";
 import BuyTicket from "./Bookings/BuyTicket";
 import Payment from "./Bookings/Payment";
+import Manager from "./components/Manager/Manager";
+import AddMovie from "./components/Manager/AddMovie";
 
 function App() {
   const [value,setValue] = useState(0);
@@ -95,6 +97,10 @@ function App() {
           <Route path="/bookings/:id" element={<Bookings/>}/>
 
           <Route path="/profile" element={<Profile setTabValue={setValue}/>}/>
+
+          <Route path="/manager" element={<Manager setTabValue={setValue}/>}/>
+
+          <Route path="/addmovie" element={<AddMovie setTabValue={setValue}/>}/>
 
           <Route path="/buyticket/:id" element={<BuyTicket
                                                     booking={booking}

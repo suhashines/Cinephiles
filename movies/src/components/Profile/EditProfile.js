@@ -13,6 +13,15 @@ const EditProfile = (props) => {
         mobile:props.user.MOBILE
     })
 
+    useEffect(() => {
+        // if(isUserLoggedIn)
+        if(localStorage.getItem('userId')) 
+        getUserDetails(localStorage.getItem('userId'))
+        .then((data) => {props.setUser(data);})
+        .catch((err) => {console.log(err);});
+      }, []);
+    // console.log(user);
+
     const [message, setMessage] = useState("");
 
     const handleChange = (e) => {

@@ -55,6 +55,7 @@ const Header = (props) => {
         props.setValue(0);
         props.setView(false);
         navigate('/'); // Redirect to the base directory when the movie icon is clicked
+        window.location.reload();
     };
 
   return (
@@ -102,8 +103,8 @@ const Header = (props) => {
                         LinkComponent={Link}
                         // to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : isUserLoggedIn? `/profile` : "/manager/{id}"} 
                         // label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : "Profile"} 
-                        to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : "/profile"} 
-                        label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : `${user?.NAME}`}
+                        to={!isAdminLoggedIn && !isUserLoggedIn ? "/auth" : isUserLoggedIn? "/profile" : "/manager"} 
+                        label={!isAdminLoggedIn && !isUserLoggedIn ? "Login" : isUserLoggedIn? `${user?.NAME}` : "Manager"}
                         
                         onClick={() => {
                             // if(isAdminLoggedIn) dispatch(adminActions.logout());

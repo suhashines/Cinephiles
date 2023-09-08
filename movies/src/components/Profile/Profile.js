@@ -25,12 +25,10 @@ const Profile = (props) => {
     const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
     const [uid, setUid] = useState(localStorage.getItem('userId'));
     // const id = useParams().id;
-
-    
     
     useEffect(() => {
         // if(isUserLoggedIn)
-        if(uid) 
+        if(localStorage.getItem('userId')) 
         getUserDetails(localStorage.getItem('userId'))
         .then((data) => {setUser(data);})
         .catch((err) => {console.log(err);});

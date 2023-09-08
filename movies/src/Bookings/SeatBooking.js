@@ -41,9 +41,9 @@ const SeatBooking = (props) => {
         display={"flex"}
         flexDirection={"row"}
         flexWrap={"wrap"}
-        // height={"80%"}
+        // height={`${2 * props.seats.columns}vh`}
         height={"auto"}
-        width={"90%"}
+        width={"95%"}
         margin={"auto"}
         marginTop={6}
         
@@ -69,12 +69,13 @@ const SeatBooking = (props) => {
                 props.seats.allSeats.map((seat, index) => (
                     <Box
                         key={index}
-                        width={`${1800 / props.seats.allSeats.length}%`}
+                        width={`${100 / props.seats.rows}%`}
                         // width={'8%'}
                         margin={"auto"}
                         // marginRight={1}
                         // marginLeft={1}
                         padding={0.2}
+                        paddingBottom={1}
                         sx={{ "&:hover": { boxShadow: 5 } }}
                         // justifyContent={"center"}
                     >
@@ -106,7 +107,7 @@ const SeatBooking = (props) => {
                                 color={(seat.AVAILABLE==1 && seat.CATEGORY==props.category)? "black" : "white"}
                                 fontFamily={'Sans-serif'}
                                 margin={'auto'}
-                                // width={'50%'}
+                                // width={'10vw'}
                                 // marginLeft={1}
                                 // marginTop={4}
                                 fontWeight={'bold'}
