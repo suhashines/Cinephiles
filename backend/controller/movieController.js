@@ -483,21 +483,25 @@ async function addRating(req,res,next){
 
     console.log(result);
 
-    if(result.length==0){
+    if(result.length==0){ 
+
+        console.log("user is giving the rating first time");
 
         sql =
         `
-        insert into ratings(rating,u_id)
-        values(:rating,:u_id)
+        insert into ratings(rating,u_id,m_id)
+        values(:rating,:u_id,:m_id)
         
         `
     
-        await database.execute(sql,{rating:rating,u_id:u_id});
+        await database.execute(sql,{rating:rating,u_id:u_id,m_id:m_id});
     
        next();
     }else{
         
         let r_id = result[0].R_ID ;
+
+        console.log("rating has already been given, so updating")
 
         sql =
         `
