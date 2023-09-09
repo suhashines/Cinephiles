@@ -315,7 +315,7 @@ async function getMovieById(req,res){
         `
         SELECT m_id,title,RELEASE_DATE ,DURATION ,SYNOPSIS ,POSTER_URL ,BACK_POSTER_URL ,
         getallactors(m_id) actor ,getmoviedirector(d_id) director,getmoviegenres(m_id) genre,
-        (select avg(rating)from ratings r where r.m_id=m.m_id) rating
+        (select round(avg(rating),1) from ratings r where r.m_id=m.m_id) rating
         FROM movies m
         where m_id = :movie_id `
 
@@ -465,7 +465,7 @@ async function deleteReview(req,res){
 }
 
 
-async function addRating(req,res){
+async function addRating(req,res,next){
 
     let m_id = req.params.id ;
 
@@ -494,22 +494,26 @@ async function addRating(req,res){
     
         await database.execute(sql,{rating:rating,u_id:u_id});
     
-        return res.json({message:"rating added"});
+       next();
+    }else{
+        
+        let r_id = result[0].R_ID ;
+
+        sql =
+        `
+        update ratings
+        set rating=:rating
+        where r_id = :r_id
+        `
+    
+        await database.execute(sql,{rating:rating,r_id:r_id});
+    
+        next();
+    
     }
 
-    let r_id = result[0].R_ID ;
-
-    sql =
-    `
-    update ratings
-    set rating=:rating
-    where r_id = :r_id
-    
-    `
-
-    await database.execute(sql,{rating:rating,r_id:r_id});
-
-    res.json({message:"rating edited"});
+   
+    // res.json({message:"rating edited"});
 }
 
 
