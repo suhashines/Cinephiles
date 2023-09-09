@@ -37,7 +37,6 @@ movieRouter.route("/review/:id")
 
 
 movieRouter.route("/rating/:id")
-.get(movieController.getRating)
-.post(movieController.addRating);
+.post(movieController.addRating,movieController.getRating);
 
 module.exports = movieRouter;

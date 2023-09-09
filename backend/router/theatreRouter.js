@@ -35,4 +35,8 @@ theatreRouter.route("/details/:id")
 .get(theatreController.getTheatreDetails);
 
 
+theatreRouter.route("/stats")
+.get(theatreController.movieStat);
+
+
 module.exports = theatreRouter;

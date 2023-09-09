@@ -5,11 +5,18 @@ async function getAllCities(req,res){
 
     let sql,result;
 
-    sql = `select distinct city from theatres` ;
+    sql = `select distinct city from theatres order by city` ;
 
     result = (await database.execute(sql,{})).rows ;
 
-    res.json({result});
+    cities = [] ;
+
+    for(let i=0;i<result.length;i++){
+
+      cities.push(result[i].CITY);
+    }
+
+    res.json({cities});
 }
 
 
@@ -177,7 +184,7 @@ async function getMovieGalleries(req,res){
      let sql,dates ;
  
      sql= 
-     `SELECT distinct to_char(DATE_TIME,'DD-MON-YY') extracted_date 
+     `SELECT distinct to_char(DATE_TIME,'DD-MON-YY') extracted_date
      FROM SHOWTIMES s,MOVIETHEATRES mt 
      WHERE s.MT_ID = mt.MT_ID AND mt.m_id = :m_id AND mt.T_ID = :t_id AND s.DATE_TIME <= SYSDATE +14`;
  
@@ -470,6 +477,47 @@ async function getMovieGalleries(req,res){
 
 
   }
+
+
+  async function movieStat(req,res){
+
+    let {t_id,m_id} = req.query ;
+
+    let sql,stats,total ;
+
+    sql = 
+    `
+      SELECT TO_CHAR(B.BOOK_DATE,'DD-MON-YY') dates ,count(b.BOOK_ID) booking, sum(s.price) earning
+      FROM bookings b,SHOWTIMES sh,MOVIETHEATRES mt,seats s
+      WHERE b.SHOW_ID = sh.SHOW_ID
+      AND sh.MT_ID = mt.MT_ID
+      AND b.S_ID = s.S_ID 
+      AND sh.G_ID = s.G_ID 
+      AND m_id = ${m_id} 
+      AND t_id = ${t_id}
+      GROUP BY to_char(b.BOOK_DATE,'DD-MON-YY')
+      ORDER BY dates DESC
+    `
+    stats = (await database.execute(sql,{})).rows;
+
+
+    sql = 
+    `
+    SELECT sum(s.price) earning
+    FROM bookings b,SHOWTIMES sh,MOVIETHEATRES mt,seats s
+    WHERE b.SHOW_ID = sh.SHOW_ID
+    AND sh.MT_ID = mt.MT_ID
+    AND b.S_ID = s.S_ID 
+    AND sh.G_ID = s.G_ID 
+    AND m_id = ${m_id} 
+    AND t_id = ${t_id}
+    `
+
+    total = (await database.execute(sql,{})).rows[0].EARNING ;
+
+    res.json({stats:stats,total:total});
+
+  }
  
 
 module.exports = 
@@ -487,4 +535,5 @@ addPremium,
 editTheatre,
 getTheatreDetails,
 addMovie,
-deleteTheatre};
+deleteTheatre,
+movieStat};
