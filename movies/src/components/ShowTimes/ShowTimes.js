@@ -39,7 +39,7 @@ const ShowTimes = () => {
         minHeight="calc(100vh - 64px)" 
         position="relative"
       >
-          {movies.length==0 && (<>
+          {movies.length===0 && (<>
             <CircularProgress
               color="primary"
               determinate={false}

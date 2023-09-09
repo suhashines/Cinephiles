@@ -61,7 +61,9 @@ const Manager = ({setTabValue}) => {
             <Box
                 width={'75%'}
             >
-                <Button 
+                <Button
+                    LinkComponent={Link} 
+                    to={`/addtheatre`} 
                     variant={"outlined"} 
                     sx={{
                         margin:"auto",

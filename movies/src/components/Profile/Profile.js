@@ -15,8 +15,7 @@ import StickyHeadTable from './BookingHistory';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../store';
 
-const Profile = (props) => {
-    
+const Profile = (props) => {    
     const [value, setValue] = useState(3);
     const [user, setUser] = useState(null);
 

@@ -542,7 +542,65 @@ export const getAllCities = async() => {
     return data;
 }
 
+export const addTheatreInfo = async(inputs) => {
+    let res;
 
+    try{
+         res = await axios
+        .post(`/theatre`,{
+            name: inputs.name,
+            manager_id: inputs.manager_id,
+            building: inputs.building,
+            road: inputs.road,
+            city: inputs.city,
+            count: inputs.count
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
+
+export const addGalleryInfo = async(inputs) => {
+    let res;
+
+    try{
+         res = await axios
+        .post(`/theatre/gallery`,{
+            g_id: inputs.g_id,
+            t_id: inputs.t_id,
+            name: inputs.name,
+            tiers: inputs.tiers,
+            columns: inputs.columns,
+            price: inputs.price
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
+
+export const addCategoryInfo = async(inputs) => {
+    let res;
+
+    try{
+         res = await axios
+        .patch(`/theatre/gallery`,{
+            g_id: inputs.g_id,
+            seats: inputs.seats,
+            price: inputs.price
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
 
 
 

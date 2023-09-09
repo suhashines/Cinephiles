@@ -7,100 +7,100 @@ import { addMovie } from '../../api-helpers/api-helpers';
 
 const AddMovie = ({setTabValue}) => {
     useEffect(()=>{setTabValue(2)},[])
-  const [formData, setFormData] = useState({
-    manager_id: localStorage.getItem('adminId'),
-    title: '',
-    releaseDate: '',
-    duration: '',
-    synopsis: '',
-    posterUrl: '',
-    backPosterUrl: '',
-    genres: '',
-    directorName: '',
-    country: '',
-    dob: '',
-  });
+    const [formData, setFormData] = useState({
+        manager_id: localStorage.getItem('adminId'),
+        title: '',
+        releaseDate: '',
+        duration: '',
+        synopsis: '',
+        posterUrl: '',
+        backPosterUrl: '',
+        genres: '',
+        directorName: '',
+        country: '',
+        dob: '',
+    });
 
-  function formatDate(inputDate) {
-    // Split the input date by '/' to get day, month, and year components
-    const dateComponents = inputDate.split('/');
+    function formatDate(inputDate) {
+        // Split the input date by '/' to get day, month, and year components
+        const dateComponents = inputDate.split('/');
+        
+        // Ensure the input format is correct (day, month, year)
+        if (dateComponents.length !== 3) {
+        return "Invalid Date";
+        }
+        
+        // Extract day, month, and year components
+        const [day, month, year] = dateComponents;
     
-    // Ensure the input format is correct (day, month, year)
-    if (dateComponents.length !== 3) {
-      return "Invalid Date";
+        // Create a new date object in the desired format "dd-mm-yyyy"
+        const formattedDate = `${day}-${month}-${year}`;
+    
+        return formattedDate;
     }
-    
-    // Extract day, month, and year components
-    const [day, month, year] = dateComponents;
-  
-    // Create a new date object in the desired format "dd-mm-yyyy"
-    const formattedDate = `${day}-${month}-${year}`;
-  
-    return formattedDate;
-  }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    console.log(value);
-  };
-
-  const genres = ['action', 'adventure', 'comedy', 'drama', 'fantasy', 'family', 'horror', 'mystery', 'romance', 'sci-fi', 'thriller', 'western'];
-
-  const handleGenreChange = (e) => {
-    const { options } = e.target;
-    const selectedGenres = Array.from(options)
-      .filter((option) => option.selected)
-      .map((option) => option.value);
-
-    setFormData({
-      ...formData,
-      genres: selectedGenres,
-    });
-  };
-
-  const handleDateChange = (e) => {
-    const originalDateString = e.target.value;
-    const parts = originalDateString.split("-");
-    const rearrangedDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
-
-    setFormData({
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
         ...formData,
-        releaseDate: rearrangedDateString,
-    });
+        [name]: value,
+        });
+        console.log(value);
+    };
 
-    console.log(formData.dob)
-  }
+    const genres = ['action', 'adventure', 'comedy', 'drama', 'fantasy', 'family', 'horror', 'mystery', 'romance', 'sci-fi', 'thriller', 'western'];
 
-  function formatDate(inputDate) {
-    const originalDateString = inputDate;
-    const parts = originalDateString.split("-");
-    const rearrangedDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
-  }
+    const handleGenreChange = (e) => {
+        const { options } = e.target;
+        const selectedGenres = Array.from(options)
+        .filter((option) => option.selected)
+        .map((option) => option.value);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // You can handle form submission here, e.g., send data to an API
-        addMovie(formData)
-        .catch((err) => console.log(err));
-    // Reset the form after submission
-    setFormData({
-      title: '',
-      releaseDate: '',
-      duration: '',
-      synopsis: '',
-      posterUrl: '',
-      backPosterUrl: '',
-      genres: '',
-      directorName: '',
-      country: '',
-      dob: '',
-    });
-    window.location.reload();
-  };
+        setFormData({
+        ...formData,
+        genres: selectedGenres,
+        });
+    };
+
+    const handleDateChange = (e) => {
+        const originalDateString = e.target.value;
+        const parts = originalDateString.split("-");
+        const rearrangedDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+        setFormData({
+            ...formData,
+            releaseDate: rearrangedDateString,
+        });
+
+        console.log(formData.dob)
+    }
+
+    function formatDate(inputDate) {
+        const originalDateString = inputDate;
+        const parts = originalDateString.split("-");
+        const rearrangedDateString = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // You can handle form submission here, e.g., send data to an API
+            addMovie(formData)
+            .catch((err) => console.log(err));
+        // Reset the form after submission
+        setFormData({
+        title: '',
+        releaseDate: '',
+        duration: '',
+        synopsis: '',
+        posterUrl: '',
+        backPosterUrl: '',
+        genres: '',
+        directorName: '',
+        country: '',
+        dob: '',
+        });
+        window.location.reload();
+    };
 
   return (
     <Box
@@ -281,44 +281,48 @@ const AddMovie = ({setTabValue}) => {
           onChange={handleInputChange}
           required
         /><br /><br />
-
-        <FormLabel
-            sx={{ 
-                fontWeight: 'bold', 
-                fontSize: '30px',
-                fontFamily: 'Montserrat',
-                color: '#6e6e6e',
-            }}
+        <Box
+            display={'flex'}
+            flexDirection={'row'}
         >
-            Genres:
-        </FormLabel>
-        <Autocomplete
-            onChange={(event, newValue) => {
-                setFormData({
-                    ...formData,
-                    genres: newValue.join(', ')
-                });
-                console.log(newValue.join(', '))
-            }}
-            sx={{
-                marginTop: '20px',
-                backgroundColor: 'white',
-                width: '60%',
-            }}
-            multiple
-            id="tags-outlined"
-            options={genres}
-            getOptionLabel={(option) => option}
-            // defaultValue={[genres[0]]}
-            filterSelectedOptions
-            renderInput={(params) => (
-            <TextField
-                {...params}
-                label=""
-                placeholder="Genres"
+            <FormLabel
+                sx={{ 
+                    fontWeight: 'bold', 
+                    fontSize: '30px',
+                    fontFamily: 'Montserrat',
+                    color: '#6e6e6e',
+                }}
+            >
+                Genres:
+            </FormLabel>
+            <Autocomplete
+                onChange={(event, newValue) => {
+                    setFormData({
+                        ...formData,
+                        genres: newValue.join(', ')
+                    });
+                    console.log(newValue.join(', '))
+                }}
+                sx={{
+                    marginLeft: '20px',
+                    backgroundColor: 'white',
+                    width: '60%',
+                }}
+                multiple
+                id="tags-outlined"
+                options={genres}
+                getOptionLabel={(option) => option}
+                // defaultValue={[genres[0]]}
+                filterSelectedOptions
+                renderInput={(params) => (
+                <TextField
+                    {...params}
+                    label=""
+                    placeholder="Genres"
+                />
+                )}
             />
-            )}
-        />
+        </Box>
         <br /><br />
         <FormLabel
             sx={{ 
