@@ -533,9 +533,9 @@ export const getAllCities = async() => {
 
     console.log(res.data) ;
 
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
 
     const data = res.data ;
 
@@ -556,6 +556,8 @@ export const addTheatreInfo = async(inputs) => {
             count: inputs.count
         })
     }catch(err){console.log(err);}
+
+    console.log(inputs)
 
     console.log(res.data);
 
@@ -602,5 +604,20 @@ export const addCategoryInfo = async(inputs) => {
     return response;
 }
 
+export const addRating = async(rating, u_id, m_id) => {
+    let res
 
+    try{
+        res = await axios
+        .post(`/movie/rating/${m_id}`,{
+            rating: rating,
+            u_id: u_id
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
 

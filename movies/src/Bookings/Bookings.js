@@ -11,7 +11,7 @@ const Bookings = () => {
     const id = useParams().id;
     console.log(id);
 
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(movie[0]?.RATING);
     const [userValue, setUserValue] = useState(1);
     const [open, setOpen] = useState(false);
     const [reviewOpen, setReviewOpen] = useState(false);
@@ -47,8 +47,14 @@ const Bookings = () => {
         getMovieById(id)
         .then((res) => setMovie(res.movie))
         .catch((err) => console.log(err));
+
+        
     },[id]);
     console.log(movie[0]);
+
+    useEffect(()=>{
+      setValue(movie[0]?.RATING)
+    },[1])
 
     const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
@@ -261,6 +267,7 @@ const Bookings = () => {
           onChange={(event, newValue) => {
             setUserValue(newValue);
             setOpen(true);
+            setValue(movie[0]?.RATING)
           }}
         />
       </Box>

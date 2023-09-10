@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'
 
 const SeatBooking = (props) => {
-    const seatArray = [['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11'],
+    const seatArray = [['A1', 'A2', 'A3', 'A4', 'A5'],
                       ['B1', 'B2', 'B3', 'B4', 'B5'],
                       ['C1', 'C2', 'C3', 'C4', 'C5'],
                       ['D1', 'D2', 'D3', 'D4', 'D5'],
@@ -14,25 +14,25 @@ const SeatBooking = (props) => {
     // Function to toggle button color and update the array
     const toggleButtonColor = (seatId) => {
         setButtonColors((prevColors) => ({
-        ...prevColors,
-        [seatId]: prevColors[seatId] === 'green' ? 'white' : 'green',
+            ...prevColors,
+            [seatId]: prevColors[seatId] === 'green' ? 'white' : 'green',
         }));
 
-    props.setGreenButtonNames(() => {
-        if (props.greenButtonNames.includes(seatId)) {
-            return props.greenButtonNames.filter((name) => name !== seatId);
-        } else {
-            return [...props.greenButtonNames, seatId];
-        }        
+        props.setGreenButtonNames(() => {
+            if (props.greenButtonNames.includes(seatId)) {
+                return props.greenButtonNames.filter((name) => name !== seatId);
+            } else {
+                return [...props.greenButtonNames, seatId];
+            }        
         });
 
-    props.setCount(() => {
-        if (props.greenButtonNames.includes(seatId)) {
-            if(props.count > 0) return props.count - 1;
-            else return 0;
-        } else {
-            return props.count + 1;
-        }        
+        props.setCount(() => {
+            if (props.greenButtonNames.includes(seatId)) {
+                if(props.count > 0) return props.count - 1;
+                else return 0;
+            } else {
+                return props.count + 1;
+            }        
         });
     };
 
