@@ -315,15 +315,65 @@ const Bookings = () => {
             // padding={1}
             // borderRadius={10}
           >
-            <Typography
-              color={"red"}
-              // textAlign={"center"}
-              fontWeight={"bold"} 
-              variant='h6'
-              marginTop={3}
+            <Box
+              display={'flex'}
+              flexDirection={'row'}
+              marginRight={2}
             >
-              {review.NAME}
-            </Typography>
+              <Typography
+                color={"red"}
+                // textAlign={"center"}
+                fontWeight={"bold"} 
+                variant='h6'
+                marginTop={3}
+              >
+                {review.NAME}
+              </Typography>
+
+              {review.U_ID===localStorage.getItem("userId") && (
+                <>
+              <Button
+                type="submit"
+                variant="outlined"
+                sx={{
+                    marginLeft: 2,
+                    marginTop: 2,
+                    height: 40,
+                    color: 'white',
+                    bgcolor: 'green',
+                    fontSize: '12px',
+                    '&:hover': {
+                        backgroundColor: '#e3e4e6',
+                        borderColor: '#7c4699',
+                        color: '#7c4699'
+                    },
+                }}
+            >
+                Edit
+            </Button>
+            <Button
+                type="submit"
+                variant="outlined"
+                sx={{
+                    marginLeft: 2,
+                    marginTop: 2,
+                    height: 40,
+                    color: 'white',
+                    bgcolor: 'red',
+                    fontSize: '12px',
+                    '&:hover': {
+                        backgroundColor: '#e3e4e6',
+                        borderColor: '#7c4699',
+                        color: '#7c4699'
+                    },
+                }}
+            >
+                Delete
+            </Button>
+            </>
+            )}
+
+            </Box>
             <Typography
               // color={"#7c4699"}
               // textAlign={"center"}
@@ -333,6 +383,7 @@ const Bookings = () => {
             >
               {review.REVIEW}
             </Typography>
+            
           </Box>
         ))}
 
