@@ -11,6 +11,8 @@ theatreRouter.route("/")
 
 theatreRouter.route("/add-movie")
 .post(theatreController.addMovie)
+.delete(theatreController.deleteMovie);
+
 
 theatreRouter.route("/gallery")
 .post(theatreController.addGallery,theatreController.addSeats)
