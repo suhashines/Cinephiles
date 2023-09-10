@@ -4,7 +4,6 @@ import { movieStats } from '../../api-helpers/api-helpers';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 20 },
   { id: 'date', label: 'Date', minWidth: 20 },
   { id: 'booking', label: 'Bookings', minWidth: 20 },
   { id: 'earning', label: 'Earnings', minWidth: 20 },
@@ -14,14 +13,13 @@ const TheatreMovieDetails = () => {
   const t_id = useParams().t_id;
   const id = useParams().id;
 
-  const [stats, setStats] = React.useState([]);
+  const [stats, setStats] = React.useState();
 
   React.useEffect(() => {
-    movieStats(t_id, id)
-    .then((data) => {setStats(data);})
-    .catch((err) => {console.log(err);});
-  }, [t_id, id]);
-  console.log(t_id, id);
+      movieStats(t_id, id)
+      .then((data) => {{setStats(data)}})
+      .catch((err) => {console.log(err);});      
+    }, [t_id, id]);
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -55,7 +53,7 @@ const TheatreMovieDetails = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stats.stats?.map((index) => {
+            {stats?.stats?.map((stat, index) => {
               // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               // .map((theatre, index) => {
                 return (
@@ -68,7 +66,7 @@ const TheatreMovieDetails = () => {
                                   // color: '#7c4699',
                               }}
                           >
-                              {stats[index]?.DATES}
+                              {stat?.DATES}
                           </Typography>                                    
                       </TableCell>
                       <TableCell align='center'>
@@ -79,7 +77,7 @@ const TheatreMovieDetails = () => {
                                   // color: '#7c4699',
                               }}
                           >
-                              {stats[index]?.BOOKING}
+                              {stat?.BOOKING}
                           </Typography>                                    
                       </TableCell>
                       <TableCell align='center'>
@@ -90,7 +88,7 @@ const TheatreMovieDetails = () => {
                                   // color: '#7c4699',
                               }}
                           >
-                              {stats[index]?.EARNING}
+                              {stat?.EARNING}
                           </Typography>                                    
                       </TableCell>
                   </TableRow>

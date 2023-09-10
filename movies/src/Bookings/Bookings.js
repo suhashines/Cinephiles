@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getMovieById } from '../api-helpers/api-helpers';
+import { getMovieById, getReviews } from '../api-helpers/api-helpers';
 import { Box, Button, Dialog, IconButton, Rating, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Textarea from '@mui/joy/Textarea/Textarea';
@@ -16,6 +16,7 @@ const Bookings = () => {
     const [open, setOpen] = useState(false);
     const [reviewOpen, setReviewOpen] = useState(false);
     const [review, setReview] = useState("");
+    const [reviews, setReviews] = useState([])
 
     const handleYesClick = () => {
         setOpen(false);
@@ -48,7 +49,9 @@ const Bookings = () => {
         .then((res) => setMovie(res.movie))
         .catch((err) => console.log(err));
 
-        
+        getReviews(id)
+        .then((res) => setReviews(res))
+        .catch((err) => console.log(err));
     },[id]);
     console.log(movie[0]);
 
@@ -239,6 +242,7 @@ const Bookings = () => {
         <Typography 
           variant='h5'
           marginTop={2}
+          fontWeight={"bold"}
           // textAlign={"center"}
         >
           {movie[0]?.SYNOPSIS}
@@ -270,6 +274,68 @@ const Bookings = () => {
             setValue(movie[0]?.RATING)
           }}
         />
+      </Box>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        position={"absolute"}
+        top="130%"
+        // justifycontent={"center"}
+        // alignItems={"center"}        
+        width={"70%"}
+        height={"20vh"}
+        // margin={"auto"}
+        // marginTop={-105}
+        padding={1}
+        // borderRadius={10}
+      >
+        <Typography
+          color={"#7c4699"}
+          // textAlign={"center"}
+          fontWeight={"bold"} 
+          variant='h5'
+          marginTop={15}
+        >
+          REVIEWS
+          <hr></hr>
+        </Typography>
+
+        {reviews.map((review, index) => (
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            // position={"absolute"}
+            // top="130%"
+            // justifycontent={"center"}
+            // alignItems={"center"}        
+            // width={"70%"}
+            height={"30vh"}
+            // margin={"auto"}
+            marginTop={0}
+            // padding={1}
+            // borderRadius={10}
+          >
+            <Typography
+              color={"red"}
+              // textAlign={"center"}
+              fontWeight={"bold"} 
+              variant='h6'
+              marginTop={3}
+            >
+              {review.NAME}
+            </Typography>
+            <Typography
+              // color={"#7c4699"}
+              // textAlign={"center"}
+              // fontWeight={"bold"} 
+              variant='h5'
+              marginTop={3}
+            >
+              {review.REVIEW}
+            </Typography>
+          </Box>
+        ))}
+
       </Box>
       <Dialog PaperProps={{style:{borderRadius:40}}} open={open}>
         <Box 

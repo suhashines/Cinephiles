@@ -733,3 +733,53 @@ export const deleteTheatreMovie = async(t_id, m_id) => {
     const response = res.data;
     return response;
 }
+
+export const getMovieByTitle = async(name) => {
+    let res;
+
+    try{
+         res = await axios.post(`/search/title/all`,{
+            title: name
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const addMovieToTheatre = async(t_id, m_id) => {
+    let res;
+
+    try{
+         res = await axios.post(`/theatre/add-movies`,{            
+            m_id: m_id,
+            t_id: t_id
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const getReviews = async(m_id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/review/${m_id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
