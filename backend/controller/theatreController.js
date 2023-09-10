@@ -66,7 +66,7 @@ async function getCurrentMovies(req,res){
         FROM movies
         WHERE m_id IN 
         (SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID  in
-        (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.DATE_TIME <= sysdate + 14)
+        (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.DATE_TIME <= sysdate + 30)
         AND mt.t_id = :t_id )`;
 
     movies = (await database.execute(sql,{t_id:t_id})).rows ;
@@ -130,7 +130,7 @@ async function getComingSoonMovies(req,res){
     FROM SHOWTIMES s,MOVIETHEATRES mt
     WHERE s.MT_ID = mt.MT_ID 
     AND mt.t_id = :t_id
-    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14
+    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+30
     AND mt.M_ID = m.m_id
     ) 
     
@@ -141,7 +141,7 @@ async function getComingSoonMovies(req,res){
     FROM SHOWTIMES s,MOVIETHEATRES mt
     WHERE s.MT_ID = mt.MT_ID 
     AND mt.t_id = :t_id
-    AND s.DATE_TIME >sysdate+14
+    AND s.DATE_TIME >sysdate+30
     AND mt.M_ID = m.m_id
     
     )`
@@ -171,7 +171,7 @@ async function getMovieShowtimes(req,res){
     sql= 
     `SELECT to_char(DATE_TIME,'DD-MON-YY') extracted_date 
     FROM SHOWTIMES s,MOVIETHEATRES mt 
-    WHERE s.MT_ID = mt.MT_ID AND mt.m_id = :m_id AND mt.T_ID = :t_id AND s.DATE_TIME <= SYSDATE +14`;
+    WHERE s.MT_ID = mt.MT_ID AND mt.m_id = :m_id AND mt.T_ID = :t_id AND s.DATE_TIME <= SYSDATE +30`;
 
     dates = (await database.execute(sql,{t_id:t_id,m_id:m_id})).rows ;
 
@@ -219,7 +219,7 @@ async function getMovieGalleries(req,res){
      sql= 
      `SELECT distinct to_char(DATE_TIME,'DD-MON-YY') extracted_date
      FROM SHOWTIMES s,MOVIETHEATRES mt 
-     WHERE s.MT_ID = mt.MT_ID AND mt.m_id = :m_id AND mt.T_ID = :t_id AND s.DATE_TIME <= SYSDATE +14`;
+     WHERE s.MT_ID = mt.MT_ID AND mt.m_id = :m_id AND mt.T_ID = :t_id AND s.DATE_TIME <= SYSDATE +30`;
  
      dates = (await database.execute(sql,{t_id:t_id,m_id:m_id})).rows ;
  
@@ -538,7 +538,7 @@ async function getMovieGalleries(req,res){
     }
 
     res.json({message:"everything added successfully"});
-    
+
 
   }
 
@@ -624,6 +624,25 @@ async function getMovieGalleries(req,res){
   }
  
 
+  async function editMovieShowtimes(req,res){
+
+    const {show_id,date,time} = req.body;
+
+    let sql =
+    `
+    update showtimes
+    set date_time = to_timestamp('${date}'||' ${time}','DD-MON-YY HH12:MI AM') 
+    where show_id = ${show_id}
+    
+    `
+
+    await database.execute(sql,{});
+
+    res.json({message:"updated"});
+
+  }
+
+
 module.exports = 
 {getAllCities,
 getTheatreByCity,
@@ -642,4 +661,5 @@ addMovieToTheatre,
 deleteTheatre,
 movieStat,
 deleteMovie,
-addMovieShowtimes};
+addMovieShowtimes,
+editMovieShowtimes};

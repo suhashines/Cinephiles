@@ -30,7 +30,8 @@ theatreRouter.route("/current/:id")
 
 theatreRouter.route("/showtimes")
 .get(theatreController.getMovieGalleries)
-.post(theatreController.addMovieShowtimes);
+.post(theatreController.addMovieShowtimes)
+.patch(theatreController.editMovieShowtimes);
 
 theatreRouter.route("/upcoming/:id")
 .get(theatreController.getComingSoonMovies);

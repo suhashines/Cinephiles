@@ -340,7 +340,7 @@ async function getCurrent(req,res){
     FROM movies 
     WHERE m_id IN 
     (SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID  in 
-    (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 14) )`;
+    (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 30) )`;
 
     movies = (await database.execute(sql,{})).rows ;
 
@@ -364,7 +364,7 @@ async function comingSoon(req,res){
     SELECT *
     FROM SHOWTIMES s,MOVIETHEATRES mt
     WHERE s.MT_ID = mt.MT_ID 
-    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14
+    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+30
     AND mt.M_ID = m.m_id
     ) 
     
@@ -374,7 +374,7 @@ async function comingSoon(req,res){
     SELECT *
     FROM SHOWTIMES s,MOVIETHEATRES mt
     WHERE s.MT_ID = mt.MT_ID 
-    AND s.DATE_TIME >sysdate+14
+    AND s.DATE_TIME >sysdate+30
     AND mt.M_ID = m.m_id
     
     )` ;
