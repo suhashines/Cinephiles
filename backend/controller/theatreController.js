@@ -450,7 +450,7 @@ async function getMovieGalleries(req,res){
     res.json({theatre:theatre[0]});
   }
 
-  async function addMovie(req,res){
+  async function addMovieToTheatre(req,res){
 
     const{m_id,t_id} = req.body;
 
@@ -571,6 +571,22 @@ async function getMovieGalleries(req,res){
     res.json({stats:stats,total:total});
 
   }
+
+  async function deleteMovie(req,res){
+
+    const {m_id,t_id} = req.query;
+
+    let sql = 
+    `
+    delete from 
+    movieTheatres 
+    where m_id= ${m_id} and t_id = ${t_id}`  
+
+    await database.execute(sql,{});
+
+    res.json({message:"movie deleted successfully"});
+ 
+  }
  
 
 module.exports = 
@@ -587,6 +603,7 @@ addSeats,
 addPremium,
 editTheatre,
 getTheatreDetails,
-addMovie,
+addMovieToTheatre,
 deleteTheatre,
-movieStat};
+movieStat,
+deleteMovie};
