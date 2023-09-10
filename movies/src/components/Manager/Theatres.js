@@ -134,6 +134,8 @@ const Theatres = () => {
                                 </TableCell>
                                 <TableCell align='center'>
                                     <Button
+                                        LinkComponent={Link}
+                                        to={`/theatres/${theatre.T_ID}/showtimes`}
                                         // onClick={() => {handleOpen();
                                         //                 cancelBooking(booking.BOOK_ID);
                                                         

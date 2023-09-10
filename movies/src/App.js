@@ -19,6 +19,7 @@ import Theatres from "./components/Manager/Theatres";
 import EditTheatre from "./components/Manager/EditTheatre";
 import TheatreMovieDetails from "./components/Manager/TheatreMovieDetails";
 import TheatreMovies from "./components/Manager/TheatreMovies";
+import AddShowTimes from "./components/Manager/AddShowTimes";
 
 function App() {
   const [value,setValue] = useState(0);
@@ -73,6 +74,8 @@ function App() {
           <Route path="/movies" element={<Movies/>}/>
 
           <Route path="/theatres" element={<Theatres/>}/>
+
+          <Route path="/theatres/:id/showtimes" element={<AddShowTimes setTabValue={setValue}/>}/>
 
           <Route path="/theatres/:id" element={<EditTheatre setTabValue={setValue}/>}/>
 
