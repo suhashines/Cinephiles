@@ -25,16 +25,16 @@ theatreRouter.route("/cities")
 theatreRouter.route("/movies/:id")
 .get(theatreController.getTheatreMovies);
 
-theatreRouter.route("/current/:id")
-.get(theatreController.getCurrentMovies)
+theatreRouter.route("/current")
+.post(theatreController.getCurrentMovies)
 
 theatreRouter.route("/showtimes")
 .get(theatreController.getMovieGalleries)
 .post(theatreController.addMovieShowtimes)
 .patch(theatreController.editMovieShowtimes);
 
-theatreRouter.route("/upcoming/:id")
-.get(theatreController.getComingSoonMovies);
+theatreRouter.route("/upcoming")
+.post(theatreController.getComingSoonMovies);
 
 theatreRouter.route("/details/:id")
 .get(theatreController.getTheatreDetails);
