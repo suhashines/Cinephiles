@@ -507,6 +507,41 @@ async function getMovieGalleries(req,res){
 
   }
 
+
+  async function addMovieShowtimes(req,res){
+
+    let mt_id = req.body.mt_id ;
+
+    let g_id = req.body.g_id ;
+
+    console.log("req received for adding showtimes for ",mt_id,g_id);
+
+    let show = req.body.showtimes ;
+
+    for(let i=0;i<show.length;i++){
+
+      let date = show[i].date ;
+
+      let times = show[i].times ;
+
+      for(let j=0;j<times.length;j++){
+
+        let time = times[j] ;
+
+        let sql = 
+        `
+        insert into showtimes(mt_id,date_time,g_id)
+        values(${mt_id},to_timestamp('${date}'||' ${time}','DD-MON-YY HH12:MI AM'),${g_id}) `
+
+        await database.execute(sql,{}) ; 
+      }
+    }
+
+    res.json({message:"everything added successfully"});
+    
+
+  }
+
   async function deleteTheatre(req,res){
 
     let t_id = req.query.t_id ;
@@ -606,4 +641,5 @@ getTheatreDetails,
 addMovieToTheatre,
 deleteTheatre,
 movieStat,
-deleteMovie};
+deleteMovie,
+addMovieShowtimes};
