@@ -273,7 +273,7 @@ async function getMovieGalleries(req,res){
 
  async function addTheatre(req,res){
 
-  console.log("req recieved for adding theatre ",req.body);
+    console.log(req.body)
 
     const {name,manager_id,building,road,city,count} = req.body ;
 
@@ -330,7 +330,7 @@ async function getMovieGalleries(req,res){
 
     let sql =
     `
-    insert into galleries
+    insert into galleries(g_id,tiers,t_id,name,columns)
     values(${g_id},${tiers},${t_id},'${name}',${columns})
     
     `

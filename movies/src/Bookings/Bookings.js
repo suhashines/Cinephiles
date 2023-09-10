@@ -1,20 +1,60 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getMovieById } from '../api-helpers/api-helpers';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Dialog, IconButton, Rating, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import Textarea from '@mui/joy/Textarea/Textarea';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const Bookings = () => {
     const [movie, setMovie] = useState([]);
     const id = useParams().id;
     console.log(id);
 
+    const [value, setValue] = useState(movie[0]?.RATING);
+    const [userValue, setUserValue] = useState(1);
+    const [open, setOpen] = useState(false);
+    const [reviewOpen, setReviewOpen] = useState(false);
+    const [review, setReview] = useState("");
+
+    const handleYesClick = () => {
+        setOpen(false);
+        setReviewOpen(true);
+    }
+
+    const handleNoClick = () => {
+        setOpen(false);
+        window.location.reload();
+    }
+
+    const handleClose = () => {
+        setReviewOpen(false);
+        window.location.reload();
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(review);
+        setReviewOpen(false);
+        window.location.reload();
+    }
+
+    const handleChange = (e) => {
+        setReview(e.target.value);
+    }
+
     useEffect(()=>{
         getMovieById(id)
         .then((res) => setMovie(res.movie))
         .catch((err) => console.log(err));
+
+        
     },[id]);
     console.log(movie[0]);
+
+    useEffect(()=>{
+      setValue(movie[0]?.RATING)
+    },[1])
 
     const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
@@ -37,7 +77,7 @@ const Bookings = () => {
         alignItems={"left"}        
         width={"98%"}
         height={"66vh"}
-        margin={"auto"}
+        // margin={"auto"}
         marginTop={0}
         // padding={1}
         // borderRadius={10}
@@ -177,12 +217,14 @@ const Bookings = () => {
       <Box
         display={"flex"}
         flexDirection={"column"}
-        justifycontent={"center"}
+        position={"absolute"}
+        top="120%"
+        // justifycontent={"center"}
         // alignItems={"center"}        
         width={"70%"}
-        height={"100vh"}
-        margin={"auto"}
-        marginTop={-15}
+        height={"20vh"}
+        // margin={"auto"}
+        // marginTop={-105}
         padding={1}
         // borderRadius={10}
       >
@@ -202,6 +244,176 @@ const Bookings = () => {
           {movie[0]?.SYNOPSIS}
         </Typography>
       </Box>
+      <Box
+        display={"flex"}
+        flexDirection={"row"}
+        position={"absolute"}
+        top="110%"
+        left="20%"
+      >
+        <Typography
+          color={"#7c4699"}
+          textAlign={"center"}
+          fontWeight={"bold"} 
+          variant='h5'
+          marginRight={2}
+        >
+          Ratings
+        </Typography>
+        <Rating
+          name="simple-controlled"
+          value={value}
+          size={"large"}
+          onChange={(event, newValue) => {
+            setUserValue(newValue);
+            setOpen(true);
+            setValue(movie[0]?.RATING)
+          }}
+        />
+      </Box>
+      <Dialog PaperProps={{style:{borderRadius:40}}} open={open}>
+        <Box 
+          padding={10}          
+        >
+          <Box
+            align={"center"}
+            marginBottom={5}
+          >
+            <Rating
+              name="simple-controlled"
+              value={userValue}
+              align={"center"}
+              size={"large"}
+            />
+          </Box>        
+          <Typography
+            color={"#7c4699"}
+            textAlign={"center"}
+            fontWeight={"bold"} 
+            variant='h4'
+            
+          >
+            You Rated This Movie {userValue} Out of 5!
+          </Typography>
+          <Typography
+            color={"#black"}
+            textAlign={"center"}
+            fontWeight={"bold"} 
+            variant='h5'
+            marginTop={5}
+          >
+            Would you like to give a review?
+          </Typography>
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            marginTop={7}
+          >
+            <Button
+              onClick={handleYesClick}
+              variant={"outlined"} 
+              sx={{
+                margin:"auto",
+                color:"white", 
+                bgcolor:"green", 
+                fontSize:"12px", 
+                borderColor:"#7c4699",
+                width:"30%",
+                '&:hover': {
+                  backgroundColor: '#085410', 
+                  borderColor: '#900c3f', 
+                  color:"#e3e4e6"}}}
+            >
+              Yes
+            </Button>
+            <Button
+              onClick={handleNoClick}
+              variant={"outlined"} 
+              sx={{
+                margin:"auto",
+                color:"white", 
+                bgcolor:"red", 
+                fontSize:"12px", 
+                borderColor:"#7c4699",
+                width:"30%",
+                '&:hover': {
+                  backgroundColor: '#900c3f', 
+                  borderColor: '#900c3f', 
+                  color:"#e3e4e6"}}}
+            >
+              No
+            </Button>
+          </Box>
+        </Box>
+       
+      </Dialog>
+      <Dialog PaperProps={{style:{borderRadius:20, width:'70vw'}}} open={reviewOpen}>
+        <Box sx={{ml:"auto", padding:1}}>
+              <IconButton onClick={handleClose}>
+                  <CloseRoundedIcon/>
+              </IconButton>
+        </Box>
+        <Box
+          padding={5}          
+        >
+          <Typography
+            color={"#7c4699"}
+            textAlign={"center"}
+            fontWeight={"bold"} 
+            variant='h4'
+          >
+            Share Your Thougths!
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <Textarea
+              id="synopsis"
+              name="synopsis"
+              minRows={8} // Minimum number of rows
+              maxRows={10} // Maximum number of rows
+              value={review}
+              onChange={handleChange}
+              required
+              sx={{
+                  marginTop: '20px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '20px',
+                  fontFamily: 'Arial, sans-serif',
+                  color: 'black',
+                  resize: 'vertical',
+              }}>
+            </Textarea>
+            <Box
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              marginTop={4}
+            >
+              <Button
+                onClick={handleNoClick}
+                type='submit'
+                variant={"outlined"} 
+                sx={{
+                  margin:"auto",
+                  color:"white", 
+                  bgcolor:"#7c4699", 
+                  fontSize:"12px", 
+                  borderColor:"#7c4699",
+                  width:"30%",
+                  '&:hover': {
+                    backgroundColor: '#900c3f', 
+                    borderColor: '#900c3f', 
+                    color:"#e3e4e6"}}}
+              >
+                Submit
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Dialog>
     </Box>
     
   )

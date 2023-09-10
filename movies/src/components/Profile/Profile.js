@@ -15,8 +15,7 @@ import StickyHeadTable from './BookingHistory';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../store';
 
-const Profile = (props) => {
-    
+const Profile = (props) => {    
     const [value, setValue] = useState(3);
     const [user, setUser] = useState(null);
 
@@ -25,12 +24,10 @@ const Profile = (props) => {
     const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
     const [uid, setUid] = useState(localStorage.getItem('userId'));
     // const id = useParams().id;
-
-    
     
     useEffect(() => {
         // if(isUserLoggedIn)
-        if(uid) 
+        if(localStorage.getItem('userId')) 
         getUserDetails(localStorage.getItem('userId'))
         .then((data) => {setUser(data);})
         .catch((err) => {console.log(err);});

@@ -12,6 +12,14 @@ import Bookings from "./Bookings/Bookings";
 import Profile from "./components/Profile/Profile";
 import BuyTicket from "./Bookings/BuyTicket";
 import Payment from "./Bookings/Payment";
+import Manager from "./components/Manager/Manager";
+import AddMovie from "./components/Manager/AddMovie";
+import AddTheatre from "./components/Manager/AddTheatre";
+import Theatres from "./components/Manager/Theatres";
+import EditTheatre from "./components/Manager/EditTheatre";
+import TheatreMovieDetails from "./components/Manager/TheatreMovieDetails";
+import TheatreMovies from "./components/Manager/TheatreMovies";
+import AddShowTimes from "./components/Manager/AddShowTimes";
 
 function App() {
   const [value,setValue] = useState(0);
@@ -65,6 +73,16 @@ function App() {
 
           <Route path="/movies" element={<Movies/>}/>
 
+          <Route path="/theatres" element={<Theatres/>}/>
+
+          <Route path="/theatres/:id/showtimes" element={<AddShowTimes setTabValue={setValue}/>}/>
+
+          <Route path="/theatres/:id" element={<EditTheatre setTabValue={setValue}/>}/>
+
+          <Route path="/theatres/:id/movies" element={<TheatreMovies setTabValue={setValue}/>}/>
+
+          <Route path="/theatres/:t_id/movies/:id/stats" element={<TheatreMovieDetails setTabValue={setValue}/>}/>
+
           <Route path="/admin" element={<Admin 
                                           setValue={setValue} 
                                           prevValue={prevValue} 
@@ -95,6 +113,12 @@ function App() {
           <Route path="/bookings/:id" element={<Bookings/>}/>
 
           <Route path="/profile" element={<Profile setTabValue={setValue}/>}/>
+
+          <Route path="/manager" element={<Manager setTabValue={setValue}/>}/>
+
+          <Route path="/addmovie" element={<AddMovie setTabValue={setValue}/>}/>
+
+          <Route path="/addtheatre" element={<AddTheatre setTabValue={setValue}/>}/>
 
           <Route path="/buyticket/:id" element={<BuyTicket
                                                     booking={booking}

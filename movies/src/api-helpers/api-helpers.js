@@ -474,6 +474,33 @@ export const getBookings = async(id) => {
     return response;
 }
 
+export const addMovie = async(inputs) => {
+    let res;
+
+    try{
+         res = await axios
+        .post(`/movie`,{
+            name: inputs.directorName,
+            country: inputs.country,
+            dob: inputs.dob,
+            manager_id: inputs.manager_id,
+            title: inputs.title,
+            release_date: inputs.releaseDate,
+            duration: inputs.duration,
+            synopsis: inputs.synopsis,
+            poster_url: inputs.posterUrl,
+            back_poster_url: inputs.backPosterUrl,
+            genres: inputs.genres
+        })
+    }catch(err){
+        console.log(err);
+    }
+
+    // console.log(res.data) ;
+
+    return res;
+}
+
 export const getCitiesAndTheatres = async() => {
     let res;
 
@@ -506,16 +533,203 @@ export const getAllCities = async() => {
 
     console.log(res.data) ;
 
-    if(!res.data.success){
-        return console.log(res.data.message);
-    }
+    // if(!res.data.success){
+    //     return console.log(res.data.message);
+    // }
 
     const data = res.data ;
 
     return data;
 }
 
+export const addTheatreInfo = async(inputs) => {
+    let res;
 
+    try{
+         res = await axios
+        .post(`/theatre`,{
+            name: inputs.name,
+            manager_id: inputs.manager_id,
+            building: inputs.building,
+            road: inputs.road,
+            city: inputs.city,
+            count: inputs.count
+        })
+    }catch(err){console.log(err);}
 
+    console.log(inputs)
 
+    console.log(res.data);
 
+    const response = res.data;
+    return response;
+}
+
+export const addGalleryInfo = async(inputs) => {
+    let res;
+
+    try{
+         res = await axios
+        .post(`/theatre/gallery`,{
+            g_id: inputs.g_id,
+            t_id: inputs.t_id,
+            name: inputs.name,
+            tiers: inputs.tiers,
+            columns: inputs.columns,
+            price: inputs.price
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
+
+export const addCategoryInfo = async(inputs) => {
+    let res;
+
+    try{
+         res = await axios
+        .patch(`/theatre/gallery`,{
+            g_id: inputs.g_id,
+            seats: inputs.seats,
+            price: inputs.price
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
+
+export const addRating = async(rating, u_id, m_id) => {
+    let res
+
+    try{
+        res = await axios
+        .post(`/movie/rating/${m_id}`,{
+            rating: rating,
+            u_id: u_id
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
+
+export const getManagerTheatres = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/manager/theatre/${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+
+}
+
+export const getTheatreDetails = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre/details/${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const editTheatreDetails = async(inputs) => {
+    let res;
+
+    try{
+         res = await axios
+        .patch(`/theatre`,{
+            name: inputs.name,
+            building: inputs.building,
+            road: inputs.road,
+            city: inputs.city,
+            t_id: inputs.t_id
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
+
+export const deleteTheatre = async(id) => {
+    let res;
+
+    try{
+         res = await axios.delete(`/theatre?t_id=${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const movieStats = async(t_id, m_id) => {
+    let res;
+
+    console.log(t_id, m_id);
+
+    try{
+         res = await axios.get(`/theatre/stats?t_id=${t_id}&m_id=${m_id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const getTheatreMovies = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre/movies/${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const deleteTheatreMovie = async(t_id, m_id) => {
+    let res;
+
+    try{
+         res = await axios.delete(`/theatre/add-movies?m_id=${m_id}&t_id=${t_id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}

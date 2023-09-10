@@ -32,7 +32,7 @@ const HomePage = ({setValue, setView, view}) => {
     getTop()
     .then((data)=>{setTop(data.movie[0]);
                     setEarning(data.earning);
-                    setBooking(data.booking);
+                    setBooking(data.total_booking);
                   })
     .catch((err)=>console.log(err))
   },[])
@@ -90,6 +90,7 @@ const HomePage = ({setValue, setView, view}) => {
             <Box
               display={"flex"}
               flexDirection={"row"}
+              align="center"
               alignItems={"center"}
               justifyContent={"center"}
               width={"100%"}
@@ -98,9 +99,9 @@ const HomePage = ({setValue, setView, view}) => {
               <form 
                 onSubmit={item==0? handleCurrentSearch : handleUpcomingSearch}
               >
-                  <Box display="flex" alignItems="center" width={"100%"}>
-                    <Box padding={5} width="30vw">
-                      <Typography variant="h4" align="center">
+                  <Box display="flex" alignItems="center" width={"80%"}>
+                    <Box paddingTop={5} paddingBottom={5} width="30vw">
+                      <Typography variant="h4" align="left">
                         {item==0 &&"Latest Releases"}
                         {item==1 &&"Upcoming Movies"}
                         {item==2 &&"Top Movie of the Month"}
@@ -130,7 +131,7 @@ const HomePage = ({setValue, setView, view}) => {
                               </Select>
                             </FormControl>
                           </Box>
-                          <Box width="30vw%">
+                          <Box width="30vw">
                             <TextField
                               fullWidth
                               // width={"100%"}
@@ -143,8 +144,9 @@ const HomePage = ({setValue, setView, view}) => {
                               onChange={item==0? handleCurrentChange : handleUpcomingChange}
                             />
                           </Box>
-                          <Box width="10vw" fontSize={10} paddingLeft={2}>
+                          <Box width="10vw" fontSize={10} paddingLeft={0} align={"right"}>
                             <Button
+                            
                               type="submit"
                               variant="outlined"
                               sx={{
@@ -178,7 +180,7 @@ const HomePage = ({setValue, setView, view}) => {
                   width={"80%"}>
                   {
                     item==0? 
-                      movies && movies.slice(0,4).map((movie,hash)=>(
+                      movies && movies.slice(0,8).map((movie,hash)=>(
                         <MovieItem id={movie.M_ID} 
                         title={movie.TITLE} 
                         posterurl={movie.POSTER_URL} 
@@ -196,11 +198,26 @@ const HomePage = ({setValue, setView, view}) => {
                           />
                         ))
                         :item==2 && (
-                          <MovieItem id={top?.M_ID} 
-                          title={top?.TITLE} 
-                          posterurl={top?.POSTER_URL} 
-                          releaseDate={top?.RELEASE_DATE} 
-                          />
+                          <Box
+                            display={"flex"}
+                            flexDirection={"column"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            width={"100%"}
+                          >
+                            <MovieItem id={top?.M_ID} 
+                              title={top?.TITLE} 
+                              posterurl={top?.POSTER_URL} 
+                              releaseDate={top?.RELEASE_DATE} 
+                            />
+                            <br></br>
+                            <Typography variant="h6" align="center">
+                              Earning: {earning}
+                            </Typography>
+                            <Typography variant="h6" align="center">
+                              Booking: {booking}
+                            </Typography>
+                          </Box>
                         )
                   }
                     {/* {view? 
@@ -224,13 +241,18 @@ const HomePage = ({setValue, setView, view}) => {
                   
                 </Box>
                 <Box display={"flex"} padding={5} margin={"auto"}>
-                  <Button
-                    // key={index} 
-                    variant={"outlined"}
-                    onClick={()=>setView(!view)} 
-                    sx={{margin:"auto", color:"#2b2d42"}}>
-                      { view ? "View Less" : "View More" }
-                  </Button>
+                  {
+                    (item==0 || item==1) && (
+                      <Button
+                        // key={index} 
+                        variant={"outlined"}
+                        onClick={()=>setView(!view)} 
+                        sx={{margin:"auto", color:"#2b2d42"}}>
+                          { view ? "View Less" : "View More" }
+                      </Button>
+                    )
+                  }
+                  
                 </Box>
               
                 </>
