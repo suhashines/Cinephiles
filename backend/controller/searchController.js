@@ -89,7 +89,7 @@ async function director(req,res){
     (SELECT d_id 
         FROM directors d
         where utl_match.edit_distance(lower(name),lower(:name)) <= 10
-        OR instr(lower(d.name),lower(:name))=1
+        OR instr(lower(d.name),lower(:name))>0
     ) and 
     m_id IN 
     (SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID  in 
@@ -127,7 +127,7 @@ async function director(req,res){
     (SELECT d_id 
         FROM directors d
         where utl_match.edit_distance(lower(name),lower(:name)) <= 10
-        OR instr(lower(d.name),lower(:name))=1
+        OR instr(lower(d.name),lower(:name))>0
     )
     
     `
@@ -207,7 +207,7 @@ async function title(req,res){
   SELECT * 
   FROM movies m
   WHERE
-  lower(m.title) LIKE generate_format(lower(:title))
+  ( lower(m.title) LIKE generate_format(lower(:title)) or utl_match.edit_distance(lower(m.title),lower(:title)) <= 4 )
     and 
     
     (m_id IN 
@@ -228,7 +228,7 @@ async function title(req,res){
    SELECT * 
   FROM movies m
   WHERE
-  lower(m.title) LIKE generate_format(lower(:title))
+  ( lower(m.title) LIKE generate_format(lower(:title)) or utl_match.edit_distance(lower(m.title),lower(:title)) <= 4 )
     and 
     NOT EXISTS (
     
@@ -254,6 +254,27 @@ async function title(req,res){
         upcoming = (await db.execute(sql,{title:title})).rows;
 
       res.json({current,upcoming});
+
+}
+
+
+async function getAllMovies(req,res){
+
+    const title = req.body.title ;
+
+   let sql;
+
+   sql = 
+   `SELECT * 
+  FROM movies m
+  WHERE
+  lower(m.title) LIKE generate_format(lower(:title))
+  or utl_match.edit_distance(lower(m.title),lower(:title)) <= 4 `
+
+  let movies = (await db.execute(sql,{title:title})).rows ;
+
+  res.json({movies});
+
 
 }
 
@@ -335,4 +356,4 @@ AND  (utl_match.edit_distance(lower(a.name),lower(:name)) <= 5
 
 }
 module.exports =
-{title,genre,director,range,actor};
+{title,genre,director,range,actor,getAllMovies};

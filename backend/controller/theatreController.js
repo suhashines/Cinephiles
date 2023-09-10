@@ -450,7 +450,7 @@ async function getMovieGalleries(req,res){
     res.json({theatre:theatre[0]});
   }
 
-  async function addMovie(req,res){
+  async function addMovieToTheatre(req,res){
 
     const{m_id,t_id} = req.body;
 
@@ -603,7 +603,7 @@ addSeats,
 addPremium,
 editTheatre,
 getTheatreDetails,
-addMovie,
+addMovieToTheatre,
 deleteTheatre,
 movieStat,
 deleteMovie};

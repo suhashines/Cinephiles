@@ -20,6 +20,9 @@ searchRouter.route("/range")
 searchRouter.route("/title")
 .post(searchController.title);
 
+searchRouter.route("/title/all")
+.post(searchController.getAllMovies);
+
 
 
 searchRouter.route("/actor")

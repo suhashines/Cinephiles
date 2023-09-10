@@ -9,8 +9,9 @@ theatreRouter.route("/")
 .patch(theatreController.editTheatre)
 .delete(theatreController.deleteTheatre);
 
+
 theatreRouter.route("/add-movie")
-.post(theatreController.addMovie)
+.post(theatreController.addMovieToTheatre)
 .delete(theatreController.deleteMovie);
 
 
