@@ -273,6 +273,8 @@ async function getMovieGalleries(req,res){
 
  async function addTheatre(req,res){
 
+    console.log(req.body)
+
     const {name,manager_id,building,road,city,count} = req.body ;
 
     let sql,result,t_id ; 
@@ -292,7 +294,7 @@ async function getMovieGalleries(req,res){
 
     sql = 
     `
-    insert into theatres
+    insert into theatres(t_id,name,ad_id,building,road,city)
     values(${t_id},'${name}',${manager_id},'${building}','${road}','${city}')
     `
 
@@ -328,7 +330,7 @@ async function getMovieGalleries(req,res){
 
     let sql =
     `
-    insert into galleries
+    insert into galleries(g_id,tiers,t_id,name,columns)
     values(${g_id},${tiers},${t_id},'${name}',${columns})
     
     `

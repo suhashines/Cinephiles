@@ -15,6 +15,10 @@ import Payment from "./Bookings/Payment";
 import Manager from "./components/Manager/Manager";
 import AddMovie from "./components/Manager/AddMovie";
 import AddTheatre from "./components/Manager/AddTheatre";
+import Theatres from "./components/Manager/Theatres";
+import EditTheatre from "./components/Manager/EditTheatre";
+import TheatreMovieDetails from "./components/Manager/TheatreMovieDetails";
+import TheatreMovies from "./components/Manager/TheatreMovies";
 
 function App() {
   const [value,setValue] = useState(0);
@@ -67,6 +71,14 @@ function App() {
                                     />}/>
 
           <Route path="/movies" element={<Movies/>}/>
+
+          <Route path="/theatres" element={<Theatres/>}/>
+
+          <Route path="/theatres/:id" element={<EditTheatre setTabValue={setValue}/>}/>
+
+          <Route path="/theatres/:id/movies" element={<TheatreMovies setTabValue={setValue}/>}/>
+
+          <Route path="/theatres/:t_id/movies/:id/stats" element={<TheatreMovieDetails setTabValue={setValue}/>}/>
 
           <Route path="/admin" element={<Admin 
                                           setValue={setValue} 

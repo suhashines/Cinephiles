@@ -9,7 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { cancelBooking, getBookings } from '../../api-helpers/api-helpers';
 import { Box, Button, Dialog, IconButton, Typography } from '@mui/material';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+
 
 const columns = [
   { id: 'movie', label: 'Movie' },
@@ -141,28 +141,29 @@ export default function StickyHeadTable(props) {
                                             {booking.BOOK_ID}
                                         </TableCell>
                                         <TableCell align='center'>
-                                        <Button
-                                            onClick={() => {handleOpen();
-                                                            cancelBooking(booking.BOOK_ID);
-                                                            
-                                                            }}
-                                            type="submit"
-                                            variant="outlined"
-                                            sx={{
-                                                margin: 'auto',
-                                                color: 'white',
-                                                bgcolor: '#7c4699',
-                                                fontSize: '12px',
-                                                '&:hover': {
-                                                    backgroundColor: '#e3e4e6',
-                                                    borderColor: '#7c4699',
-                                                    color: '#7c4699'
-                                                },
-                                            }}
-                                        >
-                                            Delete
-                                        </Button>
-              
+                                          {booking.DIFFERENCE > 0 && (
+                                            <Button
+                                                onClick={() => {handleOpen();
+                                                                cancelBooking(booking.BOOK_ID);
+                                                                
+                                                                }}
+                                                type="submit"
+                                                variant="outlined"
+                                                sx={{
+                                                    margin: 'auto',
+                                                    color: 'white',
+                                                    bgcolor: '#7c4699',
+                                                    fontSize: '12px',
+                                                    '&:hover': {
+                                                        backgroundColor: '#e3e4e6',
+                                                        borderColor: '#7c4699',
+                                                        color: '#7c4699'
+                                                    },
+                                                }}
+                                            >
+                                                Delete
+                                            </Button>
+                                          )}
                                         </TableCell>
                                     {/* ); */}
                                 {/* })} */}

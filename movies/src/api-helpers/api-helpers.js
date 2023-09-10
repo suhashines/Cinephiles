@@ -621,3 +621,115 @@ export const addRating = async(rating, u_id, m_id) => {
     return response;
 }
 
+export const getManagerTheatres = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/manager/theatre/${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+
+}
+
+export const getTheatreDetails = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre/details/${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const editTheatreDetails = async(inputs) => {
+    let res;
+
+    try{
+         res = await axios
+        .patch(`/theatre`,{
+            name: inputs.name,
+            building: inputs.building,
+            road: inputs.road,
+            city: inputs.city,
+            t_id: inputs.t_id
+        })
+    }catch(err){console.log(err);}
+
+    console.log(res.data);
+
+    const response = res.data;
+    return response;
+}
+
+export const deleteTheatre = async(id) => {
+    let res;
+
+    try{
+         res = await axios.delete(`/theatre?t_id=${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const movieStats = async(t_id, m_id) => {
+    let res;
+
+    console.log(t_id, m_id);
+
+    try{
+         res = await axios.get(`/theatre/stats?t_id=${t_id}&m_id=${m_id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const getTheatreMovies = async(id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre/movies/${id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const deleteTheatreMovie = async(t_id, m_id) => {
+    let res;
+
+    try{
+         res = await axios.delete(`/theatre/add-movies?m_id=${m_id}&t_id=${t_id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
