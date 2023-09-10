@@ -394,7 +394,7 @@ async function getMovieReviews(req,res){
 
     sql = 
     `
-    SELECT rev_id,review,(SELECT name FROM users u WHERE u.U_ID=r.u_id)name
+    SELECT rev_id,review,(SELECT name FROM users u WHERE u.U_ID=r.u_id)name,u_id
     FROM REVIEWS r 
     WHERE m_id=:m_id
     `
@@ -570,7 +570,8 @@ async function getCitiesAndTheatres(req,res){
     `
     SELECT t.t_id,(name||','||building || ','||road||','||city) location 
     FROM THEATRES t,MOVIETHEATRES mt
-    WHERE t.t_id = mt.T_ID AND lower(t.city)=lower(:city)
+    WHERE t.t_id = mt.T_ID AND 
+    lower(t.city)=lower(:city)
     AND mt.m_id = :m_id 
     AND exists(
     
