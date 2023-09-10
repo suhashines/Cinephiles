@@ -71,6 +71,39 @@ async function getCurrentMovies(req,res){
 
     movies = (await database.execute(sql,{t_id:t_id})).rows ;
 
+    for(let i=0;i<movies.length;i++){
+      let m_id = movies[i].M_ID;
+
+      sql = 
+       `
+      SELECT DISTINCT to_char(date_time,'DD-MON-YY') dates,date_time
+      FROM MOVIETHEATRES mt,showtimes sh
+      WHERE mt.MT_ID = sh.MT_ID 
+      AND mt.t_id = ${t_id} AND mt.m_id = ${m_id}
+      ORDER BY date_time
+      `
+
+      let date = (await database.execute(sql,{})).rows;
+
+      movies[i].DATE = date ;
+    }
+
+
+    for(let i=0;i<movies.length;i++){
+
+      let date = movies[i].DATE ;
+
+      let showtimes = [];
+
+      for(let j=0;j<date.length;j++){
+
+        showtimes.push(date[j].DATES);
+
+      }
+
+      movies[i].DATE = showtimes;
+    }
+
     console.log("currently showing ",movies.length);
 
     res.json({movies:movies});
@@ -392,7 +425,7 @@ async function getMovieGalleries(req,res){
     set name = '${name}',building='${building}',road = '${road}',city='${city}'
     where t_id = ${t_id}` 
 
-    await database.execute(sql,{}) ;
+    await database.execute(sql,{}) ;  
 
 
     res.json({message:"Edited"});
@@ -474,7 +507,25 @@ async function getMovieGalleries(req,res){
 
   async function deleteTheatre(req,res){
 
+    let t_id = req.query.t_id ;
 
+    console.log("request received for vanishing theatre ",t_id);
+
+    let sql=
+    `
+    delete 
+    from theatres 
+    where t_id = ${t_id}
+    
+    `
+    try{
+       await database.execute(sql,{}) ;
+    }catch(err){
+      console.log(err);
+    }
+   
+
+    res.json({success:true,message:"Theatre Deleted Successfully"});
 
   }
 

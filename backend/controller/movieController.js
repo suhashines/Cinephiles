@@ -304,7 +304,7 @@ async function getAllMovies(req,res){
 
 async function getMovieById(req,res){
 
-    const movie_id = req.params.id ; 
+    const movie_id = req.params.id ;   
 
     console.log(movie_id);
 
