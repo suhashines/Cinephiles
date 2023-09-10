@@ -163,6 +163,22 @@ async function getAllManagers(req,res){
 }
 
 
-module.exports = {signupAdmin,loginAdmin,getAllManagers};
+async function getTheatres(req,res){
+
+  let ad_id = req.params.id ;
+
+  let sql =
+  `
+  select t_id,(name||','||building||','||road||','||city)location from 
+  theatres where ad_id = ${ad_id}
+  `
+
+  let theatres = (await database.execute(sql,{})).rows;
+
+  res.json({theatres});
+
+}
+
+module.exports = {signupAdmin,loginAdmin,getAllManagers,getTheatres};
 
 

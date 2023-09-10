@@ -13,4 +13,7 @@ adminRouter.route('/login')
 adminRouter.route('/')
 .get(adminController.getAllManagers);
 
+adminRouter.route('/theatre/:id')
+.get(adminController.getTheatres);
+
 module.exports = adminRouter;
