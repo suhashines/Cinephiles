@@ -89,6 +89,8 @@ export const sendUserAuthRequest = async (data, signup) => {
         password: data.password,
         confirmPassword: signup? data.confirmPassword : "",
         name: signup ? data.name : "",
+        gender: signup? data.gender : "",
+        mobile: signup? data.mobile : ""
     })
     .catch((err) => console.log(err));
     
@@ -723,7 +725,131 @@ export const deleteTheatreMovie = async(t_id, m_id) => {
     let res;
 
     try{
-         res = await axios.delete(`/theatre/add-movies?m_id=${m_id}&t_id=${t_id}`)
+         res = await axios.delete(`/theatre/add-movie?m_id=${m_id}&t_id=${t_id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const getMovieByTitle = async(name) => {
+    let res;
+
+    try{
+         res = await axios.post(`/search/title/all`,{
+            title: name
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const addMovieToTheatre = async(t, m) => {
+    let res;
+
+    console.log(t, m);
+
+    try{
+         res = await axios.post(`/theatre/add-movie`,{            
+            m_id: m,
+            t_id: t
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const getReviews = async(m_id) => {
+    let res;
+
+    try{
+         res = await axios.get(`/movie/review/${m_id}`)
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const addReview = async(review, u_id, id) => {
+    let res;
+
+    try{
+         res = await axios.post(`/movie/review/${id}`,{
+            review: review,
+            u_id: u_id,
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const deleteReview = async(id, rev) => {
+    let res;
+
+    console.log(id, rev)
+
+    try{
+         res = await axios.delete(`/movie/review/${id}`, {
+            data: { rev_id: rev }
+        })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const editReview = async(review, id, m_id) => {
+    let res;
+
+    console.log(review, id, m_id);
+
+    try{
+         res = await axios.patch(`/movie/review/${m_id}`,{
+            rev_id: id,
+            review: review,
+         })
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log(res.data) ;
+
+    const response = res.data;
+    return response;
+}
+
+export const getAllTheatres = async(city) => {
+    let res;
+
+    try{
+         res = await axios.get(`/theatre?city=${city}`)
     }catch(err){
         console.log(err);
     }

@@ -67,7 +67,7 @@ const Header = (props) => {
             </Button>
                             
             <Box width={"30%"} margin={"auto"}>
-            <Autocomplete
+            {/* <Autocomplete
                 onClick={() => {
                     props.setValue(0);
                     props.setView(false);
@@ -89,7 +89,7 @@ const Header = (props) => {
                     }}
                 />
                 )}
-            />
+            /> */}
             </Box>
             <Box display={"flex"}>
                 <Tabs textColor='inherit' 

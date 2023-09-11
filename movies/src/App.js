@@ -20,6 +20,7 @@ import EditTheatre from "./components/Manager/EditTheatre";
 import TheatreMovieDetails from "./components/Manager/TheatreMovieDetails";
 import TheatreMovies from "./components/Manager/TheatreMovies";
 import AddShowTimes from "./components/Manager/AddShowTimes";
+import NewShowTime from "./components/Manager/NewShowTime";
 
 function App() {
   const [value,setValue] = useState(0);
@@ -76,6 +77,8 @@ function App() {
           <Route path="/theatres" element={<Theatres/>}/>
 
           <Route path="/theatres/:id/showtimes" element={<AddShowTimes setTabValue={setValue}/>}/>
+
+          <Route path="/theatre/:id/showtimes/add" element={<NewShowTime setTabValue={setValue}/>}/>
 
           <Route path="/theatres/:id" element={<EditTheatre setTabValue={setValue}/>}/>
 

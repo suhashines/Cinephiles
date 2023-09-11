@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Box, Button, Dialog, FormLabel, IconButton, TextField, Typography} from "@mui/material";
+import {Box, Button, Dialog, FormControl, FormLabel, IconButton, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {useNavigate} from "react-router-dom";
 
@@ -30,7 +30,9 @@ const AuthForm = ({onSubmit,
         name:"",
         email:"",
         password:"",
-        confirmPassword:""
+        confirmPassword:"",
+        gender:"",
+        mobile:""
     })
 
     useEffect(()=>{
@@ -136,6 +138,38 @@ const AuthForm = ({onSubmit,
                     name="confirmPassword"/>
                     </>
                 )}
+                {/* {isSignup && !isAdmin && (
+                    <>
+                    <FormControl fullWidth>
+                        <InputLabel sx={{mt:5, ml:11}}>Gender</InputLabel>
+                        <Select
+                            sx={{width:225, ml:11, mt:5, mb:2}}
+                            id="demo-simple-select"
+                            value={inputs.gender}
+                            required
+                            label="Gender"
+                            name="gender"
+                            type="text"
+                            onChange={handleChange}
+                        >
+                        <MenuItem value="title">Male</MenuItem>
+                        <MenuItem value="actor">Female</MenuItem>
+                        </Select>
+                    </FormControl>
+                    </>
+                )}
+                {isSignup && !isAdmin && (
+                    <>
+                    <FormLabel sx={labelStyle}>Mobile</FormLabel>
+                    <TextField
+                    value={inputs.mobile}
+                    onChange={handleChange} 
+                    variants={"standard"} 
+                    margin={"normal"}  
+                    type={"tel"} 
+                    name="mobile"/>
+                    </>
+                )} */}
                 
                 <Button
                     // onClick={()=>handleAction()} 

@@ -1,11 +1,18 @@
 import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import { getAllMovies } from '../../api-helpers/api-helpers';
 import ShowTimeItems from './ShowTimeItem';
 import ImageButton from '../ImageButton';
+import { getMovieShowdates } from '../../api-helpers/api-helpers';
 
 const MovieDetails = (props) => {
-    const dummyArray = [0, 1, 2, 3];
+    const [dates, setDates] = useState([]);
+
+    useEffect(()=>{
+        getMovieShowdates(props.movie.M_ID, props.t_id)
+        .then((data)=>setDates(data.dates))
+        .catch((err)=>console.log(err))
+    },[])
   return (
     <Box margin={"auto"} width={"100%"} margintop={2}>
       <Box
@@ -31,7 +38,10 @@ const MovieDetails = (props) => {
             </Box>            
             {/* <img src={props.movie.POSTER_URL} alt={props.movie.TITLE} width={200} height={300} margin={"auto"}/> */}
             <Box
-                width={"40%"}
+                display={"flex"}
+                flexDirection={"column"}
+                width={"35vw"}
+                height={"60vh"}
                 alignItems={"center"}
                 padding={3}
                 textAlign={"center"}
@@ -50,9 +60,22 @@ const MovieDetails = (props) => {
                     textOverflow={"ellipsis"}
                     width={"70%"}
                 >
-                    {props.movie.ACTORS}
+                    Duration: {props.movie.DURATION} mins
+                    
                 </Typography>
-                <Box margin={"2"} marginTop={5} display={"flex"} fontSize={10} width={"100%"} alignItems={"flex-end"}>
+                <Typography>
+                    <br></br>
+                </Typography>
+                <Typography 
+                    variant='p'
+                    textOverflow={"ellipsis"}
+                    width={"70%"}
+                >
+                    Release Date: {new Date(props.movie.RELEASE_DATE).toDateString().split(" ")[0]}{", "} 
+                    {new Date(props.movie.RELEASE_DATE).toDateString().split(" ")[1]}
+                    {" "}{new Date(props.movie.RELEASE_DATE).toDateString().split(" ")[2]}                
+                </Typography>
+                {/* <Box margin={"2"} marginTop={5} display={"flex"} fontSize={10} width={"100%"} alignItems={"flex-end"}>
                     <Button 
                         variant={"outlined"} 
                         sx={{margin:"auto", color:"#7c4699", bgcolor:"#e3e4e6", fontSize:"12px", borderColor:"#7c4699",
@@ -60,7 +83,7 @@ const MovieDetails = (props) => {
                     >
                         Watch Trailer
                     </Button>
-                </Box>                
+                </Box>                 */}
             </Box>                    
         <Box 
             display={"flex"}
@@ -68,8 +91,8 @@ const MovieDetails = (props) => {
             width={"250%"}
             justifyContent={"left"}
         >
-        {dummyArray.map((index)=>(
-            <ShowTimeItems key={index} releaseDate={props.movie.RELEASE_DATE} title={props.movie.TITLE}/>
+        {dates.map((date, index)=>(
+            <ShowTimeItems key={index} releaseDate={date} title={props.movie.TITLE} id={props.movie.M_ID}/>
         ))} 
         </Box>
       </Box>

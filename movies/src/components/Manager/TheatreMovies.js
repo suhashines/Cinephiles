@@ -10,7 +10,8 @@ const TheatreMovies = ({setTabValue}) => {
     const [movies, setMovies] = useState([]);
     useEffect(()=>{
     //   getTheatreMovies(id)
-      getCurrent()
+      // getCurrent()
+      getTheatreMovies(id)
       .then((data)=>setMovies(data.movies))
       .catch((err)=>console.log(err))
     },[])

@@ -9,6 +9,8 @@ const HomePage = ({setValue, setView, view}) => {
   const [top, setTop] = useState()
   const [earning, setEarning] = useState(0)
   const [booking, setBooking] = useState(0)
+  const [viewCurrent, setViewCurrent] = useState(false)
+  const [viewUpcoming, setViewUpcoming] = useState(false)
   const [Currentnputs, setCurrentInputs] = useState({
     filter:"",
     query:"",
@@ -107,7 +109,9 @@ const HomePage = ({setValue, setView, view}) => {
                         {item==2 &&"Top Movie of the Month"}
                       </Typography>
                     </Box>
+                    
                     {
+                      
                       (item== 0 || item==1) && (                      
                         <>
                           <Box width="15vw" padding={2}>
@@ -127,7 +131,6 @@ const HomePage = ({setValue, setView, view}) => {
                                 <MenuItem value="actor">Actor</MenuItem>
                                 <MenuItem value="director">Director</MenuItem>
                                 <MenuItem value="genre">Genre</MenuItem>
-                                <MenuItem value="duration">Duration</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
@@ -180,7 +183,7 @@ const HomePage = ({setValue, setView, view}) => {
                   width={"80%"}>
                   {
                     item==0? 
-                      movies && movies.slice(0,8).map((movie,hash)=>(
+                      movies && movies.slice(0, viewCurrent? movies.length : 4).map((movie,hash)=>(
                         <MovieItem id={movie.M_ID} 
                         title={movie.TITLE} 
                         posterurl={movie.POSTER_URL} 
@@ -189,7 +192,7 @@ const HomePage = ({setValue, setView, view}) => {
                         />
                     ))
                       :item==1?
-                        upcoming && upcoming.slice(0,4).map((movie,hash)=>(
+                        upcoming && upcoming.slice(0, viewUpcoming? movies.length : 4).map((movie,hash)=>(
                           <MovieItem id={movie.M_ID} 
                           title={movie.TITLE} 
                           posterurl={movie.POSTER_URL} 
@@ -211,44 +214,35 @@ const HomePage = ({setValue, setView, view}) => {
                               releaseDate={top?.RELEASE_DATE} 
                             />
                             <br></br>
-                            <Typography variant="h6" align="center">
+                            <Typography variant="h6" align="center" fontWeight={'bold'}>
                               Earning: {earning}
                             </Typography>
-                            <Typography variant="h6" align="center">
+                            <Typography variant="h6" align="center" fontWeight={'bold'}>
                               Booking: {booking}
                             </Typography>
                           </Box>
                         )
                   }
-                    {/* {view? 
-                      movies && movies.map((movie,index)=>(
-                        <MovieItem id={movie.M_ID} 
-                        title={movie.TITLE} 
-                        posterurl={movie.POSTER_URL} 
-                        releaseDate={movie.RELEASE_DATE} 
-                        key={index}
-                        />
-                    ))
-                      :movies && movies.slice(0,4).map((movie,index)=>(
-                        <MovieItem id={movie.M_ID} 
-                        title={movie.TITLE} 
-                        posterurl={movie.POSTER_URL} 
-                        releaseDate={movie.RELEASE_DATE} 
-                        key={index}
-                        />
-                      ))
-                  } */}
                   
                 </Box>
                 <Box display={"flex"} padding={5} margin={"auto"}>
                   {
-                    (item==0 || item==1) && (
+                    item==0? (
                       <Button
                         // key={index} 
                         variant={"outlined"}
-                        onClick={()=>setView(!view)} 
+                        onClick={()=>{item==0? setViewCurrent(!viewCurrent) : setViewUpcoming(!viewUpcoming)}} 
                         sx={{margin:"auto", color:"#2b2d42"}}>
-                          { view ? "View Less" : "View More" }
+                          { viewCurrent ? "View Less" : "View More" }
+                      </Button>
+                    )
+                    :item==1 && (
+                      <Button
+                        // key={index} 
+                        variant={"outlined"}
+                        onClick={()=>{item==0? setViewCurrent(!viewCurrent) : setViewUpcoming(!viewUpcoming)}} 
+                        sx={{margin:"auto", color:"#2b2d42"}}>
+                          { viewUpcoming ? "View Less" : "View More" }
                       </Button>
                     )
                   }
