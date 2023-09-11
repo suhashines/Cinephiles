@@ -2,9 +2,10 @@ import { Box, Button, Typography } from '@mui/material'
 // import ConfirmationNumberRoundedIcon from '@mui/icons-material/ConfirmationNumberRounded';
 // import LabelRoundedIcon from '@mui/icons-material/LabelRounded';
 import React from 'react'
+import { Link } from 'react-router-dom';
 // import PlaneTicketCardDemo from './Ticket';
 
-const ShowTimeItems = ({releaseDate, title}) => {
+const ShowTimeItems = ({releaseDate, title, id}) => {
     const dummyArray = [0, 1, 2, 3];
   return (
     <Box
@@ -12,11 +13,13 @@ const ShowTimeItems = ({releaseDate, title}) => {
         flexDirection={"column"}
         justifyContent={"center"}
         alignItems={"center"}        
-        width={"100%"}
-        height={"78%"}
-        margin={"auto"}
+        width={"10vw"}
+        height={"26vh"}
+        // margin={"auto"}
+        marginTop={0}
         marginLeft={2}
         marginRight={2}
+        marginBottom={2}
         padding={4}
         // border={"1px solid #4d4e4f"}
         boxShadow={2}
@@ -33,9 +36,12 @@ const ShowTimeItems = ({releaseDate, title}) => {
             // marginTop={-2}
         >            
             <Typography variant="h6" textAlign={"center"} width={"100%"}>
-                {new Date(releaseDate).toDateString().split(" ")[0]}{", "} 
+                {/* {new Date(releaseDate).toDateString().split(" ")[0]}{", "} 
                 {new Date(releaseDate).toDateString().split(" ")[1]}
-                {" "}{new Date(releaseDate).toDateString().split(" ")[2]}                
+                {" "}{new Date(releaseDate).toDateString().split(" ")[2]}
+                 */}
+
+                 {releaseDate.EXTRACTED_DATE}
             </Typography>
         </Box>
 
@@ -63,13 +69,15 @@ const ShowTimeItems = ({releaseDate, title}) => {
                     sx={{ "&:hover": { boxShadow: 10 } }}
                 >
                     <Typography variant="p" textAlign={"center"} color={"black"} fontSize={13} width={"100%"} margin={"auto"}>
-                        7:30 PM
+                        {1 + 2*index}:30 PM
                     </Typography>
                 </Box>
             ))}    
         </Box>
         <Box margin={"2"} display={"flex"} fontSize={10} width={"100%"}>
             <Button 
+                LinkComponent={Link}
+                to={`/buyticket/${id}`}
                 variant={"outlined"} 
                 sx={{margin:"auto", marginTop:"15%", color:"white", bgcolor:"#7c4699", fontSize:"12px", 
                 '&:hover': {backgroundColor: '#e3e4e6', borderColor: '#7c4699', color: '#7c4699'}}}                

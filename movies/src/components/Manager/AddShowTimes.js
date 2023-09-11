@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { getCurrent, getMovieByTitle } from '../../api-helpers/api-helpers';
 import { Autocomplete, Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import TheatreMoviesCard from './TheatreMovieCard';
-import TheatreMoviesItem from './TheatreMovieItem';
+import { useParams } from 'react-router-dom';
+import MovieCards from './MovieCards';
 
 const AddShowTimes = () => {
     const [movies, setMovies] = useState([])
     const [movieTitles, setMovieTitles] = useState([])
     const [query, setQuery] = useState("")
+
+    const id = useParams().id;
     
     useEffect(()=>{
     //   getMovieByTitle(query)
@@ -144,16 +147,19 @@ const AddShowTimes = () => {
         
                 <Box 
                     display={"flex"}
+                    flexDirection={"column"}
                     justifyContent={"center"}
                     flexWrap={"wrap"}
                     margin={"auto"}
                     width={"80%"}
                     key={hash}
                 >            
-                    <TheatreMoviesItem id={movie.M_ID} 
+                    <MovieCards 
+                        id={movie.M_ID} 
                         title={movie.TITLE} 
                         posterurl={movie.POSTER_URL} 
-                        releaseDate={movie.RELEASE_DATE}                         
+                        releaseDate={movie.RELEASE_DATE}
+                        t_id={id}                         
                     />                
                 </Box>
             

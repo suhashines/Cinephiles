@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { getMovieById, getReviews } from '../api-helpers/api-helpers';
+import { Link, useParams } from 'react-router-dom'
+import { addRating, addReview, deleteReview, editReview, getMovieById, getReviews } from '../api-helpers/api-helpers';
 import { Box, Button, Dialog, IconButton, Rating, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Textarea from '@mui/joy/Textarea/Textarea';
@@ -11,19 +11,30 @@ const Bookings = () => {
     const id = useParams().id;
     console.log(id);
 
-    const [value, setValue] = useState(movie[0]?.RATING);
+    const [value, setValue] = useState(0);
     const [userValue, setUserValue] = useState(1);
     const [open, setOpen] = useState(false);
     const [reviewOpen, setReviewOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
+    const [deleteId, setDeleteId] = useState(0);
     const [review, setReview] = useState("");
     const [reviews, setReviews] = useState([])
+    const [userId, setUserId] = useState(localStorage.getItem("userId"));
+    const [edit, setEdit] = useState(false);
+    const [reviewId, setReviewId] = useState(0);
 
     const handleYesClick = () => {
+        addRating(userValue, userId, id)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
         setOpen(false);
         setReviewOpen(true);
     }
 
     const handleNoClick = () => {
+        addRating(userValue, userId, id)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
         setOpen(false);
         window.location.reload();
     }
@@ -33,9 +44,11 @@ const Bookings = () => {
         window.location.reload();
     }
 
-    const handleSubmit = (e) => {
+    const handleReviewSubmit = (e) => {
         e.preventDefault();
-        console.log(review);
+        addReview(review, userId, id)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err)); 
         setReviewOpen(false);
         window.location.reload();
     }
@@ -44,20 +57,40 @@ const Bookings = () => {
         setReview(e.target.value);
     }
 
+    const handleDelete = (rev_id) => {
+        setDeleteId(rev_id);
+        setDeleteOpen(true);
+        // window.location.reload();
+    }
+
+    const handleEdit = (id) => {
+        setReviewId(id);
+        setEdit(true);
+        setReviewOpen(true);
+    }
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        editReview(review, reviewId)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err)); 
+        setReviewOpen(false);
+        window.location.reload();
+    }
+
     useEffect(()=>{
         getMovieById(id)
-        .then((res) => setMovie(res.movie))
+        .then((res) => {setMovie(res.movie); setValue(res.movie[0]?.RATING);})
         .catch((err) => console.log(err));
 
         getReviews(id)
         .then((res) => setReviews(res))
         .catch((err) => console.log(err));
-    },[id]);
-    console.log(movie[0]);
+    },[]);
 
-    useEffect(()=>{
-      setValue(movie[0]?.RATING)
-    },[1])
+    // useEffect(()=>{
+    //   setValue(movie[0]?.RATING)
+    // },[])
 
     const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
@@ -190,7 +223,9 @@ const Bookings = () => {
           </Typography>
           {localStorage.getItem("userId") && (
             <>
-            <Button 
+            <Button
+              LinkComponent={Link}
+              to={`/buyticket/${id}`} 
               variant={"outlined"} 
               sx={{
                 position:"absolute",
@@ -300,7 +335,7 @@ const Bookings = () => {
           <hr></hr>
         </Typography>
 
-        {reviews.map((review, index) => (
+        {reviews?.map((review, index) => (
           <Box
             display={"flex"}
             flexDirection={"column"}
@@ -314,6 +349,7 @@ const Bookings = () => {
             marginTop={0}
             // padding={1}
             // borderRadius={10}
+            key={index}
           >
             <Box
               display={'flex'}
@@ -325,53 +361,55 @@ const Bookings = () => {
                 // textAlign={"center"}
                 fontWeight={"bold"} 
                 variant='h6'
-                marginTop={3}
+                marginTop={5}
               >
                 {review.NAME}
               </Typography>
 
-              {review.U_ID===localStorage.getItem("userId") && (
-                <>
+              
               <Button
+                // onClick={handleEdit(review.REVIEW_ID)}
                 type="submit"
                 variant="outlined"
                 sx={{
-                    marginLeft: 2,
-                    marginTop: 2,
+                    marginLeft: 10,
+                    marginTop: 5,
                     height: 40,
                     color: 'white',
-                    bgcolor: 'green',
+                    borderColor: 'white',
+                    bgcolor: review.U_ID == userId? 'green' : 'white',
                     fontSize: '12px',
                     '&:hover': {
-                        backgroundColor: '#e3e4e6',
-                        borderColor: '#7c4699',
-                        color: '#7c4699'
+                        backgroundColor: review.U_ID == userId? '#e3e4e6' : 'white',
+                        borderColor: review.U_ID == userId? '#7c4699' : 'white',
+                        color: review.U_ID == userId? '#7c4699' : 'white'
                     },
                 }}
             >
                 Edit
             </Button>
             <Button
-                type="submit"
+                onClick={()=>{handleDelete(review.REV_ID)}}
+                // type="submit"
                 variant="outlined"
                 sx={{
                     marginLeft: 2,
-                    marginTop: 2,
+                    marginTop: 5,
                     height: 40,
                     color: 'white',
-                    bgcolor: 'red',
+                    borderColor: 'white',
+                    bgcolor: review.U_ID == userId? 'red' : 'white',
                     fontSize: '12px',
                     '&:hover': {
-                        backgroundColor: '#e3e4e6',
-                        borderColor: '#7c4699',
-                        color: '#7c4699'
+                      backgroundColor: review.U_ID == userId? '#e3e4e6' : 'white',
+                      borderColor: review.U_ID == userId? '#7c4699' : 'white',
+                      color: review.U_ID == userId? '#7c4699' : 'white'
                     },
                 }}
             >
                 Delete
             </Button>
-            </>
-            )}
+            
 
             </Box>
             <Typography
@@ -483,7 +521,7 @@ const Bookings = () => {
           >
             Share Your Thougths!
           </Typography>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleReviewSubmit}>
             <Textarea
               id="synopsis"
               name="synopsis"
@@ -531,6 +569,44 @@ const Bookings = () => {
           </form>
         </Box>
       </Dialog>
+      <Dialog PaperProps={{style:{borderRadius:20, padding:40}}} open={deleteOpen}>
+            <Box sx={{ml:"auto", padding:0}}>
+                <IconButton onClick={handleClose}>
+                    <CloseRoundedIcon/>
+                </IconButton>
+            </Box>
+            <Typography variant="h4" textAlign={"center"}>
+                Are you sure
+            </Typography>
+            <Typography variant="h4" textAlign={"center"}>
+                you want to delete
+            </Typography>
+            <Typography variant="h4" textAlign={"center"}>
+                this review?
+            </Typography>
+            <Typography variant="h4" textAlign={"center"}>
+                <br></br>
+            </Typography>
+            <Box
+                align='center'
+                margin={"auto"}
+                // justifyContent={"center"}
+                width='50%'
+            >
+                <Button
+                    onClick={()=>{
+                                deleteReview(id, deleteId)
+                                setDeleteOpen(false);                    
+                                // window.location.reload();
+                            }} 
+                    sx={{mt:2, borderRadius:10, bgcolor:"#2b2d42", color:"white", align:'center'}} 
+                    variant={"contained"} 
+                    // fullWidth
+                >
+                    Yes
+                </Button>
+            </Box>            
+        </Dialog>
     </Box>
     
   )

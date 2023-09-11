@@ -8,7 +8,7 @@ const columns = [
     { id: 'theatre', label: 'Theatre', minWidth: 20 },
     { id: 'movies', label: 'Movies', minWidth: 20 },
     { id: 'edit', label: 'Edit Theatre', minWidth: 20 },
-    { id: 'showtime', label: 'Add Showtime', minWidth: 20},  
+    { id: 'showtime', label: 'Add Movie', minWidth: 20},  
     { id: 'delete', label: 'Delete Theatre', minWidth: 20 }
   ];
 

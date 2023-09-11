@@ -48,7 +48,7 @@ const TheatreMoviesCard = ({title,releaseDate,posterurl,id, t_id}) => {
       </CardContent>
       <CardActions>
         <Button LinkComponent={Link} to={`/theatres/${t_id}/movies/${id}/stats`} sx={{margin:"auto", textAlign:'center'}} size="small">Stats</Button>
-        <Button LinkComponent={Link} to={`/theatres/${t_id}/movies/${id}/edit`} sx={{margin:"auto", textAlign:'center'}} size="small">Edit ShowTimes</Button>
+        <Button LinkComponent={Link} to={`/theatres/${t_id}/movies/${id}/add`} sx={{margin:"auto", textAlign:'center'}} size="small">Add ShowTimes</Button>
         <Button 
             onClick={()=>{
                 handleOpen();
