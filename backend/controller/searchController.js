@@ -24,7 +24,7 @@ async function genre(req,res){
         (
         SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID
         in 
-       (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 14) ) )
+       (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 30) ) )
        
         order by release_date desc  ` ;
 
@@ -48,7 +48,7 @@ async function genre(req,res){
             SELECT *
             FROM SHOWTIMES s,MOVIETHEATRES mt
             WHERE s.MT_ID = mt.MT_ID 
-            AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14
+            AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+30
             AND mt.M_ID = m.m_id
             ) 
             
@@ -58,7 +58,7 @@ async function genre(req,res){
             SELECT *
             FROM SHOWTIMES s,MOVIETHEATRES mt
             WHERE s.MT_ID = mt.MT_ID 
-            AND s.DATE_TIME >sysdate+14
+            AND s.DATE_TIME >sysdate+30
             AND mt.M_ID = m.m_id
             
             ) 
@@ -93,7 +93,7 @@ async function director(req,res){
     ) and 
     m_id IN 
     (SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID  in 
-    (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 14) )
+    (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 30) )
     order by release_date desc ` ;
 
     current = (await db.execute(sql,{name:name})).rows ;
@@ -109,7 +109,7 @@ async function director(req,res){
     SELECT *
     FROM SHOWTIMES s,MOVIETHEATRES mt
     WHERE s.MT_ID = mt.MT_ID 
-    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14
+    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+30
     AND mt.M_ID = m.m_id
     ) 
     
@@ -119,7 +119,7 @@ async function director(req,res){
     SELECT *
     FROM SHOWTIMES s,MOVIETHEATRES mt
     WHERE s.MT_ID = mt.MT_ID 
-    AND s.DATE_TIME >sysdate+14
+    AND s.DATE_TIME >sysdate+30
     AND mt.M_ID = m.m_id
     
     ) AND 
@@ -153,7 +153,7 @@ async function range(req,res){
    and 
    m_id IN 
     (SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID  in 
-    (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 14) )
+    (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 30) )
     order by release_date desc`
 
     current = (await db.execute(sql,{})).rows ;
@@ -169,7 +169,7 @@ async function range(req,res){
     SELECT *
     FROM SHOWTIMES s,MOVIETHEATRES mt
     WHERE s.MT_ID = mt.MT_ID 
-    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14
+    AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+30
     AND mt.M_ID = m.m_id
     ) 
     
@@ -179,7 +179,7 @@ async function range(req,res){
     SELECT *
     FROM SHOWTIMES s,MOVIETHEATRES mt
     WHERE s.MT_ID = mt.MT_ID 
-    AND s.DATE_TIME >sysdate+14
+    AND s.DATE_TIME >sysdate+30
     AND mt.M_ID = m.m_id
     
     ) and 
@@ -214,7 +214,7 @@ async function title(req,res){
     (
     SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID
     in 
-   (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 14) ) )
+   (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 30) ) )
    
     order by release_date desc  
    
@@ -235,7 +235,7 @@ async function title(req,res){
         SELECT *
         FROM SHOWTIMES s,MOVIETHEATRES mt
         WHERE s.MT_ID = mt.MT_ID 
-        AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14
+        AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+30
         AND mt.M_ID = m.m_id
         ) 
         
@@ -245,7 +245,7 @@ async function title(req,res){
         SELECT *
         FROM SHOWTIMES s,MOVIETHEATRES mt
         WHERE s.MT_ID = mt.MT_ID 
-        AND s.DATE_TIME >sysdate+14
+        AND s.DATE_TIME >sysdate+30
         AND mt.M_ID = m.m_id
         
         ) `
@@ -307,7 +307,7 @@ AND  (utl_match.edit_distance(lower(a.name),lower(:name)) <= 5
     (
     SELECT m_id FROM MOVIETHEATRES mt WHERE mt.MT_ID
     in 
-   (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 14) ) )
+   (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.date_time <= sysdate + 30) ) )
    
     order by release_date desc   ` ;
 
@@ -332,7 +332,7 @@ AND  (utl_match.edit_distance(lower(a.name),lower(:name)) <= 5
         SELECT *
         FROM SHOWTIMES s,MOVIETHEATRES mt
         WHERE s.MT_ID = mt.MT_ID 
-        AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+14
+        AND s.DATE_TIME >=sysdate AND s.DATE_TIME <=sysdate+30
         AND mt.M_ID = m.m_id
         ) 
         
@@ -342,7 +342,7 @@ AND  (utl_match.edit_distance(lower(a.name),lower(:name)) <= 5
         SELECT *
         FROM SHOWTIMES s,MOVIETHEATRES mt
         WHERE s.MT_ID = mt.MT_ID 
-        AND s.DATE_TIME >sysdate+14
+        AND s.DATE_TIME >sysdate+30
         AND mt.M_ID = m.m_id
         
         ) 
