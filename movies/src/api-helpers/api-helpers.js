@@ -812,7 +812,9 @@ export const deleteReview = async(id, rev) => {
     console.log(id, rev)
 
     try{
-         res = await axios.delete(`/movie/review/${id}`, {rev_id: rev})
+         res = await axios.delete(`/movie/review/${id}`, {
+            data: { rev_id: rev }
+        })
     }catch(err){
         console.log(err);
     }
@@ -823,11 +825,14 @@ export const deleteReview = async(id, rev) => {
     return response;
 }
 
-export const editReview = async(review, id) => {
+export const editReview = async(review, id, m_id) => {
     let res;
 
+    console.log(review, id, m_id);
+
     try{
-         res = await axios.patch(`/movie/review/${id}`,{
+         res = await axios.patch(`/movie/review/${m_id}`,{
+            rev_id: id,
             review: review,
          })
     }catch(err){

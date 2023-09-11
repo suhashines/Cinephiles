@@ -15,9 +15,11 @@ const Bookings = () => {
     const [userValue, setUserValue] = useState(1);
     const [open, setOpen] = useState(false);
     const [reviewOpen, setReviewOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
     const [review, setReview] = useState("");
+    const [editedReview, setEditedReview] = useState("");
     const [reviews, setReviews] = useState([])
     const [userId, setUserId] = useState(localStorage.getItem("userId"));
     const [edit, setEdit] = useState(false);
@@ -57,24 +59,29 @@ const Bookings = () => {
         setReview(e.target.value);
     }
 
+    const handleEditChange = (e) => {
+      setEditedReview(e.target.value);
+  }
+
     const handleDelete = (rev_id) => {
         setDeleteId(rev_id);
         setDeleteOpen(true);
         // window.location.reload();
     }
 
-    const handleEdit = (id) => {
+    const handleEdit = (id, review) => {
         setReviewId(id);
-        setEdit(true);
-        setReviewOpen(true);
+        setEditedReview(review);
+        // setEdit(true);
+        setEditOpen(true);
     }
 
     const handleEditSubmit = (e) => {
         e.preventDefault();
-        editReview(review, reviewId)
+        editReview(editedReview, reviewId, id)
         .then((res) => console.log(res))
         .catch((err) => console.log(err)); 
-        setReviewOpen(false);
+        setEditOpen(false);
         window.location.reload();
     }
 
@@ -368,7 +375,7 @@ const Bookings = () => {
 
               
               <Button
-                // onClick={handleEdit(review.REVIEW_ID)}
+                onClick={()=>{if(review?.U_ID == userId) handleEdit(review.REV_ID, review.REVIEW)}}
                 type="submit"
                 variant="outlined"
                 sx={{
@@ -389,7 +396,7 @@ const Bookings = () => {
                 Edit
             </Button>
             <Button
-                onClick={()=>{handleDelete(review.REV_ID)}}
+                onClick={()=>{if(review?.U_ID == userId) handleDelete(review?.REV_ID)}}
                 // type="submit"
                 variant="outlined"
                 sx={{
@@ -439,6 +446,7 @@ const Bookings = () => {
               value={userValue}
               align={"center"}
               size={"large"}
+              
             />
           </Box>        
           <Typography
@@ -596,8 +604,10 @@ const Bookings = () => {
                 <Button
                     onClick={()=>{
                                 deleteReview(id, deleteId)
+                                .then((res) => console.log(res))
+                                .catch((err) => console.log(err));
                                 setDeleteOpen(false);                    
-                                // window.location.reload();
+                                window.location.reload();
                             }} 
                     sx={{mt:2, borderRadius:10, bgcolor:"#2b2d42", color:"white", align:'center'}} 
                     variant={"contained"} 
@@ -607,6 +617,71 @@ const Bookings = () => {
                 </Button>
             </Box>            
         </Dialog>
+        <Dialog PaperProps={{style:{borderRadius:20, width:'70vw'}}} open={editOpen}>
+        <Box sx={{ml:"auto", padding:1}}>
+              <IconButton onClick={handleClose}>
+                  <CloseRoundedIcon/>
+              </IconButton>
+        </Box>
+        <Box
+          padding={5}          
+        >
+          <Typography
+            color={"#7c4699"}
+            textAlign={"center"}
+            fontWeight={"bold"} 
+            variant='h4'
+          >
+            Edit Your Response!
+          </Typography>
+          <form onSubmit={handleEditSubmit}>
+            <Textarea
+              id="synopsis"
+              name="synopsis"
+              minRows={8} // Minimum number of rows
+              maxRows={10} // Maximum number of rows
+              value={editedReview}
+              onChange={handleEditChange}
+              required
+              sx={{
+                  marginTop: '20px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '20px',
+                  fontFamily: 'Arial, sans-serif',
+                  color: 'black',
+                  resize: 'vertical',
+              }}>
+            </Textarea>
+            <Box
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              marginTop={4}
+            >
+              <Button
+                onClick={()=>{setEditOpen(false);}}
+                type='submit'
+                variant={"outlined"} 
+                sx={{
+                  margin:"auto",
+                  color:"white", 
+                  bgcolor:"#7c4699", 
+                  fontSize:"12px", 
+                  borderColor:"#7c4699",
+                  width:"30%",
+                  '&:hover': {
+                    backgroundColor: '#900c3f', 
+                    borderColor: '#900c3f', 
+                    color:"#e3e4e6"}}}
+              >
+                Submit
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Dialog>
     </Box>
     
   )

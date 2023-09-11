@@ -424,22 +424,47 @@ async function addMovieReview(req,res){
 }
 
 
-async function editReview(req,res){
+// async function editReview(req,res){
 
-    const m_id = req.params.id ;
+//     const m_id = req.params.id ;
 
-    const {rev_id,review}=req.body ;
+//     const {rev_id,review}=req.body ;
 
-    let sql =
-    ` update reviews
-    set review = '${review}' 
-    where rev_id = :rev_id `
+//     let sql =
+//     ` update reviews
+//     set review = '${review}' 
+//     where rev_id = :rev_id `
 
-    await database.execute(sql,{rev_id:rev_id}) ;
+//     await database.execute(sql,{rev_id:rev_id}) ;
 
-    res.json({message:"edited"});
+//     res.json({message:"edited"});
 
+// }
+
+async function editReview(req, res) {
+    try {
+      const m_id = req.params.id;
+      const { rev_id, review } = req.body;
+  
+      // Validate req.body
+      if (!rev_id || !review) {
+        return res.status(400).json({ message: 'Invalid request data' });
+      }
+  
+      const sql =
+        `UPDATE reviews
+         SET review = :review
+         WHERE rev_id = :rev_id`;
+  
+      await database.execute(sql, { review, rev_id });
+  
+      res.json({ message: 'Review edited' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
 }
+  
 
 async function deleteReview(req,res){
 
@@ -447,7 +472,7 @@ async function deleteReview(req,res){
 
     const {rev_id} = req.body ;
 
-    console.log(rev_id);
+    console.log(rev_id, m_id);
 
     let sql =
     ` delete from reviews where rev_id = ${rev_id} and m_id = ${m_id} `
