@@ -80,7 +80,7 @@ const Manager = ({setTabValue}) => {
                         borderColor: '#900c3f', 
                         color:"#e3e4e6"}}}                
                 >
-                    Add Theater
+                    Add Theatre
                 </Button>
             </Box>
             <Box
@@ -105,7 +105,7 @@ const Manager = ({setTabValue}) => {
                         borderColor: '#900c3f', 
                         color:"#e3e4e6"}}}                
                 >
-                    Show Theaters
+                    Show Theatres
                 </Button>
             </Box>
             <Box

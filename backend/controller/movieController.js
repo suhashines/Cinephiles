@@ -278,7 +278,8 @@ async function getAllMovies(req,res){
 
     const sql =
     ` SELECT m_id,title,getAllActors(m_id) actors ,
-    release_date,duration,poster_url,back_poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC`
+    release_date,duration,poster_url,back_poster_url FROM MOVIES m ORDER BY RELEASE_DATE DESC
+    fetch first 50 rows only`
 
     console.log('req recieved for fetching all movies');
 

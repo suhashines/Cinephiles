@@ -25,8 +25,8 @@ theatreRouter.route("/cities")
 theatreRouter.route("/movies/:id")
 .get(theatreController.getTheatreMovies);
 
-theatreRouter.route("/current")
-.post(theatreController.getCurrentMovies)
+theatreRouter.route("/current/:id")
+.get(theatreController.getCurrentMovies)
 
 theatreRouter.route("/showtimes")
 .get(theatreController.getMovieGalleries)

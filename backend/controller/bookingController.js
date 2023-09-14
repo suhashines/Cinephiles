@@ -268,12 +268,13 @@ async function getAllBookings(req,res){
     let movies,sql ;
 
    sql =
-     `SELECT DISTINCT m.title,m.m_id
+     `SELECT DISTINCT m.title,m.m_id,b.book_date
     FROM bookings b,showtimes s,MOVIETHEATRES mt,movies m
     WHERE b.show_id = s.SHOW_ID AND 
     s.mt_id=mt.mt_id 
     AND mt.m_id = m.m_id AND 
-    b.u_id = :u_id ` 
+    b.u_id = :u_id
+    order by b.book_date desc,m.title` 
 
     movies = (await database.execute(sql,{u_id:u_id})).rows ;
 

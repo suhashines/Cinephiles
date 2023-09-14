@@ -56,13 +56,12 @@ async function getTheatreMovies(req,res){
 
 async function getCurrentMovies(req,res){
 
-    let location = req.body.location;
+    // let location = req.body.location;
 
-    let arr = location.split(",");
+    // let arr = location.split(",");
 
-    // let t_id = req.params.id ;
+    let t_id = req.params.id ;
 
-    let t_id = arr[2];
 
     let sql,movies ;
 

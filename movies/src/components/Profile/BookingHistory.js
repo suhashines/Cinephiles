@@ -161,7 +161,7 @@ export default function StickyHeadTable(props) {
                                                     },
                                                 }}
                                             >
-                                                Delete
+                                                Cancel
                                             </Button>
                                           )}
                                         </TableCell>

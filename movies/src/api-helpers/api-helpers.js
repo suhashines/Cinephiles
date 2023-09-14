@@ -710,7 +710,7 @@ export const getTheatreMovies = async(id) => {
     let res;
 
     try{
-         res = await axios.get(`/theatre/movies/${id}`)
+         res = await axios.get(`/theatre/current/${id}`)
     }catch(err){
         console.log(err);
     }
