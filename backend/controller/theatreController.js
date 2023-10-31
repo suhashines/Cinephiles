@@ -73,7 +73,7 @@ async function getCurrentMovies(req,res){
         (SELECT mt_id FROM SHOWTIMES s WHERE s.DATE_TIME>=sysdate and s.DATE_TIME <= sysdate + 30)
         AND mt.t_id = to_number(:t_id) )`;
 
-    movies = (await database.execute(sql,{t_id:t_id})).rows ;
+    movies = (await database.execute(sql,{t_id:t_id})).rows ; 
 
     for(let i=0;i<movies.length;i++){
       let m_id = movies[i].M_ID;

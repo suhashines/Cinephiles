@@ -207,7 +207,7 @@ async function title(req,res){
   SELECT * 
   FROM movies m
   WHERE
-  ( lower(m.title) LIKE generate_format(lower(:title)) or utl_match.edit_distance(lower(m.title),lower(:title)) <= 4 )
+  ( lower(m.title) LIKE generate_format(lower(:title)) or utl_match.edit_distance(lower(m.title),lower(:title)) <= 2 )
     and 
     
     (m_id IN 
