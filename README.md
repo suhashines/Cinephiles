@@ -48,12 +48,12 @@ Create a Schema in your Oracle database
 Create a .env file in the backend folder
 
 Inside the file put your 
-username = {username}
-password = {password}
+- username = {username}
+- password = {password}
 
-Go to sqldumps and create the tables, functions and triggers
-Open the population folder and populate the tables
-To Understand the Schema better download the ER diagram
+- Go to sqldumps and create the tables, functions and triggers
+- Open the population folder and populate the tables
+- To Understand the Schema better download the ER diagram
 
 
 Full Project Demonstration is available here-
