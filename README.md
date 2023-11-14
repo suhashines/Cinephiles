@@ -2,13 +2,13 @@
 
 Clone the repository
 
--git clone <repo_url> 
+- git clone <repo_url> 
 
 ## Backend
 
 Open the project with your VS Code terminal and change directory to backend
 
--cd backend 
+- cd backend 
 
 Now install the dependencies
 
@@ -20,7 +20,10 @@ Install nodemon
 
 Now write
 
-nodemon app.js or node app.js if you don't have nodemon
+- nodemon app.js 
+      or 
+- node app.js 
+if you don't have nodemon
 
 
 ## Frontend
@@ -45,8 +48,8 @@ Create a Schema in your Oracle database
 Create a .env file in the backend folder
 
 Inside the file put your 
-username = <username>
-password = <password>
+username = {username}
+password = {password}
 
 Go to sqldumps and create the tables, functions and triggers
 Open the population folder and populate the tables
